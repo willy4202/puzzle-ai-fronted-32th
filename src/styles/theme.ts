@@ -1,4 +1,4 @@
-import {DefaultTheme} from 'styled-components/native';
+import {DefaultTheme} from 'styled-components';
 
 const theme: DefaultTheme = {
   mainBorder: '#ebebeb',

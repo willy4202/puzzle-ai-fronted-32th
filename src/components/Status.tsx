@@ -1,7 +1,12 @@
 import React from 'react';
+import {Text, View} from 'react-native';
 
 function Status() {
-  return <div>Status</div>;
+  return (
+    <View>
+      <Text>Main</Text>
+    </View>
+  );
 }
 
 export default Status;

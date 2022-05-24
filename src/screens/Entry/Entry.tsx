@@ -1,7 +1,12 @@
 import React from 'react';
+import {Text, View} from 'react-native';
 
 function Entry() {
-  return <div>Entry</div>;
+  return (
+    <View>
+      <Text>Main</Text>
+    </View>
+  );
 }
 
 export default Entry;

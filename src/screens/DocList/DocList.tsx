@@ -1,7 +1,12 @@
 import React from 'react';
+import {Text, View} from 'react-native';
 
 function DocList() {
-  return <div>DocList</div>;
+  return (
+    <View>
+      <Text>Main</Text>
+    </View>
+  );
 }
 
 export default DocList;

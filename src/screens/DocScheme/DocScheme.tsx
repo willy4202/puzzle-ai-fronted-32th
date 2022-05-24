@@ -1,7 +1,12 @@
 import React from 'react';
+import {Text, View} from 'react-native';
 
 function DocScheme() {
-  return <div>DocScheme</div>;
+  return (
+    <View>
+      <Text>Main</Text>
+    </View>
+  );
 }
 
 export default DocScheme;

@@ -1,7 +1,12 @@
 import React from 'react';
+import {Text, View} from 'react-native';
 
 function LoginSignupBtn() {
-  return <div>LoginSignupBtn</div>;
+  return (
+    <View>
+      <Text>button</Text>
+    </View>
+  );
 }
 
 export default LoginSignupBtn;

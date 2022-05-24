@@ -33,11 +33,7 @@ function App() {
               options={{headerShown: false}}
             />
             <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen
-              name="Signup"
-              component={Signup}
-              options={{title: '회원가입', headerTitleAlign: 'center'}}
-            />
+            <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="Main" component={Main} />
             <Stack.Screen name="DocList" component={DocList} />
             <Stack.Screen name="DocScheme" component={DocScheme} />

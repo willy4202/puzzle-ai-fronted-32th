@@ -16,7 +16,7 @@ import Signup from './src/screens/Signup/Signup';
 import Splash from './src/screens/Splash/Splash';
 
 import {ThemeProvider} from 'styled-components';
-import theme from '../PuzzleAiFronted/src/styles/theme';
+import theme from './src/styles/theme';
 
 const Stack = createStackNavigator();
 
@@ -26,13 +26,20 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Splash" component={Splash} />
+            {/* <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen
               name="Entry"
               component={Entry}
               options={{headerShown: false}}
+            /> */}
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                title: '',
+                headerShadowVisible: false,
+              }}
             />
-            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="Main" component={Main} />
             <Stack.Screen name="DocList" component={DocList} />

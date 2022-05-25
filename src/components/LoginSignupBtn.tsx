@@ -16,7 +16,7 @@ export default LoginSignupBtn;
 
 const BtnContainer = styled.View`
   flex: 1;
-  margin-top: 200px;
+  top: 10px;
 `;
 
 const LoginBtn = styled.Pressable`

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import styled from 'styled-components/native';
-
 import logo from '../../assets/images/logo.png';
 import closeEye from '../../assets/images/ic-back-arrow.png';
 import openEye from '../../assets/images/ic-no-arrow.png';

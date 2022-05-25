@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {Alert} from 'react-native';
 
-function LoginSignupBtn() {
+function LoginSignupBtn({text}) {
   return (
     <BtnContainer>
       <LoginBtn onPress={() => Alert.alert('onPress 테스트 코드')}>
-        <LoginText>로그인</LoginText>
+        <LoginText>{text}</LoginText>
       </LoginBtn>
     </BtnContainer>
   );

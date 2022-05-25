@@ -41,7 +41,7 @@ function Login() {
 
 export default Login;
 
-const ViewContainer = styled.View`
+const ViewContainer = styled.ScrollView`
   flex: 1;
   background-color: white;
 `;

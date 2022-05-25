@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Alert} from 'react-native';
+import {BackHandler} from 'react-native';
 import styled from 'styled-components/native';
 import logo from '../../assets/images/logo.png';
-import closeEye from '../../assets/images/ic-back-arrow.png';
-import openEye from '../../assets/images/ic-no-arrow.png';
+import closeEye from '../../assets/images/ic-close-eye.png';
+import openEye from '../../assets/images/ic-open-eye.png';
+import LoginSignupBtn from '../../components/LoginSignupBtn';
 
 function Login() {
   const [isShowPw, setIsShowPw] = useState(true);
@@ -22,7 +23,9 @@ function Login() {
         <StyledTextInput placeholder="아이디를 입력해주세요" />
         <InputTitle>비밀번호</InputTitle>
         <InputContainer>
-          <IconWrapper onTouchStart={() => showPwHandler()}>
+          <IconWrapper
+            onTouchStart={() => showPwHandler()}
+            hitSlop={{top: 5, bottom: 5, left: 5, right: 5}}>
             <InputIcon source={isShowPw ? closeEye : openEye} />
           </IconWrapper>
           <StyledTextInput
@@ -31,9 +34,7 @@ function Login() {
           />
         </InputContainer>
       </FormContainer>
-      <BtnContainer>
-        <LoginBtn title="로그인" onPress={() => Alert.alert('로그인 완료')} />
-      </BtnContainer>
+      <LoginSignupBtn />
     </ViewContainer>
   );
 }
@@ -67,7 +68,7 @@ const StyledTextInput = styled.TextInput`
   height: 48px;
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid ${props => props.theme.grey};
+  border: 1px solid ${({theme}) => theme.grey};
 `;
 
 const InputContainer = styled.View`
@@ -92,14 +93,4 @@ const InputTitle = styled.Text`
   line-height: 18px;
   margin: 20px 0 5px 0;
   color: black;
-`;
-
-const BtnContainer = styled.View`
-  flex: 1;
-`;
-
-const LoginBtn = styled.Button`
-  width: 300px;
-  height: 52px;
-  background-color: red;
 `;

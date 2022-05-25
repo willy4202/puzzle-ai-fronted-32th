@@ -1,6 +1,6 @@
 import 'styled-components';
 
-declare module 'styled-compnents' {
+declare module 'styled-components' {
   export interface DefaultTheme {
     primary: string;
     mainBorder: string;

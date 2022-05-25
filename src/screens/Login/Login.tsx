@@ -34,7 +34,7 @@ function Login() {
           />
         </InputContainer>
       </FormContainer>
-      <LoginSignupBtn />
+      <LoginSignupBtn text="로그인" />
     </ViewContainer>
   );
 }

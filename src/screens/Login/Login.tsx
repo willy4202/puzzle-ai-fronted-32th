@@ -14,36 +14,43 @@ function Login() {
   }
 
   return (
-    <ViewContainer>
-      <LogoView>
-        <Logo source={logo} />
-      </LogoView>
-      <FormContainer>
-        <InputTitle>아이디</InputTitle>
-        <StyledTextInput placeholder="아이디를 입력해주세요" />
-        <InputTitle>비밀번호</InputTitle>
-        <InputContainer>
-          <IconWrapper
-            onTouchStart={() => showPwHandler()}
-            hitSlop={{top: 5, bottom: 5, left: 5, right: 5}}>
-            <InputIcon source={isShowPw ? closeEye : openEye} />
-          </IconWrapper>
-          <StyledTextInput
-            placeholder="비밀번호를 입력해주세요"
-            secureTextEntry={isShowPw}
-          />
-        </InputContainer>
-      </FormContainer>
-      <LoginSignupBtn text="로그인" />
-    </ViewContainer>
+    <AvoidingView>
+      <ViewContainer>
+        <LogoView>
+          <Logo source={logo} />
+        </LogoView>
+        <FormContainer>
+          <InputTitle>아이디</InputTitle>
+          <StyledTextInput placeholder="아이디를 입력해주세요" />
+          <InputTitle>비밀번호</InputTitle>
+          <InputContainer>
+            <IconWrapper
+              onTouchStart={() => showPwHandler()}
+              hitSlop={{top: 5, bottom: 5, left: 5, right: 5}}>
+              <InputIcon source={isShowPw ? closeEye : openEye} />
+            </IconWrapper>
+            <StyledTextInput
+              placeholder="비밀번호를 입력해주세요"
+              secureTextEntry={isShowPw}
+            />
+          </InputContainer>
+        </FormContainer>
+        <LoginSignupBtn text="로그인" />
+      </ViewContainer>
+    </AvoidingView>
   );
 }
 
 export default Login;
 
-const ViewContainer = styled.ScrollView`
+const AvoidingView = styled.KeyboardAvoidingView`
   flex: 1;
+  padding: 0 30px 60px 30px;
   background-color: white;
+`;
+
+const ViewContainer = styled.View`
+  flex: 1;
 `;
 
 const LogoView = styled.View`

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Alert, Image} from 'react-native';
+import {Alert} from 'react-native';
 import styled from 'styled-components/native';
 
 import logo from '../../assets/images/logo.png';
@@ -19,23 +19,18 @@ function Login() {
         <Logo source={logo} />
       </LogoView>
       <FormContainer>
-        <InputWrapper>
-          <InputTitle>아이디</InputTitle>
-          <StyledTextInput placeholder="아이디를 입력해주세요" />
-        </InputWrapper>
-        <InputWrapper>
-          <InputTitle>비밀번호</InputTitle>
-          <InputContainer>
-            <InputIcon
-              // onPress={showPwHandler}
-              source={isShowPw ? closeEye : openEye}
-            />
-            <StyledTextInput
-              placeholder="비밀번호를 입력해주세요"
-              secureTextEntry={isShowPw}
-            />
-          </InputContainer>
-        </InputWrapper>
+        <InputTitle>아이디</InputTitle>
+        <StyledTextInput placeholder="아이디를 입력해주세요" />
+        <InputTitle>비밀번호</InputTitle>
+        <InputContainer>
+          <IconWrapper onTouchStart={() => showPwHandler()}>
+            <InputIcon source={isShowPw ? closeEye : openEye} />
+          </IconWrapper>
+          <StyledTextInput
+            placeholder="비밀번호를 입력해주세요"
+            secureTextEntry={isShowPw}
+          />
+        </InputContainer>
       </FormContainer>
       <BtnContainer>
         <LoginBtn title="로그인" onPress={() => Alert.alert('로그인 완료')} />
@@ -54,6 +49,7 @@ const ViewContainer = styled.View`
 const LogoView = styled.View`
   flex: 1;
   align-self: center;
+  justify-content: center;
 `;
 
 const Logo = styled.Image`
@@ -62,36 +58,41 @@ const Logo = styled.Image`
 `;
 
 const FormContainer = styled.View`
-  flex: 6;
+  flex: 4;
   width: 300px;
+  margin-top: 129px;
   align-self: center;
-  justify-content: center;
 `;
 
 const StyledTextInput = styled.TextInput`
   height: 48px;
-  margin: 10px;
   padding: 15px;
   border-radius: 8px;
   border: 1px solid ${props => props.theme.grey};
 `;
 
-const InputWrapper = styled.View``;
-
 const InputContainer = styled.View`
   position: relative;
 `;
 
-const InputIcon = styled.Image`
+const IconWrapper = styled.View`
   position: absolute;
-  top: 26px
+  top: 17px;
   right: 20.3px;
-  width: 18px;
-  height: 14px;
+  z-index: 20;
+`;
+
+const InputIcon = styled.Image`
+  width: 14.7px;
+  height: 14.7px;
 `;
 
 const InputTitle = styled.Text`
   margin-left: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  margin: 20px 0 5px 0;
+  color: black;
 `;
 
 const BtnContainer = styled.View`
@@ -101,5 +102,5 @@ const BtnContainer = styled.View`
 const LoginBtn = styled.Button`
   width: 300px;
   height: 52px;
-  background-color: ${({theme}) => theme.primary};
+  background-color: red;
 `;

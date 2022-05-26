@@ -1,7 +1,11 @@
 import {DefaultTheme} from 'styled-components';
 
 const theme: DefaultTheme = {
+<<<<<<< HEAD
   primary: '#065E85',
+=======
+  primary: '#065e85',
+>>>>>>> bdab894 (정덕우 회원가입 레이아웃완료 및 네비게이션 수정)
   mainBorder: '#ebebeb',
   mainArrow: '#2f2f2f',
   mainDisable: '#bcbcbc',

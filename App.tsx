@@ -16,9 +16,27 @@ import Signup from '@screens/Signup/Signup';
 import Splash from '@screens/Splash/Splash';
 
 import {ThemeProvider} from 'styled-components';
+<<<<<<< HEAD
 import theme from '~/styles/theme';
+=======
+import theme from './src/styles/theme';
+>>>>>>> bdab894 (정덕우 회원가입 레이아웃완료 및 네비게이션 수정)
 
-const Stack = createStackNavigator();
+export type HomeStackParamList = {
+  Splash: undefined;
+  Entry: undefined;
+  Login: undefined;
+  Signup: undefined;
+  Main: undefined;
+  DocList: undefined;
+  DocScheme: undefined;
+  REZList: undefined;
+  MakeREZ: undefined;
+  REZSubmit: undefined;
+  REZDetail: undefined;
+};
+
+const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
   return (

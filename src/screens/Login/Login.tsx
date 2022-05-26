@@ -29,7 +29,7 @@ function Login({navigation}: NavigationProps) {
   }
 
   function postData(): void {
-    fetch('http://192.168.0.114:8000/users/signin', {
+    fetch('http://3.39.118.217:8080/users/signin', {
       method: 'POST',
       body: JSON.stringify({
         email: 'patient1@gmail.com',
@@ -68,8 +68,8 @@ function Login({navigation}: NavigationProps) {
           </InputContainer>
         </FormContainer>
         <LoginSignupBtn
-          postData={postData}
           id="Main"
+          postData={postData}
           navigation={navigation}
           userInfo={userInfo}>
           로그인

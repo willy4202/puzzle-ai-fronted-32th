@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/native';
-import logo from '../../assets/images/logo.png';
-import closeEye from '../../assets/images/ic-close-eye.png';
-import openEye from '../../assets/images/ic-open-eye.png';
-import LoginSignupBtn from '../../components/LoginSignupBtn';
+import logo from 'assets/images/logo.png';
+import closeEye from 'assets/images/ic-close-eye.png';
+import openEye from 'assets/images/ic-open-eye.png';
+import LoginSignupBtn from '@components/LoginSignupBtn';
 
 function Login() {
   const [isShowPw, setIsShowPw] = useState(true);

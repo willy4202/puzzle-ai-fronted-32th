@@ -7,9 +7,9 @@ import LoginSignupBtn from '@components/LoginSignupBtn';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
 
-type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Login'>;
+type NavigationProps = StackScreenProps<HomeStackParamList, 'Login'>;
 
-function Login({navigation}: SignupNavigationProps) {
+function Login({navigation}: NavigationProps) {
   const [isShowPw, setIsShowPw] = useState(true);
   const [userInfo, setUserInfo] = useState({email: '', pw: ''});
 
@@ -26,6 +26,18 @@ function Login({navigation}: SignupNavigationProps) {
 
   function userInfoHandler(text: string, type: string) {
     setUserInfo({...userInfo, [type]: text});
+  }
+
+  function postData(): void {
+    fetch('http://192.168.0.114:8000/users/signin', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: 'patient1@gmail.com',
+        password: '1q2w3e4r',
+      }),
+    })
+      .then(res => res.json())
+      .then(data => console.log(data));
   }
 
   return (
@@ -55,7 +67,11 @@ function Login({navigation}: SignupNavigationProps) {
             />
           </InputContainer>
         </FormContainer>
-        <LoginSignupBtn id="Main" navigation={navigation} userInfo={userInfo}>
+        <LoginSignupBtn
+          postData={postData}
+          id="Main"
+          navigation={navigation}
+          userInfo={userInfo}>
           로그인
         </LoginSignupBtn>
       </ViewContainer>
@@ -67,7 +83,7 @@ export default Login;
 
 const AvoidingView = styled.KeyboardAvoidingView`
   flex: 1;
-  padding: 10px 30px 30px 30px;
+  padding: 20px 30px 30px 30px;
   background-color: white;
 `;
 

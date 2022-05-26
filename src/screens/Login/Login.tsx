@@ -7,9 +7,14 @@ import LoginSignupBtn from '@components/LoginSignupBtn';
 
 function Login() {
   const [isShowPw, setIsShowPw] = useState(true);
+  const [userInfo, setUserInfo] = useState({email: '', pw: ''});
 
   function showPwHandler() {
     setIsShowPw(prev => !prev);
+  }
+
+  function userInfoHandler(text: string, type: string) {
+    setUserInfo({...userInfo, [type]: text});
   }
 
   return (
@@ -20,7 +25,10 @@ function Login() {
         </LogoView>
         <FormContainer>
           <InputTitle>아이디</InputTitle>
-          <StyledTextInput placeholder="아이디를 입력해주세요" />
+          <StyledTextInput
+            placeholder="아이디를 입력해주세요"
+            onChangeText={text => userInfoHandler(text, 'email')}
+          />
           <InputTitle>비밀번호</InputTitle>
           <InputContainer>
             <IconWrapper
@@ -31,6 +39,7 @@ function Login() {
             <StyledTextInput
               placeholder="비밀번호를 입력해주세요"
               secureTextEntry={isShowPw}
+              onChangeText={text => userInfoHandler(text, 'pw')}
             />
           </InputContainer>
         </FormContainer>

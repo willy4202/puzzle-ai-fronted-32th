@@ -1,13 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components/native';
 import logo from 'assets/images/logo.png';
 import closeEye from 'assets/images/ic-close-eye.png';
 import openEye from 'assets/images/ic-open-eye.png';
 import LoginSignupBtn from '@components/LoginSignupBtn';
+import {StackScreenProps} from '@react-navigation/stack';
+import {HomeStackParamList} from '../../../App';
 
-function Login() {
+type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Login'>;
+
+function Login({navigation}: SignupNavigationProps) {
   const [isShowPw, setIsShowPw] = useState(true);
   const [userInfo, setUserInfo] = useState({email: '', pw: ''});
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: '',
+      headerShadowVisible: false,
+    });
+  }, [navigation]);
 
   function showPwHandler() {
     setIsShowPw(prev => !prev);
@@ -28,6 +39,7 @@ function Login() {
           <StyledTextInput
             placeholder="아이디를 입력해주세요"
             onChangeText={text => userInfoHandler(text, 'email')}
+            keyboardType="email-address"
           />
           <InputTitle>비밀번호</InputTitle>
           <InputContainer>
@@ -43,7 +55,9 @@ function Login() {
             />
           </InputContainer>
         </FormContainer>
-        <LoginSignupBtn>로그인</LoginSignupBtn>
+        <LoginSignupBtn id="Main" navigation={navigation} userInfo={userInfo}>
+          로그인
+        </LoginSignupBtn>
       </ViewContainer>
     </AvoidingView>
   );

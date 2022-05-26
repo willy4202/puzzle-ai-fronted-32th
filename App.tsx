@@ -46,14 +46,7 @@ function App() {
               component={Entry}
               options={{headerShown: false}}
             />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{
-                title: '',
-                headerShadowVisible: false,
-              }}
-            />
+            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="Main" component={Main} />
             <Stack.Screen name="DocList" component={DocList} />

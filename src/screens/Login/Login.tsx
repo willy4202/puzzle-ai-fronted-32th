@@ -96,8 +96,8 @@ const InputIcon = styled.Image`
 
 const InputTitle = styled.Text`
   margin-left: 10px;
-  font-size: 12px;
-  line-height: 18px;
+  font-size: ${({theme}) => theme.fontSmall};
+  line-height: ${({theme}) => theme.lineHeightSmall};
   margin: 20px 0 5px 0;
   color: black;
 `;

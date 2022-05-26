@@ -2,7 +2,11 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {Alert} from 'react-native';
 
-function LoginSignupBtn({text}) {
+interface props {
+  text: string;
+}
+
+function LoginSignupBtn({text}: props) {
   return (
     <BtnContainer>
       <LoginBtn onPress={() => Alert.alert('onPress 테스트 코드')}>

@@ -3,20 +3,20 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
-import Entry from './src/screens/Entry/Entry';
-import Login from './src/screens/Login/Login';
-import Main from './src/screens/Main/Main';
-import DocList from './src/screens/DocList/DocList';
-import DocScheme from './src/screens/DocScheme/DocScheme';
-import REZList from './src/screens/REZList/REZList';
-import MakeREZ from './src/screens/MakeREZ/MakeREZ';
-import REZDetail from './src/screens/REZDetail/REZDetail';
-import REZSubmit from './src/screens/REZSubmit/REZSubmit';
-import Signup from './src/screens/Signup/Signup';
-import Splash from './src/screens/Splash/Splash';
+import Entry from '@screens/Entry/Entry';
+import Login from '@screens/Login/Login';
+import Main from '@screens/Main/Main';
+import DocList from '@screens/DocList/DocList';
+import DocScheme from '@screens/DocScheme/DocScheme';
+import REZList from '@screens/REZList/REZList';
+import MakeREZ from '@screens/MakeREZ/MakeREZ';
+import REZDetail from '@screens/REZDetail/REZDetail';
+import REZSubmit from '@screens/REZSubmit/REZSubmit';
+import Signup from '@screens/Signup/Signup';
+import Splash from '@screens/Splash/Splash';
 
 import {ThemeProvider} from 'styled-components';
-import theme from './src/styles/theme';
+import theme from '~/styles/theme';
 
 const Stack = createStackNavigator();
 

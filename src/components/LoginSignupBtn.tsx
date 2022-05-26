@@ -2,15 +2,15 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {Alert} from 'react-native';
 
-interface props {
-  text: string;
+interface Props {
+  children: any;
 }
 
-function LoginSignupBtn({text}: props) {
+function LoginSignupBtn({children}: Props) {
   return (
     <BtnContainer>
       <LoginBtn onPress={() => Alert.alert('onPress 테스트 코드')}>
-        <LoginText>{text}</LoginText>
+        <LoginText>{children}</LoginText>
       </LoginBtn>
     </BtnContainer>
   );

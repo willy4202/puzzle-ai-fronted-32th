@@ -16,9 +16,23 @@ import Signup from './src/screens/Signup/Signup';
 import Splash from './src/screens/Splash/Splash';
 
 import {ThemeProvider} from 'styled-components';
-import theme from '../PuzzleAiFronted/src/styles/theme';
+import theme from './src/styles/theme';
 
-const Stack = createStackNavigator();
+export type HomeStackParamList = {
+  Splash: undefined;
+  Entry: undefined;
+  Login: undefined;
+  Signup: undefined;
+  Main: undefined;
+  DocList: undefined;
+  DocScheme: undefined;
+  REZList: undefined;
+  MakeREZ: undefined;
+  REZSubmit: undefined;
+  REZDetail: undefined;
+};
+
+const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
   return (

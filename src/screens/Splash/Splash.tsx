@@ -7,7 +7,7 @@ function Splash({navigation}: any) {
       <Text>Main</Text>
       <Button
         title="go to Entry"
-        onPress={() => navigation.navigate('Entry')}
+        onPress={() => navigation.navigate('Signup')}
       />
     </View>
   );

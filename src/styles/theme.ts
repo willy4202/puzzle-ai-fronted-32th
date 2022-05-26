@@ -1,6 +1,7 @@
 import {DefaultTheme} from 'styled-components';
 
 const theme: DefaultTheme = {
+  primary: '#065e85',
   mainBorder: '#ebebeb',
   mainArrow: '#2f2f2f',
   mainDisable: '#bcbcbc',

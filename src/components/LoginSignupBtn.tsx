@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import {Alert} from 'react-native';
 
 interface Props {
-  children: any;
+  children: string;
 }
 
 function LoginSignupBtn({children}: Props) {

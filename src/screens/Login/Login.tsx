@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {BackHandler} from 'react-native';
 import styled from 'styled-components/native';
 import logo from '../../assets/images/logo.png';
 import closeEye from '../../assets/images/ic-close-eye.png';
@@ -45,7 +44,7 @@ export default Login;
 
 const AvoidingView = styled.KeyboardAvoidingView`
   flex: 1;
-  padding: 0 30px 60px 30px;
+  padding: 10px 30px 30px 30px;
   background-color: white;
 `;
 
@@ -65,7 +64,7 @@ const Logo = styled.Image`
 `;
 
 const FormContainer = styled.View`
-  flex: 4;
+  flex: 6;
   width: 300px;
   margin-top: 129px;
   align-self: center;

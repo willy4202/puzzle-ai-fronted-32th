@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import styled from 'styled-components/native';
 import {Alert} from 'react-native';
 
 interface Props {
-  children: string;
+  children: ReactNode;
 }
 
 function LoginSignupBtn({children}: Props) {

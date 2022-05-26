@@ -1,10 +1,6 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components/native';
-<<<<<<< HEAD
 import {View, Platform} from 'react-native';
-=======
-import {View} from 'react-native';
->>>>>>> bdab8948d0b5cc06d8ef45745faecb90fb34377b
 import InputWrapper from '../../components/InputWrapper';
 import PasswordWrapper from '../../components/PasswordWrapper';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -13,18 +9,11 @@ import {HomeStackParamList} from '../../../App';
 type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Signup'>;
 
 function Signup({navigation}: SignupNavigationProps) {
-<<<<<<< HEAD
-  console.log(navigation);
-=======
->>>>>>> bdab8948d0b5cc06d8ef45745faecb90fb34377b
   useEffect(() => {
     navigation.setOptions({
       title: '회원가입',
       headerStyle: {shadowColor: 'white'},
-<<<<<<< HEAD
       headerTitleAlign: 'center',
-=======
->>>>>>> bdab8948d0b5cc06d8ef45745faecb90fb34377b
     });
   }, [navigation]);
 
@@ -61,7 +50,6 @@ const NameWrapper = styled.View`
 `;
 
 const LastName = styled.View`
-<<<<<<< HEAD
   flex: 1;
   margin-right: 10px;
 `;
@@ -69,12 +57,6 @@ const LastName = styled.View`
 const FirstName = styled(LastName)`
   margin-right: 0;
 `;
-=======
-  width: 145px;
-`;
-
-const FirstName = styled(LastName)``;
->>>>>>> bdab8948d0b5cc06d8ef45745faecb90fb34377b
 
 const LastNameWrapper = styled(InputWrapper)``;
 

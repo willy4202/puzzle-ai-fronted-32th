@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import styled from 'styled-components/native';
 import {Text, View, TextInput, Image} from 'react-native';
 
-<<<<<<< HEAD
 type Children = {
   children: string;
 };
@@ -12,21 +11,6 @@ function InputWrapper({children}: Children) {
     <Wrapper>
       <InputTitle>{children}</InputTitle>
       <Input placeholder={`${children}을 입력해주세요`} />
-=======
-type children = {
-  children: string;
-};
-
-type title = {
-  title: string;
-};
-
-function InputWrapper({children}: children) {
-  return (
-    <Wrapper>
-      <InputTitle>{children}</InputTitle>
-      <Input title={children} />
->>>>>>> bdab8948d0b5cc06d8ef45745faecb90fb34377b
     </Wrapper>
   );
 }
@@ -44,14 +28,7 @@ const InputTitle = styled.Text`
   margin-bottom: 7px;
 `;
 
-<<<<<<< HEAD
 const Input = styled.TextInput`
-=======
-const Input = styled.TextInput.attrs(({title}: title) => ({
-  title: title,
-  placeholder: `${title}을 입력해주세요`,
-}))`
->>>>>>> bdab8948d0b5cc06d8ef45745faecb90fb34377b
   width: 100%;
   height: 48px;
   border: 1px solid ${({theme}) => theme.grey};

@@ -17,10 +17,14 @@ import Splash from '@screens/Splash/Splash';
 
 import {ThemeProvider} from 'styled-components';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import theme from '~/styles/theme';
 =======
 import theme from './src/styles/theme';
 >>>>>>> bdab894 (정덕우 회원가입 레이아웃완료 및 네비게이션 수정)
+=======
+import theme from './src/styles/theme';
+>>>>>>> bdab8948d0b5cc06d8ef45745faecb90fb34377b
 
 export type HomeStackParamList = {
   Splash: undefined;

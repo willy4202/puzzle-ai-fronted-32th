@@ -26,12 +26,12 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            {/* <Stack.Screen name="Splash" component={Splash} />
+            <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen
               name="Entry"
               component={Entry}
               options={{headerShown: false}}
-            /> */}
+            />
             <Stack.Screen
               name="Login"
               component={Login}

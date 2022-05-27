@@ -2,29 +2,24 @@ import React, {ReactNode} from 'react';
 import styled from 'styled-components/native';
 
 interface Props {
-  userInfo: object;
-  navigation: object;
   id: string;
   children: ReactNode;
   postData: () => void;
+  navigate: (id: string) => void;
 }
 
-function LoginSignupBtn({postData, children}: Props) {
+function LoginSignupBtn({navigate, postData, id, children}: Props) {
   return (
-    <BtnContainer>
-      <LoginBtn onPress={postData}>
-        <LoginText>{children}</LoginText>
-      </LoginBtn>
-    </BtnContainer>
+    <LoginBtn
+      onPress={postData}
+      // onPress={() => navigate(id)}
+    >
+      <LoginText>{children}</LoginText>
+    </LoginBtn>
   );
 }
 
 export default LoginSignupBtn;
-
-const BtnContainer = styled.View`
-  flex: 1;
-  top: 10px;
-`;
 
 const LoginBtn = styled.Pressable`
   width: 300px;

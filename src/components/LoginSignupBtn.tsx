@@ -4,12 +4,14 @@ import {Alert} from 'react-native';
 
 interface Props {
   children: ReactNode;
+  isDisable?: boolean;
+  postData: () => void;
 }
 
-function LoginSignupBtn({children}: Props) {
+function LoginSignupBtn({children, postData, isDisable = false}: Props) {
   return (
     <BtnContainer>
-      <LoginBtn onPress={() => Alert.alert('onPress 테스트 코드')}>
+      <LoginBtn disabled={isDisable} onPress={() => postData()}>
         <LoginText>{children}</LoginText>
       </LoginBtn>
     </BtnContainer>
@@ -30,7 +32,8 @@ const LoginBtn = styled.Pressable`
   align-self: center;
   justify-content: center;
   align-items: center;
-  background-color: ${({theme}) => theme.primary};
+  background-color: ${({disabled}) =>
+    disabled ? ({theme}) => theme.grey : ({theme}) => theme.primary};
 `;
 
 const LoginText = styled.Text`

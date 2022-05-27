@@ -32,16 +32,15 @@ function Login({navigation}: NavigationProps) {
   }
 
   const postData = async () => {
-    fetch(config.signin, {
+    const response = await fetch(config.signin, {
       method: 'POST',
       body: JSON.stringify({
         email: 'patient1@gmail.com',
-        password: '1q2w3e42r',
+        password: '1q2w3e4r',
       }),
-    })
-      .then(res => res.json())
-
-      .then(data => AsyncStorage.setItem('cookie', data.cookie));
+    });
+    const data = await response.json();
+    AsyncStorage.setItem('cookie', data.cookie);
     const value = await AsyncStorage.getItem('cookie');
     if (value) {
       navigation.navigate('Main');
@@ -50,8 +49,6 @@ function Login({navigation}: NavigationProps) {
       Alert.alert('이메일과 비밀번호를 확인해주세요.');
     }
   };
-
-  // AsyncStorage.removeItem('cookie'); 쿠키 확인 및 테스트용 코드
 
   return (
     <AvoidingView>

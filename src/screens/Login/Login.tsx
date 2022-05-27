@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components/native';
+import {Alert} from 'react-native';
 import logo from 'assets/images/logo.png';
 import closeEye from 'assets/images/ic-close-eye.png';
 import openEye from 'assets/images/ic-open-eye.png';
 import LoginSignupBtn from '@components/LoginSignupBtn';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {config} from '@screens/../config';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'Login'>;
 
@@ -20,25 +23,35 @@ function Login({navigation}: NavigationProps) {
     });
   }, [navigation]);
 
-  function showPwHandler() {
+  function showPwHandler(): void {
     setIsShowPw(prev => !prev);
   }
 
-  function userInfoHandler(text: string, type: string) {
+  function userInfoHandler(text: string, type: string): void {
     setUserInfo({...userInfo, [type]: text});
   }
 
-  function postData(): void {
-    fetch('http://3.39.118.217:8080/users/signin', {
+  const postData = async () => {
+    fetch(config.signin, {
       method: 'POST',
       body: JSON.stringify({
         email: 'patient1@gmail.com',
-        password: '1q2w3e4r',
+        password: '1q2w3e42r',
       }),
     })
       .then(res => res.json())
-      .then(data => console.log(data));
-  }
+
+      .then(data => AsyncStorage.setItem('cookie', data.cookie));
+    const value = await AsyncStorage.getItem('cookie');
+    if (value) {
+      navigation.navigate('Main');
+    } else {
+      AsyncStorage.removeItem('cookie');
+      Alert.alert('이메일과 비밀번호를 확인해주세요.');
+    }
+  };
+
+  // AsyncStorage.removeItem('cookie'); 쿠키 확인 및 테스트용 코드
 
   return (
     <AvoidingView>
@@ -52,6 +65,8 @@ function Login({navigation}: NavigationProps) {
             placeholder="아이디를 입력해주세요"
             onChangeText={text => userInfoHandler(text, 'email')}
             keyboardType="email-address"
+            autoCapitalize="none"
+            value={userInfo.email}
           />
           <InputTitle>비밀번호</InputTitle>
           <InputContainer>
@@ -67,13 +82,14 @@ function Login({navigation}: NavigationProps) {
             />
           </InputContainer>
         </FormContainer>
-        <LoginSignupBtn
-          id="Main"
-          postData={postData}
-          navigation={navigation}
-          userInfo={userInfo}>
-          로그인
-        </LoginSignupBtn>
+        <BtnContainer>
+          <LoginSignupBtn
+            id="Main"
+            postData={postData}
+            navigate={navigation.navigate}>
+            로그인
+          </LoginSignupBtn>
+        </BtnContainer>
       </ViewContainer>
     </AvoidingView>
   );
@@ -138,4 +154,9 @@ const InputTitle = styled.Text`
   line-height: ${({theme}) => theme.lineHeightSmall};
   margin: 20px 0 5px 0;
   color: black;
+`;
+
+const BtnContainer = styled.View`
+  flex: 1;
+  top: 10px;
 `;

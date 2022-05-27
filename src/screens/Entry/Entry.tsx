@@ -10,9 +10,7 @@ type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Entry'>;
 function Entry({navigation}: SignupNavigationProps) {
   useEffect(() => {
     navigation.setOptions({
-      title: '',
-      headerStyle: {shadowColor: 'white'},
-      headerTitleAlign: 'center',
+      headerShown: false,
     });
   }, [navigation]);
 

@@ -41,11 +41,7 @@ function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Splash" component={Splash} />
-            <Stack.Screen
-              name="Entry"
-              component={Entry}
-              options={{headerShown: false}}
-            />
+            <Stack.Screen name="Entry" component={Entry} />
             <Stack.Screen
               name="Login"
               component={Login}

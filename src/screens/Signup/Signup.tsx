@@ -193,5 +193,3 @@ const ButtonWrapper = styled.View`
 `;
 
 const SignupBtn = styled(LoginSignupBtn)``;
-
-const Texta = styled.TextInput``;

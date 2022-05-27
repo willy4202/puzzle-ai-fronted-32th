@@ -35,8 +35,8 @@ function Login({navigation}: NavigationProps) {
     const response = await fetch(config.signin, {
       method: 'POST',
       body: JSON.stringify({
-        email: 'patient1@gmail.com',
-        password: '1q2w3e4r',
+        email: userInfo.email,
+        password: userInfo.pw,
       }),
     });
     const data = await response.json();

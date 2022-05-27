@@ -8,20 +8,13 @@ interface Props {
 
 function LoginSignupBtn({children}: Props) {
   return (
-    <BtnContainer>
-      <LoginBtn onPress={() => Alert.alert('onPress 테스트 코드')}>
-        <LoginText>{children}</LoginText>
-      </LoginBtn>
-    </BtnContainer>
+    <LoginBtn onPress={() => Alert.alert('onPress 테스트 코드')}>
+      <LoginText>{children}</LoginText>
+    </LoginBtn>
   );
 }
 
 export default LoginSignupBtn;
-
-const BtnContainer = styled.View`
-  flex: 1;
-  top: 10px;
-`;
 
 const LoginBtn = styled.Pressable`
   width: 300px;

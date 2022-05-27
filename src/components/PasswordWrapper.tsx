@@ -1,24 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import {Text, View, TextInput, Image} from 'react-native';
-import ClosedEyes from '../assets/images/icon_feather_eye_off.png';
+import ClosedEyes from '@assets/images/ic-close-eye.png';
+import OpenEyes from '@assets/images/ic-open-eye.png';
+import {Data, InputProps} from '~/types/type';
 
-interface Props {
-  children: string;
-  type?: string;
-}
+function PasswordWrapper({children, type, setInputData}: InputProps) {
+  const [isShow, setIsShow] = useState(true);
 
-function PasswordWrapper({children, type = ''}: Props) {
+  const inputHandler = (text: string, type: string) => {
+    setInputData((prev: Data) => ({...prev, [type]: text}));
+  };
+
   return (
     <Wrapper>
       <InputTitle>{children}</InputTitle>
       <Input
+        secureTextEntry={isShow}
+        onChangeText={text => inputHandler(text, type)}
+        autoCapitalize="none"
         placeholder={
-          type === 'check'
+          type === 'passwordCheck'
             ? '비밀번호를 다시 입력해주세요'
             : '비밀번호를 입력해주세요'
-        }></Input>
-      <ShowButton />
+        }
+      />
+      <IconWrapper onTouchStart={() => setIsShow(!isShow)}>
+        <ShowButton source={isShow ? ClosedEyes : OpenEyes} />
+      </IconWrapper>
     </Wrapper>
   );
 }
@@ -27,7 +36,7 @@ export default PasswordWrapper;
 
 const Wrapper = styled.View`
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 7px;
 `;
 
 const InputTitle = styled.Text`
@@ -44,8 +53,9 @@ const Input = styled.TextInput`
   padding: 15px;
 `;
 
+const IconWrapper = styled.View``;
+
 const ShowButton = styled.Image.attrs(() => ({
-  source: ClosedEyes,
   resizeMode: 'contain',
 }))`
   position: absolute;

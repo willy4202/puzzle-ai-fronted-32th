@@ -30,7 +30,8 @@
       "~/*": ["./*"],
       "@components/*": ["components/*"],
       "@screens/*": ["screens/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@types/*": ["types/*"]
     }
   },
   "exclude": [

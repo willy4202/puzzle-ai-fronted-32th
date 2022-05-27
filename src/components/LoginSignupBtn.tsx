@@ -10,10 +10,7 @@ interface Props {
 
 function LoginSignupBtn({navigate, postData, id, children}: Props) {
   return (
-    <LoginBtn
-      onPress={postData}
-      // onPress={() => navigate(id)}
-    >
+    <LoginBtn onPress={postData}>
       <LoginText>{children}</LoginText>
     </LoginBtn>
   );

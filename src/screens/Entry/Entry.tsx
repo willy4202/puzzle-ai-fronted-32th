@@ -1,10 +1,21 @@
-import React from 'react';
-import {Text, View} from 'react-native';
+import React, {useEffect} from 'react';
 import styled from 'styled-components/native';
 import logo from 'assets/images/logo.png';
 import LoginSignupBtn from '~/components/LoginSignupBtn';
+import {StackScreenProps} from '@react-navigation/stack';
+import {HomeStackParamList} from '../../../App';
 
-function Entry() {
+type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Entry'>;
+
+function Entry({navigation}: SignupNavigationProps) {
+  useEffect(() => {
+    navigation.setOptions({
+      title: '',
+      headerStyle: {shadowColor: 'white'},
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
+
   return (
     <ViewContainer>
       <LogoView>

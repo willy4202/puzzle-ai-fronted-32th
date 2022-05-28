@@ -90,6 +90,11 @@ function Signup({navigation}: SignupNavigationProps) {
         if (res.message === 'signup success') {
           return Alert.alert('회원가입에 성공하셨습니다.');
         } else if (res.message === 'not in email format') {
+=======
+        if (res.message === 'signup success') {
+          return Alert.alert('회원가입에 성공하셨습니다.');
+        } else if (res.message === 'not in email') {
+>>>>>>> 393e7bccc81a4b3b4b098e716e4f3891d8346730
           return Alert.alert('이메일형식이 잘못되었습니다.');
         }
       });

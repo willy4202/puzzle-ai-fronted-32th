@@ -1,14 +1,15 @@
 import React, {ReactNode} from 'react';
 import styled from 'styled-components/native';
-import {Alert} from 'react-native';
 
 interface Props {
   children: ReactNode;
+  postData: () => void;
+  color?: string;
 }
 
-function LoginSignupBtn({children}: Props) {
+function LoginSignupBtn({postData, children}: Props) {
   return (
-    <LoginBtn onPress={() => Alert.alert('onPress 테스트 코드')}>
+    <LoginBtn onPress={postData}>
       <LoginText>{children}</LoginText>
     </LoginBtn>
   );

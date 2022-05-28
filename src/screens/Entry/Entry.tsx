@@ -14,6 +14,14 @@ function Entry({navigation}: SignupNavigationProps) {
     });
   }, [navigation]);
 
+  function goToLogin() {
+    navigation.navigate('Login');
+  }
+
+  function goToSignup() {
+    navigation.navigate('Signup');
+  }
+
   return (
     <ViewContainer>
       <LogoView>
@@ -21,10 +29,10 @@ function Entry({navigation}: SignupNavigationProps) {
       </LogoView>
       <BtnWrapper>
         <BtnContainer>
-          <LoginSignupBtn>로그인</LoginSignupBtn>
+          <LoginSignupBtn postData={goToLogin}>로그인</LoginSignupBtn>
         </BtnContainer>
         <BtnContainer>
-          <LoginSignupBtn>회원가입</LoginSignupBtn>
+          <LoginSignupBtn postData={goToSignup}>회원가입</LoginSignupBtn>
         </BtnContainer>
       </BtnWrapper>
     </ViewContainer>

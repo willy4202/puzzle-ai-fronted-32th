@@ -2,13 +2,11 @@ import React, {ReactNode} from 'react';
 import styled from 'styled-components/native';
 
 interface Props {
-  id: string;
   children: ReactNode;
   postData: () => void;
-  navigate: (id: string) => void;
 }
 
-function LoginSignupBtn({navigate, postData, id, children}: Props) {
+function LoginSignupBtn({postData, children}: Props) {
   return (
     <LoginBtn onPress={postData}>
       <LoginText>{children}</LoginText>

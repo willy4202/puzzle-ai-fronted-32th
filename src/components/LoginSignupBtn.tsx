@@ -1,16 +1,21 @@
 import React, {ReactNode} from 'react';
-import styled from 'styled-components/native';
-import {Alert} from 'react-native';
+import styled, {css} from 'styled-components/native';
 
 interface Props {
   children: ReactNode;
+  postData: () => void;
+  id?: string;
 }
 
-function LoginSignupBtn({children}: Props) {
+interface PressableProps {
+  id: string;
+}
+
+function LoginSignupBtn({children, id = '', postData}: Props) {
   return (
     <BtnContainer>
-      <LoginBtn onPress={() => Alert.alert('onPress 테스트 코드')}>
-        <LoginText>{children}</LoginText>
+      <LoginBtn id={id} onPress={postData}>
+        <LoginText id={id}>{children}</LoginText>
       </LoginBtn>
     </BtnContainer>
   );
@@ -23,18 +28,31 @@ const BtnContainer = styled.View`
   top: 10px;
 `;
 
-const LoginBtn = styled.Pressable`
+const LoginBtn = styled.Pressable<PressableProps>`
   width: 300px;
   height: 52px;
   border-radius: 8px;
   align-self: center;
   justify-content: center;
   align-items: center;
-  background-color: ${({theme}) => theme.primary};
+  ${({id}) => {
+    switch (id) {
+      case 'Signup':
+        return css`
+          background-color: white;
+          color: ${({theme}) => theme.primary};
+          border: 1px solid ${({theme}) => theme.primary};
+        `;
+      default:
+        return css`
+          background-color: ${({theme}) => theme.primary};
+        `;
+    }
+  }}
 `;
 
-const LoginText = styled.Text`
+const LoginText = styled.Text<{id: string}>`
   font-size: ${({theme}) => theme.fontMedium};
   line-height: ${({theme}) => theme.lineHeightLarge};
-  color: white;
+  color: ${({id}) => (id === 'Signup' ? ({theme}) => theme.primary : 'white')};
 `;

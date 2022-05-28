@@ -80,12 +80,7 @@ function Login({navigation}: NavigationProps) {
           </InputContainer>
         </FormContainer>
         <BtnContainer>
-          <LoginSignupBtn
-            id="Main"
-            postData={postData}
-            navigate={navigation.navigate}>
-            로그인
-          </LoginSignupBtn>
+          <LoginSignupBtn postData={postData}>로그인</LoginSignupBtn>
         </BtnContainer>
       </ViewContainer>
     </AvoidingView>
@@ -117,7 +112,8 @@ const Logo = styled.Image`
 
 const FormContainer = styled.View`
   flex: 6;
-  width: 300px;
+  width: 100%;
+  padding: 0 15px;
   margin-top: 129px;
   align-self: center;
 `;

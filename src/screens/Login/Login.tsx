@@ -40,14 +40,13 @@ function Login({navigation}: NavigationProps) {
   };
 
   const postData = async () => {
-    const response = await fetch(config.signin, {
+    const response = await fetch(config.check, {
       method: 'POST',
       body: JSON.stringify({
-        email: 'patient1@gmail.com',
-        password: '1q2w3e4r',
+        email: userInfo.email,
+        password: userInfo.pw,
       }),
     });
-
     const data = await response.json();
     switch (data.message) {
       case 'signin success':

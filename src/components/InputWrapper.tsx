@@ -1,16 +1,21 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
-import {Text, View, TextInput, Image} from 'react-native';
+import {Text, View, TextInput} from 'react-native';
+import {UserData, InputProps} from '~/types/type';
 
-type Children = {
-  children: string;
-};
+function InputWrapper({children, type, setUserData}: InputProps) {
+  const inputHandler = (text: string, type: string) => {
+    setUserData((prev: UserData) => ({...prev, [type]: text}));
+  };
 
-function InputWrapper({children}: Children) {
   return (
     <Wrapper>
       <InputTitle>{children}</InputTitle>
-      <Input placeholder={`${children}을 입력해주세요`} />
+      <Input
+        autoCapitalize="none"
+        onChangeText={(text: string) => inputHandler(text, type)}
+        placeholder={`${children}을 입력해주세요`}
+      />
     </Wrapper>
   );
 }
@@ -19,7 +24,7 @@ export default InputWrapper;
 
 const Wrapper = styled.View`
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 7px;
 `;
 
 const InputTitle = styled.Text`

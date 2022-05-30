@@ -14,7 +14,7 @@ import REZDetail from '@screens/REZDetail/REZDetail';
 import REZSubmit from '@screens/REZSubmit/REZSubmit';
 import Signup from '@screens/Signup/Signup';
 import Splash from '@screens/Splash/Splash';
-import {AuthContext, AuthProvider} from '~/AuthContext';
+import {AuthContext} from '~/AuthContext';
 
 import {ThemeProvider} from 'styled-components';
 import theme from '~/styles/theme';
@@ -40,34 +40,30 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <Stack.Navigator>
-              {userState.isLoading && (
-                <Stack.Screen name="Splash" component={Splash} />
-              )}
-              {userState.isLogIn ? (
-                <>
-                  <Stack.Screen name="Main" component={Main} />
-                  <Stack.Screen name="DocList" component={DocList} />
-                  <Stack.Screen name="DocScheme" component={DocScheme} />
-                  <Stack.Screen name="REZList" component={REZList} />
-                  <Stack.Screen name="MakeREZ" component={MakeREZ} />
-                  <Stack.Screen name="REZSubmit" component={REZSubmit} />
-                  <Stack.Screen name="REZDetail" component={REZDetail} />
-                </>
-              ) : (
-                <>
-                  <Stack.Screen name="Entry" component={Entry} />
-                  <Stack.Screen name="Login" component={Login} />
-                  <Stack.Screen name="Signup" component={Signup} />
-                </>
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-        </SafeAreaProvider>
-      </AuthProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Splash" component={Splash} />
+            {userState.isLogIn ? (
+              <>
+                <Stack.Screen name="Main" component={Main} />
+                <Stack.Screen name="DocList" component={DocList} />
+                <Stack.Screen name="DocScheme" component={DocScheme} />
+                <Stack.Screen name="REZList" component={REZList} />
+                <Stack.Screen name="MakeREZ" component={MakeREZ} />
+                <Stack.Screen name="REZSubmit" component={REZSubmit} />
+                <Stack.Screen name="REZDetail" component={REZDetail} />
+              </>
+            ) : (
+              <>
+                <Stack.Screen name="Entry" component={Entry} />
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Signup" component={Signup} />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }

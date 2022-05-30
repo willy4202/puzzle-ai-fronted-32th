@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {config} from '@screens/../config';
 
 type AuthContextType = {
-  userState: {isLogIn: boolean; isLoading: boolean};
+  userState: {isLogIn: boolean};
   login: (email: string, pw: string) => void;
 };
 
@@ -15,25 +15,11 @@ const initialValue = {
 
 export const AuthContext = createContext<AuthContextType>(initialValue);
 
-type StateType = {isLogIn: boolean; isLoading: boolean};
-type ActionType = {
-  type: 'LOADING' | 'LOADING_DONE' | 'LOG_IN' | 'LOG_OUT';
-};
+type StateType = {isLogIn: boolean};
+type ActionType = {type: 'LOG_IN' | 'LOG_OUT'};
 
 function reducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
-    case 'LOADING':
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case 'LOADING_DONE':
-      return {
-        ...state,
-        isLoading: false,
-      };
-
     case 'LOG_IN':
       return {
         ...state,
@@ -50,7 +36,6 @@ function reducer(state: StateType, action: ActionType): StateType {
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [userState, dispatch] = useReducer(reducer, {
     isLogIn: false,
-    isLoading: false,
   });
 
   const storeToken = async (key: string, value: string) => {
@@ -76,6 +61,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         case 'signin success':
           storeToken('token', data.token);
           dispatch({type: 'LOG_IN'});
+
           break;
         case 'please signin on app for doctor':
           Alert.alert('의사는 전용 앱으로 로그인해 주세요.');

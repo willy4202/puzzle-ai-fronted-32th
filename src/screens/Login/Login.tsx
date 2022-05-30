@@ -33,35 +33,12 @@ function Login({navigation}: NavigationProps) {
 
   const {email, password} = userInfo;
 
-  console.log(userInfo);
-
   const postLogin = async () => {
     try {
       login(email, password);
     } catch (error) {
       throw new Error('API fetch error');
     }
-
-    // const response = await fetch(config.signin, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     email: 'patient1@gmail.com',
-    //     password: '1q2w3e4r',
-    //   }),
-    // });
-    // const data = await response.json();
-    // console.log(data);
-    // switch (data.message) {
-    //   case 'signin success':
-    //     storeToken('cookie', data.cookie);
-    //     navigation.navigate('Main');
-    //     break;
-    //   case 'please signin on app for doctor':
-    //     Alert.alert('의사는 전용 앱으로 로그인 해주세요.');
-    //     break;
-    //   default:
-    //     Alert.alert('비밀번호와 이메일을 확인해주세요.');
-    // }
   };
 
   return (

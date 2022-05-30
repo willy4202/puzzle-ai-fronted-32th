@@ -43,7 +43,10 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            {/* <Stack.Screen name="Splash" component={Splash} /> */}
+            {userState.isLoading && (
+              <Stack.Screen name="Splash" component={Splash} />
+            )}
+
             {userState.isLogIn ? (
               <>
                 <Stack.Screen name="Main" component={Main} />

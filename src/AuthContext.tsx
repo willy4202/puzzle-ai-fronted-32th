@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {config} from '@screens/../config';
 
 type AuthContextType = {
-  userState: {isLogIn: boolean};
+  userState: {isLogIn: boolean; isLoading: boolean};
   login: (email: string, pw: string) => void;
 };
 
@@ -15,8 +15,8 @@ const initialValue = {
 
 export const AuthContext = createContext<AuthContextType>(initialValue);
 
-type StateType = {isLogIn: boolean};
-type ActionType = {type: 'LOG_IN' | 'LOG_OUT'};
+type StateType = {isLogIn: boolean; isLoading: boolean};
+type ActionType = {type: 'LOG_IN' | 'LOG_OUT' | 'LOADING' | 'LOADED'};
 
 function reducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
@@ -30,12 +30,23 @@ function reducer(state: StateType, action: ActionType): StateType {
         ...state,
         isLogIn: false,
       };
+    case 'LOADING':
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case 'LOADED':
+      return {
+        ...state,
+        isLoading: false,
+      };
   }
 }
 
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [userState, dispatch] = useReducer(reducer, {
     isLogIn: false,
+    isLoading: true,
   });
 
   const storeToken = async (key: string, value: string) => {
@@ -56,7 +67,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         }),
       });
       const data = await response.json();
-      console.log(data);
+
       switch (data.message) {
         case 'signin success':
           storeToken('token', data.token);

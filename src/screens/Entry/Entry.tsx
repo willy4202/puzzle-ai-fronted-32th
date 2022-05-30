@@ -20,14 +20,14 @@ function Entry({navigation}: EntryNavigationProps) {
       </LogoView>
       <ButtonWrapper>
         <LoginButton
-          postData={() => {
+          pressHandler={() => {
             navigateHandler('Login');
           }}
           id="Login">
           로그인
         </LoginButton>
         <SignupButton
-          postData={() => {
+          pressHandler={() => {
             navigateHandler('Signup');
           }}
           id="Signup">

@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components/native';
 
 interface Props {
   children: ReactNode;
-  postData: () => void;
+  pressHandler: () => void;
   id?: 'Login' | 'Signup';
 }
 
@@ -11,10 +11,10 @@ interface PressableProps {
   id: string;
 }
 
-function LoginSignupBtn({children, id = 'Login', postData}: Props) {
+function LoginSignupBtn({children, id = 'Login', pressHandler}: Props) {
   return (
     <BtnContainer>
-      <LoginBtn id={id} onPress={postData}>
+      <LoginBtn id={id} onPress={pressHandler}>
         <LoginText id={id}>{children}</LoginText>
       </LoginBtn>
     </BtnContainer>

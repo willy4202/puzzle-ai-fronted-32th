@@ -39,8 +39,13 @@ function Login({navigation}: NavigationProps) {
     }
   };
 
+<<<<<<< HEAD
   const postLogin = async () => {
     const response = await fetch(config.signin, {
+=======
+  const postData = async () => {
+    const response = await fetch(config.check, {
+>>>>>>> main
       method: 'POST',
       body: JSON.stringify({
         email: userInfo.email,
@@ -48,7 +53,10 @@ function Login({navigation}: NavigationProps) {
       }),
     });
     const data = await response.json();
+<<<<<<< HEAD
     console.log(data);
+=======
+>>>>>>> main
     switch (data.message) {
       case 'signin success':
         storeToken('cookie', data.cookie);
@@ -92,7 +100,11 @@ function Login({navigation}: NavigationProps) {
           </InputContainer>
         </FormContainer>
         <BtnContainer>
+<<<<<<< HEAD
           <LoginSignupBtn postData={postLogin}>로그인</LoginSignupBtn>
+=======
+          <LoginSignupBtn postData={postData}>로그인</LoginSignupBtn>
+>>>>>>> main
         </BtnContainer>
       </ViewContainer>
     </AvoidingView>

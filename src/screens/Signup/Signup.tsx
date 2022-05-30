@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import styled from 'styled-components/native';
 import {
   KeyboardAvoidingView,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import InputWrapper from '@components/InputWrapper';
 import PasswordWrapper from '@components/PasswordWrapper';
-import {Data} from '~/types/type';
+import {UserData} from '~/types/type';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
 import LoginSignupBtn from '@components/LoginSignupBtn';
@@ -19,7 +19,7 @@ import {URL} from '../../config';
 type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Signup'>;
 
 function Signup({navigation}: SignupNavigationProps) {
-  const [inputData, setInputData] = useState<Data>({
+  const [userData, setUserData] = useState<UserData>({
     lastName: '',
     firstName: '',
     email: '',
@@ -38,12 +38,12 @@ function Signup({navigation}: SignupNavigationProps) {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (!!inputData.email) {
+    if (!!userData.email) {
       timer = setTimeout(() => {
         fetch(`${URL.emailCheck}`, {
           method: 'POST',
           body: JSON.stringify({
-            email: inputData.email,
+            email: userData.email,
           }),
         })
           .then(res => res.json())
@@ -59,28 +59,38 @@ function Signup({navigation}: SignupNavigationProps) {
     return () => {
       clearTimeout(timer);
     };
-  }, [inputData.email]);
+  }, [userData.email]);
 
-  const isNameValid: boolean = !!inputData.firstName && !!inputData.lastName;
+  const isNameValid: boolean = useMemo(
+    () => !!userData.firstName && !!userData.lastName,
+    [userData.firstName, userData.lastName],
+  );
 
-  const isPwValid: boolean =
-    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d~!@#$%^&*()+|=]{8,}$/.test(
-      inputData.password,
-    );
+  const isPwValid: boolean = useMemo(
+    () =>
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d~!@#$%^&*()+|=]{8,}$/.test(
+        userData.password,
+      ),
+    [userData.password],
+  );
 
-  const isCheckpwValid: boolean =
-    inputData.password === inputData.passwordCheck;
+  const isCheckpwValid: boolean = useMemo(
+    () => userData.password === userData.passwordCheck,
+    [userData.password, userData.passwordCheck],
+  );
 
-  const isButtonOn: boolean =
-    isNameValid && isEmailValid && isPwValid && isCheckpwValid;
+  const isButtonOn: boolean = useMemo(
+    () => isNameValid && isEmailValid && isPwValid && isCheckpwValid,
+    [isNameValid, isEmailValid, isPwValid, isCheckpwValid],
+  );
 
-  const postData = () => {
+  const postSignup = () => {
     fetch(`${URL.signup}`, {
       method: 'POST',
       body: JSON.stringify({
-        name: inputData.lastName + inputData.firstName,
-        email: inputData.email,
-        password: inputData.password,
+        name: userData.lastName + userData.firstName,
+        email: userData.email,
+        password: userData.password,
         is_doctor: 'False',
       }),
     })
@@ -90,11 +100,6 @@ function Signup({navigation}: SignupNavigationProps) {
         if (res.message === 'signup success') {
           return Alert.alert('회원가입에 성공하셨습니다.');
         } else if (res.message === 'not in email format') {
-=======
-        if (res.message === 'signup success') {
-          return Alert.alert('회원가입에 성공하셨습니다.');
-        } else if (res.message === 'not in email') {
->>>>>>> 393e7bccc81a4b3b4b098e716e4f3891d8346730
           return Alert.alert('이메일형식이 잘못되었습니다.');
         }
       });
@@ -105,37 +110,37 @@ function Signup({navigation}: SignupNavigationProps) {
       <ScrollWrapper>
         <NameWrapper>
           <LastName>
-            <LastNameWrapper type="lastName" setInputData={setInputData}>
+            <LastNameWrapper type="lastName" setUserData={setUserData}>
               성
             </LastNameWrapper>
           </LastName>
           <FirstName>
-            <FirstNameWrapper type="firstName" setInputData={setInputData}>
+            <FirstNameWrapper type="firstName" setUserData={setUserData}>
               이름
             </FirstNameWrapper>
           </FirstName>
         </NameWrapper>
-        <EmailInput type="email" setInputData={setInputData}>
+        <EmailInput type="email" setUserData={setUserData}>
           이메일
         </EmailInput>
-        {!!inputData.email.length && !isEmailValid && (
+        {!!userData.email.length && !isEmailValid && (
           <EmailErrorMsg>존재하는 이메일 주소입니다.</EmailErrorMsg>
         )}
-        <PasswordInput type="password" setInputData={setInputData}>
+        <PasswordInput type="password" setUserData={setUserData}>
           비밀번호
         </PasswordInput>
-        {!isPwValid && !!inputData.password.length && (
+        {!isPwValid && !!userData.password.length && (
           <PwErrorMsg>숫자와 영문자 조합 8자를 입력해 주세요</PwErrorMsg>
         )}
-        <PasswordCheckInput type="passwordCheck" setInputData={setInputData}>
+        <PasswordCheckInput type="passwordCheck" setUserData={setUserData}>
           비밀번호 확인
         </PasswordCheckInput>
-        {!!inputData.passwordCheck.length && !isCheckpwValid && (
+        {!!userData.passwordCheck.length && !isCheckpwValid && (
           <PwCheckErrorMsg>비밀번호가 일치하지 않습니다.</PwCheckErrorMsg>
         )}
       </ScrollWrapper>
       <ButtonWrapper>
-        <SignupBtn postData={postData} isDisable={!isButtonOn}>
+        <SignupBtn pressHandler={postSignup} disabled={!isButtonOn}>
           가입완료
         </SignupBtn>
       </ButtonWrapper>

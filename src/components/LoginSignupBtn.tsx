@@ -4,14 +4,14 @@ import {Alert} from 'react-native';
 
 interface Props {
   children: ReactNode;
-  isDisable?: boolean;
-  postData: () => void;
+  disabled?: boolean;
+  pressHandler: () => void;
 }
 
-function LoginSignupBtn({children, postData, isDisable = false}: Props) {
+function LoginSignupBtn({children, pressHandler, disabled = false}: Props) {
   return (
     <BtnContainer>
-      <LoginBtn disabled={isDisable} onPress={() => postData()}>
+      <LoginBtn disabled={disabled} onPress={() => pressHandler()}>
         <LoginText>{children}</LoginText>
       </LoginBtn>
     </BtnContainer>

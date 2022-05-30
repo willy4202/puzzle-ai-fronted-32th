@@ -3,13 +3,13 @@ import styled from 'styled-components/native';
 import {Text, View, TextInput, Image} from 'react-native';
 import ClosedEyes from '@assets/images/ic-close-eye.png';
 import OpenEyes from '@assets/images/ic-open-eye.png';
-import {Data, InputProps} from '~/types/type';
+import {UserData, InputProps} from '~/types/type';
 
-function PasswordWrapper({children, type, setInputData}: InputProps) {
+function PasswordWrapper({children, type, setUserData}: InputProps) {
   const [isShow, setIsShow] = useState(true);
 
   const inputHandler = (text: string, type: string) => {
-    setInputData((prev: Data) => ({...prev, [type]: text}));
+    setUserData((prev: UserData) => ({...prev, [type]: text}));
   };
 
   return (

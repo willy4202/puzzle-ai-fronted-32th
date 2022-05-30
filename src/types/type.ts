@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction} from 'react';
 
-export interface Data {
+export interface UserData {
   lastName: string;
   firstName: string;
   email: string;
@@ -10,6 +10,6 @@ export interface Data {
 
 export interface InputProps {
   children: string;
-  setInputData: Dispatch<SetStateAction<Data>>;
+  setUserData: Dispatch<SetStateAction<UserData>>;
   type: string;
 }

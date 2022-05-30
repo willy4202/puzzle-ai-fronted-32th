@@ -4,14 +4,14 @@ import styled, {css} from 'styled-components/native';
 interface Props {
   children: ReactNode;
   postData: () => void;
-  id?: string;
+  id?: 'Login' | 'Signup';
 }
 
 interface PressableProps {
   id: string;
 }
 
-function LoginSignupBtn({children, id = '', postData}: Props) {
+function LoginSignupBtn({children, id = 'Login', postData}: Props) {
   return (
     <BtnContainer>
       <LoginBtn id={id} onPress={postData}>

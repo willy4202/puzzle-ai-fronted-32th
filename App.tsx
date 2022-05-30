@@ -43,7 +43,7 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Splash" component={Splash} />
+            {/* <Stack.Screen name="Splash" component={Splash} /> */}
             {userState.isLogIn ? (
               <>
                 <Stack.Screen name="Main" component={Main} />

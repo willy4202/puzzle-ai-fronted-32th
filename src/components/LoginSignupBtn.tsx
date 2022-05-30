@@ -13,20 +13,13 @@ interface PressableProps {
 
 function LoginSignupBtn({children, id = 'Login', pressHandler}: Props) {
   return (
-    <BtnContainer>
-      <LoginBtn id={id} onPress={pressHandler}>
-        <LoginText id={id}>{children}</LoginText>
-      </LoginBtn>
-    </BtnContainer>
+    <LoginBtn id={id} onPress={pressHandler}>
+      <LoginText id={id}>{children}</LoginText>
+    </LoginBtn>
   );
 }
 
 export default LoginSignupBtn;
-
-const BtnContainer = styled.View`
-  flex: 1;
-  top: 10px;
-`;
 
 const LoginBtn = styled.Pressable<PressableProps>`
   width: 300px;

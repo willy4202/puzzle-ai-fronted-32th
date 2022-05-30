@@ -3,12 +3,13 @@ import styled from 'styled-components/native';
 
 interface Props {
   children: ReactNode;
-  postData: () => void;
+  disabled?: boolean;
+  pressHandler: () => void;
 }
 
-function LoginSignupBtn({postData, children}: Props) {
+function LoginSignupBtn({children, pressHandler, disabled = false}: Props) {
   return (
-    <LoginBtn onPress={postData}>
+    <LoginBtn disabled={disabled} onPress={() => pressHandler()}>
       <LoginText>{children}</LoginText>
     </LoginBtn>
   );
@@ -23,7 +24,8 @@ const LoginBtn = styled.Pressable`
   align-self: center;
   justify-content: center;
   align-items: center;
-  background-color: ${({theme}) => theme.primary};
+  background-color: ${({disabled}) =>
+    disabled ? ({theme}) => theme.grey : ({theme}) => theme.primary};
 `;
 
 const LoginText = styled.Text`

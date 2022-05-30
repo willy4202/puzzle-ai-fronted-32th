@@ -91,7 +91,7 @@ function Login({navigation}: NavigationProps) {
           </InputContainer>
         </FormContainer>
         <BtnContainer>
-          <LoginSignupBtn postData={postData}>로그인</LoginSignupBtn>
+          <LoginSignupBtn pressHandler={postData}>로그인</LoginSignupBtn>
         </BtnContainer>
       </ViewContainer>
     </AvoidingView>

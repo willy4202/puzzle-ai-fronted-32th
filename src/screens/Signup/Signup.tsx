@@ -14,7 +14,7 @@ import {UserData} from '~/types/type';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
 import LoginSignupBtn from '@components/LoginSignupBtn';
-import {URL} from '../../config';
+import {config} from '../../config';
 
 type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Signup'>;
 
@@ -40,7 +40,7 @@ function Signup({navigation}: SignupNavigationProps) {
     let timer: NodeJS.Timeout;
     if (!!userData.email) {
       timer = setTimeout(() => {
-        fetch(`${URL.emailCheck}`, {
+        fetch(`${config.emailCheck}`, {
           method: 'POST',
           body: JSON.stringify({
             email: userData.email,
@@ -85,7 +85,7 @@ function Signup({navigation}: SignupNavigationProps) {
   );
 
   const postSignup = () => {
-    fetch(`${URL.signup}`, {
+    fetch(`${config.signup}`, {
       method: 'POST',
       body: JSON.stringify({
         name: userData.lastName + userData.firstName,

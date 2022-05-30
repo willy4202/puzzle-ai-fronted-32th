@@ -1,6 +1,5 @@
 import React, {ReactNode} from 'react';
 import styled from 'styled-components/native';
-import {Alert} from 'react-native';
 
 interface Props {
   children: ReactNode;
@@ -10,20 +9,13 @@ interface Props {
 
 function LoginSignupBtn({children, pressHandler, disabled = false}: Props) {
   return (
-    <BtnContainer>
-      <LoginBtn disabled={disabled} onPress={() => pressHandler()}>
-        <LoginText>{children}</LoginText>
-      </LoginBtn>
-    </BtnContainer>
+    <LoginBtn disabled={disabled} onPress={() => pressHandler()}>
+      <LoginText>{children}</LoginText>
+    </LoginBtn>
   );
 }
 
 export default LoginSignupBtn;
-
-const BtnContainer = styled.View`
-  flex: 1;
-  top: 10px;
-`;
 
 const LoginBtn = styled.Pressable`
   width: 300px;

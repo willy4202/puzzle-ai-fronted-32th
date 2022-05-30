@@ -6,17 +6,19 @@ import {config} from '@screens/../config';
 type AuthContextType = {
   userState: {isLogIn: boolean; isLoading: boolean};
   login: (email: string, pw: string) => void;
+  isLoaded: () => void;
 };
 
 const initialValue = {
   userState: {isLogIn: false, isLoading: true},
   login: () => {},
+  isLoaded: () => {},
 };
 
 export const AuthContext = createContext<AuthContextType>(initialValue);
 
 type StateType = {isLogIn: boolean; isLoading: boolean};
-type ActionType = {type: 'LOG_IN' | 'LOG_OUT' | 'LOADING' | 'LOADED'};
+type ActionType = {type: 'LOG_IN' | 'LOG_OUT' | 'LOADED'};
 
 function reducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
@@ -30,11 +32,7 @@ function reducer(state: StateType, action: ActionType): StateType {
         ...state,
         isLogIn: false,
       };
-    case 'LOADING':
-      return {
-        ...state,
-        isLoading: true,
-      };
+
     case 'LOADED':
       return {
         ...state,
@@ -80,6 +78,13 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         case 'check email or password':
           Alert.alert('이메일과 비밀번호를 확인해 주세요.');
           break;
+      }
+    },
+    isLoaded: async () => {
+      const checkToken = await AsyncStorage.getItem('token');
+      console.log(checkToken);
+      if (checkToken !== null) {
+        dispatch({type: 'LOADED'});
       }
     },
     userState,

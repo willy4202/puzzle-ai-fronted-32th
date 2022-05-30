@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -36,7 +36,11 @@ export type HomeStackParamList = {
 const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
-  const {userState} = useContext(AuthContext);
+  const {userState, isLoaded} = useContext(AuthContext);
+
+  useEffect(() => {
+    isLoaded();
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

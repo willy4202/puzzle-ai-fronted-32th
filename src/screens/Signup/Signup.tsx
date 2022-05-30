@@ -26,7 +26,7 @@ function Signup({navigation}: SignupNavigationProps) {
     password: '',
     passwordCheck: '',
   });
-  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isSameEmail, setIsSameEmail] = useState(true);
 
   useEffect(() => {
     navigation.setOptions({
@@ -39,22 +39,24 @@ function Signup({navigation}: SignupNavigationProps) {
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (!!userData.email) {
-      timer = setTimeout(() => {
-        fetch(`${config.emailCheck}`, {
-          method: 'POST',
-          body: JSON.stringify({
-            email: userData.email,
-          }),
-        })
-          .then(res => res.json())
-          .then(res => {
-            if (res.message === 'email validation pass') {
-              setIsEmailValid(true);
-            } else {
-              setIsEmailValid(false);
-            }
-          });
-      }, 800);
+      if (isEmailValid) {
+        timer = setTimeout(() => {
+          fetch(`${config.emailCheck}`, {
+            method: 'POST',
+            body: JSON.stringify({
+              email: userData.email,
+            }),
+          })
+            .then(res => res.json())
+            .then(res => {
+              if (res.message === 'email validation pass') {
+                setIsSameEmail(true);
+              } else {
+                setIsSameEmail(false);
+              }
+            });
+        }, 600);
+      }
     }
     return () => {
       clearTimeout(timer);
@@ -64,6 +66,12 @@ function Signup({navigation}: SignupNavigationProps) {
   const isNameValid: boolean = useMemo(
     () => !!userData.firstName && !!userData.lastName,
     [userData.firstName, userData.lastName],
+  );
+
+  const isEmailValid: boolean = useMemo(
+    () =>
+      /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9-.]+$/.test(userData.email),
+    [userData.email],
   );
 
   const isPwValid: boolean = useMemo(
@@ -80,8 +88,9 @@ function Signup({navigation}: SignupNavigationProps) {
   );
 
   const isButtonOn: boolean = useMemo(
-    () => isNameValid && isEmailValid && isPwValid && isCheckpwValid,
-    [isNameValid, isEmailValid, isPwValid, isCheckpwValid],
+    () =>
+      isNameValid && isEmailValid && isSameEmail && isPwValid && isCheckpwValid,
+    [isNameValid, isSameEmail, isPwValid, isCheckpwValid, isEmailValid],
   );
 
   const postSignup = () => {
@@ -99,8 +108,8 @@ function Signup({navigation}: SignupNavigationProps) {
         console.log(res);
         if (res.message === 'signup success') {
           return Alert.alert('회원가입에 성공하셨습니다.');
-        } else if (res.message === 'not in email format') {
-          return Alert.alert('이메일형식이 잘못되었습니다.');
+        } else {
+          return Alert.alert('입력정보를 확인하신 후 다시 시도해주세요');
         }
       });
   };
@@ -123,8 +132,12 @@ function Signup({navigation}: SignupNavigationProps) {
         <EmailInput type="email" setUserData={setUserData}>
           이메일
         </EmailInput>
-        {!!userData.email.length && !isEmailValid && (
-          <EmailErrorMsg>존재하는 이메일 주소입니다.</EmailErrorMsg>
+        {!!userData.email.length && !isEmailValid ? (
+          <EmailValidErrorMsg>이메일 형식이 잘못되었습니다.</EmailValidErrorMsg>
+        ) : (
+          !isSameEmail && (
+            <EmailErrorMsg>존재하는 이메일 주소입니다.</EmailErrorMsg>
+          )
         )}
         <PasswordInput type="password" setUserData={setUserData}>
           비밀번호
@@ -153,12 +166,12 @@ export default Signup;
 const SignupWrapper = styled.KeyboardAvoidingView`
   flex: 1;
   width: 100%;
-  padding: 40px 27px 60px 33px;
+  padding: 40px 27px 30px 33px;
   background-color: white;
 `;
 
 const ScrollWrapper = styled.ScrollView`
-  flex: 7;
+  flex: 10;
   flex-direction: column;
 `;
 
@@ -194,6 +207,8 @@ const EmailErrorMsg = styled.Text`
   margin-left: 15px;
   margin-bottom: 20px;
 `;
+
+const EmailValidErrorMsg = styled(EmailErrorMsg)``;
 
 const PwErrorMsg = styled(EmailErrorMsg)``;
 

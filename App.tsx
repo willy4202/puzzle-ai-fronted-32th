@@ -39,7 +39,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName="DocScheme">
             <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen
               name="Entry"

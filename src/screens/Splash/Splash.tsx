@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, Button} from 'react-native';
 
-function Splash({navigation}: any) {
+function Splash() {
   return (
     <View>
       <Text>Main</Text>

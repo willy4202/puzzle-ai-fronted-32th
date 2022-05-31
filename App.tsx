@@ -18,6 +18,7 @@ import {Asset} from 'react-native-image-picker';
 import {
   SelectImageContext,
   SelectSymptomContext,
+  SelectContext,
 } from '~/src/ReservationContext';
 
 import {ThemeProvider} from 'styled-components';
@@ -30,6 +31,13 @@ function App() {
   const {userState, loadData} = useContext(AuthContext);
   const [symptomText, setSymptomText] = useState('');
   const [selectImage, setSelectImage] = useState<Asset[]>([]);
+  const [selectDate, setSelectDate] = useState({
+    year: 0,
+    month: 0,
+    date: 0,
+    day: 0,
+    time: '',
+  });
 
   useEffect(() => {
     loadData();
@@ -38,6 +46,8 @@ function App() {
   if (userState.isLoading) {
     return <Splash />;
   }
+
+  console.log(selectDate);
 
   return (
     <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>

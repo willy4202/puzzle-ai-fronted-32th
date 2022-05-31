@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {FlatList} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
 import {DocSchemeNavigationProps} from '~/src/types/type';
@@ -8,8 +9,30 @@ import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
 import {SelectContext} from '../../ReservationContext';
 
+interface IdType {
+  id: string;
+}
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
+const DAYOFF: string[] = ['1', '4', '6', '14', '16', '20', '22', '24', '25'];
+const TIMES: IdType[] = [
+  {id: '10:00'},
+  {id: '11:00'},
+  {id: '12:00'},
+  {id: '13:00'},
+  {id: '14:00'},
+  {id: '15:00'},
+  {id: '16:00'},
+  {id: '17:00'},
+  {id: '18:00'},
+  {id: '19:00'},
+  {id: '20:00'},
+  {id: '21:00'},
+  {id: '22:00'},
+  {id: '23:00'},
+];
+
+const FULL: string[] = ['10:00', '11:00', '12:00'];
 
 function DocScheme({navigation}: DocSchemeNavigationProps) {
   const [calendarDate, setCalendarDate] = useState<NewDate[]>([]);
@@ -116,51 +139,79 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       : setDate(prev => ({...prev, year: date.year + 1}));
   };
 
+  const renderItem = ({item}: {item: IdType}) =>
+    item.id ? (
+      <TimeButton
+        disabled={FULL.includes(item.id)}
+        onPress={() => navigation.navigate('MakeREZ')}>
+        <ButtonText disabled={FULL.includes(item.id)}>{item.id}</ButtonText>
+      </TimeButton>
+    ) : (
+      <HiddenButton disabled></HiddenButton>
+    );
+
   return (
-    <SchemeWrapper>
-      <CardWrapper>
-        <DoctorCard></DoctorCard>
-      </CardWrapper>
-      <CalendarButtonWrapper>
-        <PrevYear onPress={() => yearHandler('prev')}>
-          <PrevIcon source={Prev} />
-          <PrevIcon overlap source={Prev} />
-        </PrevYear>
-        <PrevMonth onPress={() => monthHandler('prev')}>
-          <PrevIcon source={Prev} />
-        </PrevMonth>
-        <MonthInfo>{`${new Date(date.year, date.month - 1).getFullYear()}년 ${
-          new Date(date.year, date.month - 1).getMonth() + 1
-        }월`}</MonthInfo>
-        <NextMonth onPress={() => monthHandler('next')}>
-          <NextIcon source={Next} />
-        </NextMonth>
-        <NextYear onPress={() => yearHandler('next')}>
-          <NextIcon source={Next} />
-          <NextIcon overlap source={Next} />
-        </NextYear>
-      </CalendarButtonWrapper>
-      <WeekInfo>
-        {DAYS.map((day, idx) => (
-          <WeekButton key={idx}>
-            <WeekText>{day}</WeekText>
-          </WeekButton>
-        ))}
-      </WeekInfo>
-      <SelectContext.Provider value={{selectDate, setSelectDate}}>
-        <Calendar
-          weeklength={calendarDate.length}
-          calendarDate={calendarDate}
+    <Scheme>
+      <SchemeWrapper>
+        <CardWrapper>
+          <DoctorCard></DoctorCard>
+        </CardWrapper>
+        <CalendarButtonWrapper>
+          <PrevYear onPress={() => yearHandler('prev')}>
+            <PrevIcon source={Prev} />
+            <PrevIcon overlap source={Prev} />
+          </PrevYear>
+          <PrevMonth onPress={() => monthHandler('prev')}>
+            <PrevIcon source={Prev} />
+          </PrevMonth>
+          <MonthInfo>{`${new Date(date.year, date.month - 1).getFullYear()}년 ${
+            new Date(date.year, date.month - 1).getMonth() + 1
+          }월`}</MonthInfo>
+          <NextMonth onPress={() => monthHandler('next')}>
+            <NextIcon source={Next} />
+          </NextMonth>
+          <NextYear onPress={() => yearHandler('next')}>
+            <NextIcon source={Next} />
+            <NextIcon overlap source={Next} />
+          </NextYear>
+        </CalendarButtonWrapper>
+        <WeekInfo>
+          {DAYS.map((day, idx) => (
+            <WeekButton key={idx}>
+              <WeekText>{day}</WeekText>
+            </WeekButton>
+          ))}
+        </WeekInfo>
+        <SelectContext.Provider value={{selectDate, setSelectDate}}>
+          <Calendar
+            dayoff={DAYOFF}
+            weeklength={calendarDate.length}
+            calendarDate={calendarDate}
+          />
+        </SelectContext.Provider>
+      </SchemeWrapper>
+      <TimeTable isShow={selectDate.date !== 0}>
+        <TimeButtonWrapper
+          renderItem={renderItem}
+          data={TIMES.length % 3 === 2 ? TIMES.concat({id: ''}) : TIMES}
+          numColumns={3}
+          columnWrapperStyle={{justifyContent: 'space-between'}}
+          keyExtractor={(item: IdType, index: number) => index.toString()}
         />
-      </SelectContext.Provider>
-    </SchemeWrapper>
+        <TimeTableFooter>해당 시간은 현지시간 기준입니다</TimeTableFooter>
+      </TimeTable>
+    </Scheme>
   );
 }
 
 export default DocScheme;
 
-const SchemeWrapper = styled.View`
+const Scheme = styled.View`
   flex: 1;
+`;
+
+const SchemeWrapper = styled.View`
+  flex: 3;
   padding: 0px 18px 0px;
   background-color: white;
 `;
@@ -223,4 +274,53 @@ const WeekButton = styled.View`
 const WeekText = styled.Text`
   font-size: ${({theme}) => theme.fontRegular};
   color: ${({theme}) => theme.primary};
+`;
+
+const TimeTable = styled.View<{isShow: boolean}>`
+  display: ${({isShow}) => (isShow ? 'flex' : 'none')};
+  flex: 1;
+  height: 360px;
+  padding: 16px 19px 54px;
+  background-color: ${({theme}) => theme.DOCSchemeTimeback};
+`;
+
+const TimeButtonWrapper = styled.FlatList`
+  width: 100%;
+  flex: 1;
+  overflow: hidden; ;
+` as unknown as typeof FlatList;
+
+const TimeButton = styled.Pressable<{disabled: boolean}>`
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 31px;
+  margin-top: 9px;
+  background-color: ${({disabled}) =>
+    disabled ? ({theme}) => theme.DOCSchemeTimeChkback : 'white'};
+  border: 1px solid
+    ${({disabled}) =>
+      disabled
+        ? ({theme}) => theme.DOCSchemeTimeChkBorder
+        : ({theme}) => theme.DOCSchemeTimeBorder};
+  border-radius: 4px;
+`;
+
+const ButtonText = styled.Text<{disabled: boolean}>`
+  color: ${({disabled}) =>
+    disabled
+      ? ({theme}) => theme.DOCSchemeTimeChkFont
+      : ({theme}) => theme.DOCSchemeTimeFont};
+`;
+
+const TimeTableFooter = styled.Text`
+  margin-top: 10.5px;
+  margin-left: 6px;
+  color: ${({theme}) => theme.DOCSchemeFooter};
+  font-size: 11px;
+  line-height: 16.28px;
+`;
+
+const HiddenButton = styled(TimeButton)`
+  opacity: 0;
 `;

@@ -19,7 +19,7 @@ export const AuthContext = createContext<AuthContextType>(initialValue);
 
 type StateType = {isLogIn: boolean; isLoading: boolean};
 type ActionType = {
-  type: 'LOG_IN' | 'LOG_OUT' | 'LOADING' | 'LOADED';
+  type: 'LOG_IN' | 'LOG_OUT' | 'LOADING' | 'LOADED' | 'TOKEN_CHECK';
 };
 
 function reducer(state: StateType, action: ActionType): StateType {
@@ -42,6 +42,12 @@ function reducer(state: StateType, action: ActionType): StateType {
       };
 
     case 'LOADED':
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    case 'TOKEN_CHECK':
       return {
         ...state,
         isLoading: false,
@@ -96,8 +102,9 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
       try {
         const data = await AsyncStorage.getItem('token');
         if (data) {
-          dispatch({type: 'LOADED'});
+          dispatch({type: 'TOKEN_CHECK'});
         }
+        dispatch({type: 'LOADED'});
       } catch (e) {
         throw new Error('token does not exist');
       }

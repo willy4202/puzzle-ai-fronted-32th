@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components/native';
-import {Alert} from 'react-native';
 import logo from 'assets/images/logo.png';
 import closeEye from 'assets/images/ic-close-eye.png';
 import openEye from 'assets/images/ic-open-eye.png';
 import LoginSignupBtn from '@components/LoginSignupBtn';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {config} from '@screens/../config';
+import {AuthContext} from '~/AuthContext';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'Login'>;
 
 function Login({navigation}: NavigationProps) {
   const [isShowPw, setIsShowPw] = useState(true);
-  const [userInfo, setUserInfo] = useState({email: '', pw: ''});
+  const [userInfo, setUserInfo] = useState({email: '', password: ''});
+
+  const {login} = useContext(AuthContext);
 
   useEffect(() => {
     navigation.setOptions({
@@ -31,33 +31,13 @@ function Login({navigation}: NavigationProps) {
     setUserInfo({...userInfo, [type]: text});
   }
 
-  const storeToken = async (key: string, value: string) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (error) {
-      throw new Error('cookie 저장 실패');
-    }
-  };
+  const {email, password} = userInfo;
 
-  const postData = async () => {
-    const response = await fetch(config.check, {
-      method: 'POST',
-      body: JSON.stringify({
-        email: userInfo.email,
-        password: userInfo.pw,
-      }),
-    });
-    const data = await response.json();
-    switch (data.message) {
-      case 'signin success':
-        storeToken('cookie', data.cookie);
-        navigation.navigate('Main');
-        break;
-      case 'please signin on app for doctor':
-        Alert.alert('의사는 전용 앱으로 로그인 해주세요.');
-        break;
-      default:
-        Alert.alert('비밀번호와 이메일을 확인해주세요.');
+  const postLogin = async () => {
+    try {
+      login(email, password);
+    } catch (error) {
+      throw new Error('API fetch error');
     }
   };
 
@@ -86,12 +66,12 @@ function Login({navigation}: NavigationProps) {
             <StyledTextInput
               placeholder="비밀번호를 입력해주세요"
               secureTextEntry={isShowPw}
-              onChangeText={text => userInfoHandler(text, 'pw')}
+              onChangeText={text => userInfoHandler(text, 'password')}
             />
           </InputContainer>
         </FormContainer>
         <BtnContainer>
-          <LoginSignupBtn pressHandler={postData}>로그인</LoginSignupBtn>
+          <LoginSignupBtn pressHandler={postLogin}>로그인</LoginSignupBtn>
         </BtnContainer>
       </ViewContainer>
     </AvoidingView>

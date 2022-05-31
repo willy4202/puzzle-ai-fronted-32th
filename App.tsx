@@ -36,21 +36,21 @@ export type HomeStackParamList = {
 const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
-  const {userState, isLoaded} = useContext(AuthContext);
+  const {userState, loadData} = useContext(AuthContext);
 
   useEffect(() => {
-    isLoaded();
+    loadData();
   }, []);
+
+  if (userState.isLoading) {
+    return <Splash />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            {userState.isLoading && (
-              <Stack.Screen name="Splash" component={Splash} />
-            )}
-
             {userState.isLogIn ? (
               <>
                 <Stack.Screen name="Main" component={Main} />

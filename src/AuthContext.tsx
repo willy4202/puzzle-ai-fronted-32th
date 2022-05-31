@@ -1,24 +1,26 @@
 import React, {createContext, useReducer} from 'react';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {config} from '@screens/../config';
+import {config} from '~/config';
 
 type AuthContextType = {
   userState: {isLogIn: boolean; isLoading: boolean};
   login: (email: string, pw: string) => void;
-  isLoaded: () => void;
+  loadData: () => void;
 };
 
 const initialValue = {
   userState: {isLogIn: false, isLoading: true},
   login: () => {},
-  isLoaded: () => {},
+  loadData: () => {},
 };
 
 export const AuthContext = createContext<AuthContextType>(initialValue);
 
 type StateType = {isLogIn: boolean; isLoading: boolean};
-type ActionType = {type: 'LOG_IN' | 'LOG_OUT' | 'LOADED'};
+type ActionType = {
+  type: 'LOG_IN' | 'LOG_OUT' | 'LOADING' | 'LOADED';
+};
 
 function reducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
@@ -33,11 +35,19 @@ function reducer(state: StateType, action: ActionType): StateType {
         isLogIn: false,
       };
 
+    case 'LOADING':
+      return {
+        ...state,
+        isLoading: true,
+      };
+
     case 'LOADED':
       return {
         ...state,
         isLoading: false,
       };
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
   }
 }
 
@@ -80,11 +90,16 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
           break;
       }
     },
-    isLoaded: async () => {
-      const checkToken = await AsyncStorage.getItem('token');
-      console.log(checkToken);
-      if (checkToken !== null) {
-        dispatch({type: 'LOADED'});
+
+    loadData: async () => {
+      dispatch({type: 'LOADING'});
+      try {
+        const data = await AsyncStorage.getItem('token');
+        if (data) {
+          dispatch({type: 'LOADED'});
+        }
+      } catch (e) {
+        throw new Error('token does not exist');
       }
     },
     userState,

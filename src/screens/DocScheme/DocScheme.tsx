@@ -11,6 +11,15 @@ import {SelectContext} from '../../ReservationContext';
 
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
+const TIMES: string[] = [
+  '10:00',
+  '10:30',
+  '12:00',
+  '13:00',
+  '14:00',
+  '15:00',
+  '16:00',
+];
 
 function DocScheme({navigation}: DocSchemeNavigationProps) {
   const [calendarDate, setCalendarDate] = useState<NewDate[]>([]);
@@ -160,8 +169,12 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
 
 export default DocScheme;
 
-const SchemeWrapper = styled.View`
+const Scheme = styled.View`
   flex: 1;
+`;
+
+const SchemeWrapper = styled.View`
+  flex: 3;
   padding: 0px 18px 0px;
   background-color: white;
 `;
@@ -225,3 +238,40 @@ const WeekText = styled.Text`
   font-size: ${({theme}) => theme.fontRegular};
   color: ${({theme}) => theme.primary};
 `;
+
+const TimeTable = styled.View`
+  flex: 1;
+  height: 360px;
+  padding: 16px 19px 54px;
+  background-color: ${({theme}) => theme.DOCSchemeTimeback};
+`;
+
+const TimeButtonWrapper = styled.View`
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
+const TimeButton = styled.Pressable`
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 31px;
+  margin-top: 9px;
+  border: 1px solid ${({theme}) => theme.DOCSchemeTimeBorder};
+  border-radius: 4px;
+`;
+
+const ButtonText = styled.Text`
+  color: ${({theme}) => theme.DOCSchemeTimeFont};
+`;
+
+const TimeTableFooter = styled.Text`
+  margin-left: 6px;
+  color: ${({theme}) => theme.DOCSchemeFooter};
+  font-size: 11px;
+  line-height: 16.28px;
+`;
+
+const TimeButtona = styled(TimeButton)``;

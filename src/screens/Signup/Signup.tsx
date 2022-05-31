@@ -1,16 +1,9 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import styled from 'styled-components/native';
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  TextInput,
-  Platform,
-  Alert,
-} from 'react-native';
+import {Alert} from 'react-native';
 import InputWrapper from '@components/InputWrapper';
 import PasswordWrapper from '@components/PasswordWrapper';
-import {UserData} from '~/types/type';
+import {UserData} from '~/src/types/type';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
 import LoginSignupBtn from '@components/LoginSignupBtn';

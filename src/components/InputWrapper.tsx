@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {Text, View, TextInput} from 'react-native';
-import {UserData, InputProps} from '~/types/type';
+import {UserData, InputProps} from '~/src/types/type';
 
 function InputWrapper({children, type, setUserData}: InputProps) {
   const inputHandler = (text: string, type: string) => {

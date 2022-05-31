@@ -52,7 +52,11 @@ function App() {
             <Stack.Screen name="DocList" component={DocList} />
             <Stack.Screen name="DocScheme" component={DocScheme} />
             <Stack.Screen name="REZList" component={REZList} />
-            <Stack.Screen name="MakeREZ" component={MakeREZ} />
+            <Stack.Screen
+              name="MakeREZ"
+              component={MakeREZ}
+              options={{title: '진료예약'}}
+            />
             <Stack.Screen name="REZSubmit" component={REZSubmit} />
             <Stack.Screen name="REZDetail" component={REZDetail} />
           </Stack.Navigator>

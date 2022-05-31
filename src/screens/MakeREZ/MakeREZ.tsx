@@ -2,8 +2,11 @@ import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '~/../App';
-import {Text, TextInput, View} from 'react-native';
+import {} from 'react-native';
 import DoctorCard from '~/components/DoctorCard';
+import TimeView from './TimeView/TimeView';
+import SymptomView from './SymptomView/SymptomView';
+import ImagePicker from './ImagePicker/ImagePicker';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
 
@@ -13,26 +16,13 @@ function MakeREZ() {
       <DoctorView>
         <DoctorCard />
       </DoctorView>
-      <TimeView>
-        <ViewTitle>예약시간</ViewTitle>
-        <SelectTimeWrapper>
-          <SelectTimeText>2020-07-24(금) 오후 3:00 </SelectTimeText>
-        </SelectTimeWrapper>
-      </TimeView>
-      <SymptomView>
-        <ViewTitle>증상 입력</ViewTitle>
-        <View>
-          <SymptomInput multiline={true} placeholder="증상을 입력해주세요" />
-        </View>
-      </SymptomView>
-      <ImageView>
-        <ViewTitle>환부 사진 업로드(선택)</ViewTitle>
-        <View>
-          <TextInput>imagePicker</TextInput>
-        </View>
-      </ImageView>
+      <TimeView />
+      <SymptomView />
+      <ImagePicker />
       <ButtonWrapper>
-        <Text>hi</Text>
+        <SubmitBtn>
+          <BtnText>진료예약</BtnText>
+        </SubmitBtn>
       </ButtonWrapper>
     </Container>
   );
@@ -50,49 +40,25 @@ const DoctorView = styled.View`
   flex: 1;
 `;
 
-const TimeView = styled.View`
-  flex: 1;
-`;
-
-const SymptomView = styled.View`
-  flex: 3;
-
-  margin-top: 15px;
-`;
-
-const ImageView = styled.View`
-  flex: 2;
-  background-color: red;
-`;
-
 const ButtonWrapper = styled.View`
   flex: 1;
-  background-color: yellow;
+  width: 100%;
+  padding: 0 15px;
 `;
 
-const ViewTitle = styled.Text`
-  color: ${({theme}) => theme.primary};
-  font-size: ${({theme}) => theme.fontRegular};
-  line-height: ${({theme}) => theme.lineHeightRegular};
-  margin: 0 18px 0 18px;
-`;
-
-const SelectTimeWrapper = styled.View`
+const SubmitBtn = styled.Pressable`
+  width: 100%;
+  height: 52px;
+  border-radius: 8px;
+  align-self: center;
   justify-content: center;
-  background-color: ${({theme}) => theme.MakeREZTimeBack};
-  height: 60%;
-  margin: 5px 18px 0 18px;
+  align-items: center;
+  background-color: ${({theme}) => theme.primary};
 `;
 
-const SelectTimeText = styled.Text`
-  color: ${({theme}) => theme.MakeREZInputFont};
-  margin-left: 10px;
-`;
-
-const SymptomInput = styled.TextInput`
-  height: 90%;
-  color: ${({theme}) => theme.MakeREZInputFont};
-  background-color: ${({theme}) => theme.MakeREZTimeBack};
-  margin: 5px 18px 0 18px;
-  padding: 10px;
+const BtnText = styled.Text`
+  color: white;
+  font-size: ${({theme}) => theme.fontMedium};
+  line-height: ${({theme}) => theme.lineHeightLarge};
+  font-weight: ${({theme}) => theme.weightRegular};
 `;

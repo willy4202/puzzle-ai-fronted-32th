@@ -1,14 +1,11 @@
 import React from 'react';
 import {Text, View, Button} from 'react-native';
 
-function Splash({navigation}: any) {
+function Splash() {
   return (
     <View>
       <Text>Main</Text>
-      <Button
-        title="go to Entry"
-        onPress={() => navigation.navigate('Entry')}
-      />
+      <Button title="go to Entry" />
     </View>
   );
 }

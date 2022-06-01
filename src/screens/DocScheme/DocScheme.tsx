@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, Image, Pressable} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/types/type';
@@ -8,6 +8,7 @@ import CalendarButton from '@components/CalendarButton';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
+import {SelectContext} from '~/SelectContext';
 
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -19,6 +20,13 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     date: 0,
     day: 0,
   });
+  const [selectDate, setSelectDate] = useState({
+    year: 0,
+    month: 0,
+    date: 0,
+    day: 0,
+  });
+
   useEffect(() => {
     navigation.setOptions({
       title: '홍정의선생님',
@@ -135,12 +143,17 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       </CalendarButtonWrapper>
       <WeekInfo>
         {DAYS.map((day, idx) => (
-          <CalendarButton key={idx} type="week">
+          <WeekButton key={idx} type="week">
             {day}
-          </CalendarButton>
+          </WeekButton>
         ))}
       </WeekInfo>
-      <Calendar isLastWeek={calendarDate.length} calendarDate={calendarDate} />
+      <SelectContext.Provider value={{selectDate, setSelectDate}}>
+        <Calendar
+          isLastWeek={calendarDate.length}
+          calendarDate={calendarDate}
+        />
+      </SelectContext.Provider>
     </SchemeWrapper>
   );
 }
@@ -200,3 +213,5 @@ const WeekInfo = styled.View`
   justify-content: space-evenly;
   margin-top: 38px;
 `;
+
+const WeekButton = styled(CalendarButton)``;

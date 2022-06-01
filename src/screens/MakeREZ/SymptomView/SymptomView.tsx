@@ -8,7 +8,6 @@ interface Props {
 }
 
 function SymptomView({symptomText, setSymptomText}: Props) {
-  console.log(symptomText);
   return (
     <ViewContainer>
       <ViewTitle>증상 입력</ViewTitle>

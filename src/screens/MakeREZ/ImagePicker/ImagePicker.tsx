@@ -1,7 +1,7 @@
-import {Pressable, Text, View} from 'react-native';
+import {Pressable, Text, View, TouchableHighlight} from 'react-native';
 import React, {SetStateAction} from 'react';
 import styled from 'styled-components/native';
-import testImg from 'assets/images/ic-close-eye.png';
+import testImg from 'assets/images/reservation-photo-icon.png';
 import {
   launchImageLibrary,
   ImageLibraryOptions,
@@ -33,11 +33,9 @@ function ImagePicker({selectImage, setSelectImage}: Props) {
     const result = await launchImageLibrary(options);
     setSelectImage(result.assets);
   };
-  // console.log('stateImg', selectImage);
 
   const handleDelete = e => {
-    // const deleteImg = selectImage.filter()
-    console.log(e.target._nativeTag);
+    setSelectImage(selectImage.filter(item => item.fileName !== e));
   };
 
   return (
@@ -45,19 +43,19 @@ function ImagePicker({selectImage, setSelectImage}: Props) {
       <ViewTitle>환부 사진 업로드(선택)</ViewTitle>
       <ImageContainer>
         {selectImage.map(item => (
-          <View key={item.fileName}>
-            <Pressable onPress={e => handleDelete(e)}>
-              <Text>hi</Text>
-            </Pressable>
-            <TestView>
+          <SelectImgWrapper key={item.fileName}>
+            <DeleteWrapper onPress={() => handleDelete(item.fileName)}>
+              <DeleteImg source={testImg} />
+            </DeleteWrapper>
+            <ImageWrapper>
               <TestImage source={item} />
-            </TestView>
-          </View>
+            </ImageWrapper>
+          </SelectImgWrapper>
         ))}
         {selectImage.length < 3 && (
-          <TestView onPress={openGallery}>
-            <TestImage source={testImg} />
-          </TestView>
+          <ImageWrapper onPress={openGallery}>
+            <CameraLogo source={testImg} />
+          </ImageWrapper>
         )}
       </ImageContainer>
     </ImageView>
@@ -80,17 +78,50 @@ const ViewTitle = styled.Text`
 const ImageContainer = styled.View`
   flex: 1;
   flex-direction: row;
-  margin: 15px;
-  background-color: yellowgreen;
+  padding: 4% 2%;
   align-items: center;
+  height: 100%;
+  width: 33%;
 `;
 
-const TestView = styled.Pressable`
+const ImageWrapper = styled.Pressable`
   height: 100%;
-  width: 120px;
+  width: 100%;
+  margin: 0 4px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({theme}) => theme.MakeREZInputBack};
+`;
+
+const SelectImgWrapper = styled.View`
+  height: 100%;
+  width: 100%;
+  margin: 5px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: ${({theme}) => theme.MakeREZInputBack};
 `;
 
 const TestImage = styled.Image`
   height: 100%;
   width: 100%;
+`;
+
+const CameraLogo = styled.Image`
+  height: 24%;
+  width: 27%;
+`;
+
+const DeleteWrapper = styled.TouchableOpacity`
+  position: relative;
+  width: 100%;
+  z-index: 10;
+`;
+
+const DeleteImg = styled.Image`
+  position: absolute;
+  top: 10px;
+  right: 6%;
+  z-index: 20;
 `;

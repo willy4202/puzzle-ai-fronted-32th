@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '~/../App';
-import {} from 'react-native';
 import DoctorCard from '~/components/DoctorCard';
 import TimeView from './TimeView/TimeView';
 import SymptomView from './SymptomView/SymptomView';

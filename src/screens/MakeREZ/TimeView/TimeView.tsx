@@ -22,7 +22,7 @@ const ViewTitle = styled.Text`
   color: ${({theme}) => theme.primary};
   font-size: ${({theme}) => theme.fontRegular};
   line-height: ${({theme}) => theme.lineHeightRegular};
-  margin: 0 18px 0 18px;
+  margin-horizontal: 18px;
 `;
 
 const SelectTimeWrapper = styled.View`

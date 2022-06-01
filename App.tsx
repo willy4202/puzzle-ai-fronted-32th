@@ -51,13 +51,13 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            {userState.isLogIn ? (
+            {!userState.isLogIn ? (
               <>
+                <Stack.Screen name="MakeREZ" component={MakeREZ} />
                 <Stack.Screen name="Main" component={Main} />
                 <Stack.Screen name="DocList" component={DocList} />
                 <Stack.Screen name="DocScheme" component={DocScheme} />
                 <Stack.Screen name="REZList" component={REZList} />
-                <Stack.Screen name="MakeREZ" component={MakeREZ} />
                 <Stack.Screen name="REZSubmit" component={REZSubmit} />
                 <Stack.Screen name="REZDetail" component={REZDetail} />
               </>

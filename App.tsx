@@ -50,14 +50,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer>
-<<<<<<< HEAD
-<<<<<<< HEAD
           <Stack.Navigator>
             {userState.isLogIn ? (
-=======
-          <Stack.Navigator initialRouteName="DocScheme">
-            {!userState.isLogIn ? (
->>>>>>> 3476df1 (작업중)
               <>
                 <Stack.Screen name="Main" component={Main} />
                 <Stack.Screen name="DocList" component={DocList} />
@@ -74,24 +68,6 @@ function App() {
                 <Stack.Screen name="Signup" component={Signup} />
               </>
             )}
-=======
-          <Stack.Navigator initialRouteName="DocScheme">
-            <Stack.Screen name="Splash" component={Splash} />
-            <Stack.Screen
-              name="Entry"
-              component={Entry}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Signup" component={Signup} />
-            <Stack.Screen name="Main" component={Main} />
-            <Stack.Screen name="DocList" component={DocList} />
-            <Stack.Screen name="DocScheme" component={DocScheme} />
-            <Stack.Screen name="REZList" component={REZList} />
-            <Stack.Screen name="MakeREZ" component={MakeREZ} />
-            <Stack.Screen name="REZSubmit" component={REZSubmit} />
-            <Stack.Screen name="REZDetail" component={REZDetail} />
->>>>>>> e8fe7bf (스케쥴화면UI)
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

@@ -48,7 +48,6 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     const prevLastDate = getNewDate(
       new Date(selectFirstDate.year, selectFirstDate.month - 1, 0),
     );
-
     let emptyDate =
       prevLastDate.day === 6
         ? new Array(0)
@@ -73,7 +72,6 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     let thisMonthDate = emptyDate.concat(
       realDate.filter(el => el.month === selectFirstDate.month),
     );
-
     let result =
       thisMonthDate.length % 7 === 0
         ? thisMonthDate

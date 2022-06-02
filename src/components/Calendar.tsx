@@ -6,10 +6,10 @@ import {SelectContext} from '../ReservationContext';
 
 function Calendar({
   calendarDate,
-  isLastWeek,
+  weeklength,
 }: {
   calendarDate: NewDate[];
-  isLastWeek: number;
+  weeklength: number;
 }) {
   const {selectDate} = useContext(SelectContext);
   return (
@@ -54,7 +54,7 @@ function Calendar({
           </CalendarButton>
         ))}
       </FourthWeek>
-      {isLastWeek !== 28 && (
+      {weeklength !== 28 && (
         <>
           <FifthWeek>
             {calendarDate.slice(28, 35).map((date: NewDate, idx: number) => (
@@ -68,7 +68,7 @@ function Calendar({
               </CalendarButton>
             ))}
           </FifthWeek>
-          {isLastWeek === 42 && (
+          {weeklength === 42 && (
             <LastWeek>
               {calendarDate.slice(35, 42).map((date: NewDate, idx: number) => (
                 <CalendarButton

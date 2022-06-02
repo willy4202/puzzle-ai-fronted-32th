@@ -6,9 +6,9 @@ import {SelectContext} from '../ReservationContext';
 import {NewDate} from '~/src/types/type';
 
 interface CalBtnProps {
-  children: string | number;
-  isChecked?: boolean;
-  dateInfo?: NewDate;
+  children: number;
+  isChecked: boolean;
+  dateInfo: NewDate;
 }
 
 function CalendarButton({

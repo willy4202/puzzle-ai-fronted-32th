@@ -4,7 +4,6 @@ import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
 import {DocSchemeNavigationProps} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
-import CalendarButton from '@components/CalendarButton';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
@@ -151,7 +150,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       </WeekInfo>
       <SelectContext.Provider value={{selectDate, setSelectDate}}>
         <Calendar
-          isLastWeek={calendarDate.length}
+          weeklength={calendarDate.length}
           calendarDate={calendarDate}
         />
       </SelectContext.Provider>

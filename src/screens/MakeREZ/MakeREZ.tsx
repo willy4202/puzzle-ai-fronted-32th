@@ -3,16 +3,20 @@ import styled, {css} from 'styled-components/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '~/../App';
 import DoctorCard from '~/components/DoctorCard';
-import TimeView from './TimeView/TimeView';
-import SymptomView from './SymptomView/SymptomView';
-import ImagePicker from './ImagePicker/ImagePicker';
-// import {BackHandler} from 'react-native';
+import TimeView from './TimeView';
+import SymptomView from './SymptomView';
+import ImagePicker from './ImagePicker';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
 
 function MakeREZ() {
   const [selectImage, setSelectImage] = useState([]);
   const [symptomText, setSymptomText] = useState('');
+
+  const postData = () => {
+    console.log('image', selectImage);
+    console.log('증상', symptomText);
+  };
 
   return (
     <Container>
@@ -23,7 +27,7 @@ function MakeREZ() {
       <SymptomView symptomText={symptomText} setSymptomText={setSymptomText} />
       <ImagePicker selectImage={selectImage} setSelectImage={setSelectImage} />
       <ButtonWrapper>
-        <SubmitBtn disabled={!symptomText}>
+        <SubmitBtn onPress={postData} disabled={!symptomText}>
           <BtnText>진료예약</BtnText>
         </SubmitBtn>
       </ButtonWrapper>

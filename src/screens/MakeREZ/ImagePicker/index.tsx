@@ -6,14 +6,7 @@ import {
   launchImageLibrary,
   ImageLibraryOptions,
 } from 'react-native-image-picker';
-
-type OptionType = {
-  maxHeight: number;
-  maxWidth: number;
-  selectionLimit: number;
-  mediaType: string;
-  includeBase64: boolean;
-};
+import {SelectImage} from 'types/type';
 
 const options: ImageLibraryOptions = {
   maxHeight: 200,
@@ -24,8 +17,8 @@ const options: ImageLibraryOptions = {
 };
 
 interface Props {
-  selectImage: [];
-  setSelectImage: React.Dispatch<SetStateAction<Array[]>>;
+  selectImage: SelectImage[];
+  setSelectImage: React.Dispatch<SetStateAction<SelectImage[]>>;
 }
 
 function ImagePicker({selectImage, setSelectImage}: Props) {
@@ -34,7 +27,7 @@ function ImagePicker({selectImage, setSelectImage}: Props) {
     setSelectImage(prev => [...prev, ...result.assets]);
   };
 
-  const handleDelete = (name: string) => {
+  const handleDelete = (name: string): void => {
     setSelectImage(selectImage.filter(item => item.fileName !== name));
   };
 
@@ -42,7 +35,7 @@ function ImagePicker({selectImage, setSelectImage}: Props) {
     <ImageView>
       <ViewTitle>환부 사진 업로드(선택)</ViewTitle>
       <ImageContainer>
-        {selectImage.map(item => (
+        {selectImage.map((item: SelectImage) => (
           <SelectImgWrapper key={item.fileName}>
             <DeleteWrapper onPress={() => handleDelete(item.fileName)}>
               <DeleteImg source={deleteBtn} />

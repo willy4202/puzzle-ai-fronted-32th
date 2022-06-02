@@ -13,3 +13,12 @@ export interface InputProps {
   setUserData: Dispatch<SetStateAction<UserData>>;
   type: string;
 }
+
+export interface SelectImage {
+  type: string;
+  fileName: string;
+  widht?: number;
+  height?: number;
+  fileSize?: number;
+  uri: string;
+}

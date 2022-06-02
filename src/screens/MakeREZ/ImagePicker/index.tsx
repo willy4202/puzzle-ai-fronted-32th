@@ -1,7 +1,7 @@
-import {Pressable, Text, View, TouchableHighlight} from 'react-native';
 import React, {SetStateAction} from 'react';
 import styled from 'styled-components/native';
-import testImg from 'assets/images/reservation-photo-icon.png';
+import cameraImg from 'assets/images/reservation-photo-icon.png';
+import deleteBtn from 'assets/images/delet-btn.png';
 import {
   launchImageLibrary,
   ImageLibraryOptions,
@@ -25,17 +25,17 @@ const options: ImageLibraryOptions = {
 
 interface Props {
   selectImage: [];
-  setSelectImage: React.Dispatch<SetStateAction<never[]>>;
+  setSelectImage: React.Dispatch<SetStateAction<Array[]>>;
 }
 
 function ImagePicker({selectImage, setSelectImage}: Props) {
   const openGallery = async () => {
     const result = await launchImageLibrary(options);
-    setSelectImage(result.assets);
+    setSelectImage(prev => [...prev, ...result.assets]);
   };
 
-  const handleDelete = e => {
-    setSelectImage(selectImage.filter(item => item.fileName !== e));
+  const handleDelete = (name: string) => {
+    setSelectImage(selectImage.filter(item => item.fileName !== name));
   };
 
   return (
@@ -45,7 +45,7 @@ function ImagePicker({selectImage, setSelectImage}: Props) {
         {selectImage.map(item => (
           <SelectImgWrapper key={item.fileName}>
             <DeleteWrapper onPress={() => handleDelete(item.fileName)}>
-              <DeleteImg source={testImg} />
+              <DeleteImg source={deleteBtn} />
             </DeleteWrapper>
             <ImageWrapper>
               <TestImage source={item} />
@@ -54,7 +54,7 @@ function ImagePicker({selectImage, setSelectImage}: Props) {
         ))}
         {selectImage.length < 3 && (
           <ImageWrapper onPress={openGallery}>
-            <CameraLogo source={testImg} />
+            <CameraLogo source={cameraImg} />
           </ImageWrapper>
         )}
       </ImageContainer>

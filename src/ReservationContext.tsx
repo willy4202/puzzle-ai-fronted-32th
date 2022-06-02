@@ -1,5 +1,5 @@
 import React, {createContext} from 'react';
-import {NewDate} from '~/types/type';
+import {NewDate} from '~/src/types/type';
 
 interface SelectProps {
   selectDate: NewDate;

@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import styled from 'styled-components/native';
 import CalendarButton from '@components/CalendarButton';
 import {NewDate} from '~/src/types/type';
-import {SelectContext} from '~/src/SelectContext';
+import {SelectContext} from '../ReservationContext';
 
 function Calendar({
   calendarDate,
@@ -19,7 +19,7 @@ function Calendar({
         {calendarDate.slice(0, 7).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
-            isChecked={date.date === selectDate.date}
+            isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             type="date"
             dateInfo={date}>
             {date.date}
@@ -30,7 +30,7 @@ function Calendar({
         {calendarDate.slice(7, 14).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
-            isChecked={date.date === selectDate.date}
+            isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             type="date"
             dateInfo={date}>
             {date.date}
@@ -41,7 +41,7 @@ function Calendar({
         {calendarDate.slice(14, 21).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
-            isChecked={date.date === selectDate.date}
+            isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             type="date"
             dateInfo={date}>
             {date.date}
@@ -52,7 +52,7 @@ function Calendar({
         {calendarDate.slice(21, 28).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
-            isChecked={date.date === selectDate.date}
+            isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             type="date"
             dateInfo={date}>
             {date.date}
@@ -65,7 +65,9 @@ function Calendar({
             {calendarDate.slice(28, 35).map((date: NewDate, idx: number) => (
               <CalendarButton
                 key={idx}
-                isChecked={date.date === selectDate.date}
+                isChecked={
+                  selectDate.date !== 0 && date.date === selectDate.date
+                }
                 type="date"
                 dateInfo={date}>
                 {date.date}
@@ -77,7 +79,9 @@ function Calendar({
               {calendarDate.slice(35, 42).map((date: NewDate, idx: number) => (
                 <CalendarButton
                   key={idx}
-                  isChecked={date.date === selectDate.date}
+                  isChecked={
+                    selectDate.date !== 0 && date.date === selectDate.date
+                  }
                   type="date"
                   dateInfo={date}>
                   {date.date}

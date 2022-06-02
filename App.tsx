@@ -50,8 +50,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator>
-            {userState.isLogIn ? (
+          <Stack.Navigator initialRouteName="DocScheme">
+            {!userState.isLogIn ? (
               <>
                 <Stack.Screen name="Main" component={Main} />
                 <Stack.Screen name="DocList" component={DocList} />

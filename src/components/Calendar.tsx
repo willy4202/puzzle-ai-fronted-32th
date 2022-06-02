@@ -19,7 +19,6 @@ function Calendar({
           <CalendarButton
             key={idx}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
-            type="date"
             dateInfo={date}>
             {date.date}
           </CalendarButton>
@@ -30,7 +29,6 @@ function Calendar({
           <CalendarButton
             key={idx}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
-            type="date"
             dateInfo={date}>
             {date.date}
           </CalendarButton>
@@ -41,7 +39,6 @@ function Calendar({
           <CalendarButton
             key={idx}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
-            type="date"
             dateInfo={date}>
             {date.date}
           </CalendarButton>
@@ -52,7 +49,6 @@ function Calendar({
           <CalendarButton
             key={idx}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
-            type="date"
             dateInfo={date}>
             {date.date}
           </CalendarButton>
@@ -67,7 +63,6 @@ function Calendar({
                 isChecked={
                   selectDate.date !== 0 && date.date === selectDate.date
                 }
-                type="date"
                 dateInfo={date}>
                 {date.date}
               </CalendarButton>
@@ -81,7 +76,6 @@ function Calendar({
                   isChecked={
                     selectDate.date !== 0 && date.date === selectDate.date
                   }
-                  type="date"
                   dateInfo={date}>
                   {date.date}
                 </CalendarButton>

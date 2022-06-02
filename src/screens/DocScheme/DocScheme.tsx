@@ -126,7 +126,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       <CalendarButtonWrapper>
         <PrevYear onPress={() => yearHandler('prev')}>
           <PrevIcon source={Prev} />
-          <PrevIcon overlap={true} source={Prev} />
+          <PrevIcon overlap source={Prev} />
         </PrevYear>
         <PrevMonth onPress={() => monthHandler('prev')}>
           <PrevIcon source={Prev} />
@@ -139,14 +139,14 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
         </NextMonth>
         <NextYear onPress={() => yearHandler('next')}>
           <NextIcon source={Next} />
-          <NextIcon overlap={true} source={Next} />
+          <NextIcon overlap source={Next} />
         </NextYear>
       </CalendarButtonWrapper>
       <WeekInfo>
         {DAYS.map((day, idx) => (
-          <CalendarButton key={idx} type="week">
-            {day}
-          </CalendarButton>
+          <WeekButton key={idx}>
+            <WeekText>{day}</WeekText>
+          </WeekButton>
         ))}
       </WeekInfo>
       <SelectContext.Provider value={{selectDate, setSelectDate}}>
@@ -213,4 +213,16 @@ const WeekInfo = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
   margin-top: 38px;
+`;
+
+const WeekButton = styled.View`
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+`;
+
+const WeekText = styled.Text`
+  font-size: ${({theme}) => theme.fontRegular};
+  color: ${({theme}) => theme.primary};
 `;

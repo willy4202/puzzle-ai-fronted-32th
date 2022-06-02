@@ -3,9 +3,9 @@ import styled from 'styled-components/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from 'App';
 import DoctorCard from '@components/DoctorCard';
-import TimeView from './TimeView/TimeView';
-import SymptomView from './SymptomView/SymptomView';
-import ImagePicker from './ImagePicker/ImagePicker';
+import TimeView from './TimeView';
+import SymptomView from './SymptomView';
+import ImagePicker from './ImagePicker';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
 

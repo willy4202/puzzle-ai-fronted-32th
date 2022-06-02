@@ -7,7 +7,7 @@ function SymptomView() {
     <ViewContainer>
       <ViewTitle>증상 입력</ViewTitle>
       <View>
-        <SymptomInput multiline={true} placeholder="증상을 입력해주세요" />
+        <SymptomInput multiline placeholder="증상을 입력해주세요" />
       </View>
     </ViewContainer>
   );

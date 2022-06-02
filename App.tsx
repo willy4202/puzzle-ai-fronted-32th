@@ -14,10 +14,10 @@ import REZDetail from '@screens/REZDetail/REZDetail';
 import REZSubmit from '@screens/REZSubmit/REZSubmit';
 import Signup from '@screens/Signup/Signup';
 import Splash from '@screens/Splash/Splash';
-import {AuthContext} from '~/AuthContext';
+import {AuthContext} from './src/AuthContext';
 
 import {ThemeProvider} from 'styled-components';
-import theme from '~/styles/theme';
+import theme from './src/styles/theme';
 
 export type HomeStackParamList = {
   Splash: undefined;
@@ -51,13 +51,13 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            {!userState.isLogIn ? (
+            {userState.isLogIn ? (
               <>
-                <Stack.Screen name="MakeREZ" component={MakeREZ} />
                 <Stack.Screen name="Main" component={Main} />
                 <Stack.Screen name="DocList" component={DocList} />
                 <Stack.Screen name="DocScheme" component={DocScheme} />
                 <Stack.Screen name="REZList" component={REZList} />
+                <Stack.Screen name="MakeREZ" component={MakeREZ} />
                 <Stack.Screen name="REZSubmit" component={REZSubmit} />
                 <Stack.Screen name="REZDetail" component={REZDetail} />
               </>

@@ -10,11 +10,9 @@ import ImagePicker from './ImagePicker';
 type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
 
 function MakeREZ() {
-  const [selectImage, setSelectImage] = useState([]);
   const [symptomText, setSymptomText] = useState('');
 
   const postData = () => {
-    console.log('image', selectImage);
     console.log('증상', symptomText);
   };
 
@@ -25,7 +23,7 @@ function MakeREZ() {
       </DoctorView>
       <TimeView />
       <SymptomView symptomText={symptomText} setSymptomText={setSymptomText} />
-      <ImagePicker selectImage={selectImage} setSelectImage={setSelectImage} />
+      <ImagePicker />
       <ButtonWrapper>
         <SubmitBtn onPress={postData} disabled={!symptomText}>
           <BtnText>진료예약</BtnText>

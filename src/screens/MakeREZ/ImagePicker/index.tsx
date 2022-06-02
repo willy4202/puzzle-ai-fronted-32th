@@ -1,10 +1,11 @@
-import React, {SetStateAction} from 'react';
+import React, {useState, SetStateAction} from 'react';
 import styled from 'styled-components/native';
 import cameraImg from 'assets/images/reservation-photo-icon.png';
 import deleteBtn from 'assets/images/delet-btn.png';
 import {
   launchImageLibrary,
   ImageLibraryOptions,
+  Asset,
 } from 'react-native-image-picker';
 import {SelectImage} from 'types/type';
 
@@ -21,14 +22,20 @@ interface Props {
   setSelectImage: React.Dispatch<SetStateAction<SelectImage[]>>;
 }
 
-function ImagePicker({selectImage, setSelectImage}: Props) {
+function ImagePicker() {
+  const [selectImage, setSelectImage] = useState([]);
+
   const openGallery = async () => {
     const result = await launchImageLibrary(options);
-    setSelectImage(prev => [...prev, ...result.assets]);
+    const spreadArray = [...selectImage, ...result.assets];
+    // setSelectImage(prev => [...prev, ...result.assets]);
+    setSelectImage(spreadArray);
   };
 
   const handleDelete = (name: string): void => {
-    setSelectImage(selectImage.filter(item => item.fileName !== name));
+    setSelectImage(
+      selectImage.filter((item: SelectImage) => item.fileName !== name),
+    );
   };
 
   return (
@@ -41,7 +48,7 @@ function ImagePicker({selectImage, setSelectImage}: Props) {
               <DeleteImg source={deleteBtn} />
             </DeleteWrapper>
             <ImageWrapper>
-              <TestImage source={item} />
+              <SpreadImg source={item} />
             </ImageWrapper>
           </SelectImgWrapper>
         ))}
@@ -96,7 +103,7 @@ const SelectImgWrapper = styled.View`
   background-color: ${({theme}) => theme.MakeREZInputBack};
 `;
 
-const TestImage = styled.Image`
+const SpreadImg = styled.Image`
   height: 100%;
   width: 100%;
 `;

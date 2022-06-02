@@ -5,9 +5,8 @@ import deleteBtn from 'assets/images/delet-btn.png';
 import {
   launchImageLibrary,
   ImageLibraryOptions,
-  Asset,
 } from 'react-native-image-picker';
-import {SelectImage} from 'types/type';
+import {SelectImage} from '@types/type/type';
 
 const options: ImageLibraryOptions = {
   maxHeight: 200,

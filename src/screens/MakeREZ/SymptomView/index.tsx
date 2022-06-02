@@ -13,7 +13,7 @@ function SymptomView({symptomText, setSymptomText}: Props) {
       <ViewTitle>증상 입력</ViewTitle>
       <View>
         <SymptomInput
-          multiline={true}
+          multiline
           placeholder="증상을 입력해주세요"
           onChangeText={text => setSymptomText(text)}
           autoCapitalize="none"

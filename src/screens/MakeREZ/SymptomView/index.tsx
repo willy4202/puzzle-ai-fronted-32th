@@ -3,11 +3,10 @@ import React, {SetStateAction} from 'react';
 import styled from 'styled-components/native';
 
 interface Props {
-  symptomText: string;
   setSymptomText: React.Dispatch<SetStateAction<string>>;
 }
 
-function SymptomView({symptomText, setSymptomText}: Props) {
+function SymptomView({setSymptomText}: Props) {
   return (
     <ViewContainer>
       <ViewTitle>증상 입력</ViewTitle>

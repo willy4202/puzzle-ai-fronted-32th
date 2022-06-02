@@ -1,5 +1,5 @@
 import {AppRegistry} from 'react-native';
-import {AuthProvider} from '~/AuthContext';
+import {AuthProvider} from '~/src/AuthContext';
 import App from './App';
 import React from 'react';
 import {name as appName} from './app.json';

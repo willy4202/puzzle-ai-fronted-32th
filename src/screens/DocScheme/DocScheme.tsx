@@ -4,10 +4,10 @@ import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
 import {DocSchemeNavigationProps} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
-import CalendarButton from '@components/CalendarButton';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
+import {SelectContext} from '../../ReservationContext';
 
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
@@ -19,6 +19,12 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     month: TODAY.getMonth() + 1,
     date: TODAY.getDate(),
     day: TODAY.getDay(),
+  });
+  const [selectDate, setSelectDate] = useState({
+    year: 0,
+    month: 0,
+    date: 0,
+    day: 0,
   });
 
   useEffect(() => {
@@ -88,12 +94,24 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   };
 
   const monthHandler = (direction: string) => {
+    setSelectDate({
+      year: 0,
+      month: 0,
+      date: 0,
+      day: 0,
+    });
     direction === 'prev'
       ? setDate(prev => ({...prev, month: date.month - 1}))
       : setDate(prev => ({...prev, month: date.month + 1}));
   };
 
   const yearHandler = (direction: string) => {
+    setSelectDate({
+      year: 0,
+      month: 0,
+      date: 0,
+      day: 0,
+    });
     direction === 'prev'
       ? setDate(prev => ({...prev, year: date.year - 1}))
       : setDate(prev => ({...prev, year: date.year + 1}));
@@ -107,7 +125,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       <CalendarButtonWrapper>
         <PrevYear onPress={() => yearHandler('prev')}>
           <PrevIcon source={Prev} />
-          <PrevIcon overlap={true} source={Prev} />
+          <PrevIcon overlap source={Prev} />
         </PrevYear>
         <PrevMonth onPress={() => monthHandler('prev')}>
           <PrevIcon source={Prev} />
@@ -120,17 +138,22 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
         </NextMonth>
         <NextYear onPress={() => yearHandler('next')}>
           <NextIcon source={Next} />
-          <NextIcon overlap={true} source={Next} />
+          <NextIcon overlap source={Next} />
         </NextYear>
       </CalendarButtonWrapper>
       <WeekInfo>
         {DAYS.map((day, idx) => (
-          <CalendarButton key={idx} type="week">
-            {day}
-          </CalendarButton>
+          <WeekButton key={idx}>
+            <WeekText>{day}</WeekText>
+          </WeekButton>
         ))}
       </WeekInfo>
-      <Calendar isLastWeek={calendarDate.length} calendarDate={calendarDate} />
+      <SelectContext.Provider value={{selectDate, setSelectDate}}>
+        <Calendar
+          weeklength={calendarDate.length}
+          calendarDate={calendarDate}
+        />
+      </SelectContext.Provider>
     </SchemeWrapper>
   );
 }
@@ -189,4 +212,16 @@ const WeekInfo = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
   margin-top: 38px;
+`;
+
+const WeekButton = styled.View`
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+`;
+
+const WeekText = styled.Text`
+  font-size: ${({theme}) => theme.fontRegular};
+  color: ${({theme}) => theme.primary};
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import CalendarButton from '@components/CalendarButton';
-import {NewDate} from '~/types/type';
+import {NewDate} from '~/src/types/type';
 
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 

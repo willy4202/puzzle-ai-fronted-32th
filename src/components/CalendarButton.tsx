@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {Text, Pressable} from 'react-native';
-import theme from '~/styles/theme';
+import theme from '~/src/styles/theme';
 
 interface CalBtnProps {
   children: string | number;

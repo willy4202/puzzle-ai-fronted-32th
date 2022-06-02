@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, Image, Pressable} from 'react-native';
 import styled, {css} from 'styled-components/native';
-import {NewDate} from '~/types/type';
-import {DocSchemeNavigationProps} from '~/types/type';
+import {NewDate} from '~/src/types/type';
+import {DocSchemeNavigationProps} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import CalendarButton from '@components/CalendarButton';
 import Calendar from '@components/Calendar';

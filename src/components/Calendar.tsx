@@ -12,7 +12,7 @@ function Calendar({
   isLastWeek: number;
 }) {
   const {selectDate} = useContext(SelectContext);
-
+  console.log(selectDate);
   return (
     <CalendarWrapper>
       <FirstWeek>

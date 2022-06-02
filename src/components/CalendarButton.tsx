@@ -21,7 +21,7 @@ function CalendarButton({
   const {selectDate, setSelectDate} = useContext(SelectContext);
 
   const pressHandler = (dateInfo: NewDate) => {
-    if (typeof dateInfo.date === 'number') {
+    if (typeof dateInfo.date === 'number' && dateInfo.date !== 0) {
       setSelectDate(dateInfo);
     }
   };

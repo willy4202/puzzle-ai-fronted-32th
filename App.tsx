@@ -14,10 +14,10 @@ import REZDetail from '@screens/REZDetail/REZDetail';
 import REZSubmit from '@screens/REZSubmit/REZSubmit';
 import Signup from '@screens/Signup/Signup';
 import Splash from '@screens/Splash/Splash';
-import {AuthContext} from '~/AuthContext';
+import {AuthContext} from './src/AuthContext';
 
 import {ThemeProvider} from 'styled-components';
-import theme from '~/styles/theme';
+import theme from './src/styles/theme';
 
 export type HomeStackParamList = {
   Splash: undefined;

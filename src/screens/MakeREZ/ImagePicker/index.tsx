@@ -7,7 +7,6 @@ import {
   launchImageLibrary,
   ImageLibraryOptions,
   Asset,
-  // ImagePickerResponse,
 } from 'react-native-image-picker';
 
 const options: ImageLibraryOptions = {
@@ -25,27 +24,13 @@ function ImagePicker() {
     launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+      } else if (response.errorMessage) {
+        console.log('ImagePicker Error: ', response.errorMessage);
       } else {
         setSelectImage(prev => [...prev, ...response.assets]);
       }
     });
   };
-
-  // const openGallery = async () => {
-  //   const result = await launchImageLibrary(options, res => {
-  //     console.log(res);
-  //     if (res.didCancel) {
-  //       console.log('user cancelled image picker');
-  //     } else {
-  //       console.log('res', JSON.stringify(res));
-  //     }
-  //   });
-  //   setSelectImage(prev => [...prev, ...result.assets]);
-  // };
 
   const handleDelete = (name: string): void => {
     setSelectImage(selectImage.filter(item => item.fileName !== name));

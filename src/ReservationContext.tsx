@@ -1,4 +1,4 @@
-import React, {createContext} from 'react';
+import React, {createContext, Dispatch, SetStateAction} from 'react';
 import {Asset} from 'react-native-image-picker';
 import {NewDate} from '~/src/types/type';
 
@@ -19,7 +19,7 @@ export const SelectContext = createContext<SelectProps>({
 
 interface SelectImageProps {
   selectImage: Asset[];
-  setSelectImage: React.Dispatch<React.SetStateAction<Asset[]>>;
+  setSelectImage: Dispatch<SetStateAction<Asset[]>>;
 }
 
 export const SelectImageContext = createContext<SelectImageProps>({

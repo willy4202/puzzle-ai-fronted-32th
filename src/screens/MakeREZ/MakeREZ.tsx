@@ -10,17 +10,13 @@ import DoctorCard from '@components/DoctorCard';
 import TimeView from './TimeView';
 import SymptomView from './SymptomView';
 import ImagePicker from './ImagePicker';
-import {Alert} from 'react-native';
+import {Asset} from 'react-native-image-picker';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
 
 function MakeREZ() {
   const [symptomText, setSymptomText] = useState('');
-  const [selectImage, setSelectImage] = useState([]);
-
-  const postData = () => {
-    Alert.alert('증상', symptomText);
-  };
+  const [selectImage, setSelectImage] = useState<Asset[]>([]);
 
   return (
     <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
@@ -33,7 +29,7 @@ function MakeREZ() {
           <SymptomView />
           <ImagePicker />
           <ButtonWrapper>
-            <SubmitBtn onPress={postData} disabled={!symptomText}>
+            <SubmitBtn disabled={!symptomText}>
               <BtnText>진료예약</BtnText>
             </SubmitBtn>
           </ButtonWrapper>

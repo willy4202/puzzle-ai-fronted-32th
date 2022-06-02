@@ -1,35 +1,45 @@
 import React, {useState} from 'react';
 import styled, {css} from 'styled-components/native';
+import {
+  SelectImageContext,
+  SelectSymptomContext,
+} from '~/src/ReservationContext';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from 'App';
 import DoctorCard from '@components/DoctorCard';
 import TimeView from './TimeView';
 import SymptomView from './SymptomView';
 import ImagePicker from './ImagePicker';
+import {Alert} from 'react-native';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
 
 function MakeREZ() {
   const [symptomText, setSymptomText] = useState('');
+  const [selectImage, setSelectImage] = useState([]);
 
   const postData = () => {
-    console.log('증상', symptomText);
+    Alert.alert('증상', symptomText);
   };
 
   return (
-    <Container>
-      <DoctorView>
-        <DoctorCard />
-      </DoctorView>
-      <TimeView />
-      <SymptomView symptomText={symptomText} setSymptomText={setSymptomText} />
-      <ImagePicker />
-      <ButtonWrapper>
-        <SubmitBtn onPress={postData} disabled={!symptomText}>
-          <BtnText>진료예약</BtnText>
-        </SubmitBtn>
-      </ButtonWrapper>
-    </Container>
+    <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
+      <SelectImageContext.Provider value={{selectImage, setSelectImage}}>
+        <Container>
+          <DoctorView>
+            <DoctorCard />
+          </DoctorView>
+          <TimeView />
+          <SymptomView />
+          <ImagePicker />
+          <ButtonWrapper>
+            <SubmitBtn onPress={postData} disabled={!symptomText}>
+              <BtnText>진료예약</BtnText>
+            </SubmitBtn>
+          </ButtonWrapper>
+        </Container>
+      </SelectImageContext.Provider>
+    </SelectSymptomContext.Provider>
   );
 }
 

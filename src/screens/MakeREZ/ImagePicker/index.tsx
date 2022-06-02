@@ -1,12 +1,13 @@
-import React, {useState, SetStateAction} from 'react';
+import React, {useState, useContext} from 'react';
 import styled from 'styled-components/native';
+import {SelectImageContext} from '~/src/ReservationContext';
 import cameraImg from 'assets/images/reservation-photo-icon.png';
 import deleteBtn from 'assets/images/delet-btn.png';
 import {
   launchImageLibrary,
   ImageLibraryOptions,
+  Asset,
 } from 'react-native-image-picker';
-import {SelectImage} from '@types/type/type';
 
 const options: ImageLibraryOptions = {
   maxHeight: 200,
@@ -16,24 +17,17 @@ const options: ImageLibraryOptions = {
   includeBase64: false,
 };
 
-interface Props {
-  selectImage: SelectImage[];
-  setSelectImage: React.Dispatch<SetStateAction<SelectImage[]>>;
-}
-
 function ImagePicker() {
-  const [selectImage, setSelectImage] = useState([]);
+  const {selectImage, setSelectImage} = useContext(SelectImageContext);
 
   const openGallery = async () => {
     const result = await launchImageLibrary(options);
-    const spreadArray = [...selectImage, ...result.assets];
-    // setSelectImage(prev => [...prev, ...result.assets]);
-    setSelectImage(spreadArray);
+    setSelectImage(prev => [...prev, ...result.assets]);
   };
 
   const handleDelete = (name: string): void => {
     setSelectImage(
-      selectImage.filter((item: SelectImage) => item.fileName !== name),
+      selectImage.filter((item: Asset[]) => item.fileName !== name),
     );
   };
 
@@ -41,7 +35,7 @@ function ImagePicker() {
     <ImageView>
       <ViewTitle>환부 사진 업로드(선택)</ViewTitle>
       <ImageContainer>
-        {selectImage.map((item: SelectImage) => (
+        {selectImage.map((item: Asset) => (
           <SelectImgWrapper key={item.fileName}>
             <DeleteWrapper onPress={() => handleDelete(item.fileName)}>
               <DeleteImg source={deleteBtn} />

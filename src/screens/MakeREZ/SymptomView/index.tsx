@@ -1,12 +1,11 @@
 import {View} from 'react-native';
-import React, {SetStateAction} from 'react';
+import {SelectSymptomContext} from '~/src/ReservationContext';
+import React, {useContext} from 'react';
 import styled from 'styled-components/native';
 
-interface Props {
-  setSymptomText: React.Dispatch<SetStateAction<string>>;
-}
+function SymptomView() {
+  const {setSymptomText} = useContext(SelectSymptomContext);
 
-function SymptomView({setSymptomText}: Props) {
   return (
     <ViewContainer>
       <ViewTitle>증상 입력</ViewTitle>
@@ -16,8 +15,6 @@ function SymptomView({setSymptomText}: Props) {
           placeholder="증상을 입력해주세요"
           onChangeText={text => setSymptomText(text)}
           autoCapitalize="none"
-          // returnKeyType="next"
-          // onSubmitEditting={() => console.log('onSubmitEditting')}
         />
       </View>
     </ViewContainer>

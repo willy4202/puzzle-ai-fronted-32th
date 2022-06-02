@@ -26,3 +26,13 @@ export const SelectImageContext = createContext<SelectImageProps>({
   selectImage: [],
   setSelectImage: () => {},
 });
+
+interface SelectStymptomProps {
+  symptomText: string;
+  setSymptomText: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const SelectSymptomContext = createContext<SelectStymptomProps>({
+  symptomText: '',
+  setSymptomText: () => {},
+});

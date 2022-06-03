@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from 'react';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {config} from '~/config';
+import {config} from '~/src/config';
 
 type AuthContextType = {
   userState: {isLogIn: boolean; isLoading: boolean};

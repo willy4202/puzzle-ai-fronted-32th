@@ -1,9 +1,59 @@
-import React from 'react';
-import {Image, Pressable, Text, View} from 'react-native';
+import React, {useEffect, useState, useContext} from 'react';
+import {Image, View} from 'react-native';
 import styled from 'styled-components/native';
+import {SelectSymptomContext} from '~/src/ReservationContext';
 import checkIcon from '@assets/images/complete_icon.png';
+import {StackActions} from '@react-navigation/native';
+import {StackScreenProps} from '@react-navigation/stack';
+import {HomeStackParamList} from 'App';
 
-function REZSubmit() {
+interface DoctorType {
+  doctorName: string;
+  hospital: string;
+  department: string;
+}
+
+const DOCTOR_MOCK = {
+  doctorName: '최우식',
+  hospital: '서울성모병원',
+  department: '코로나19상담센터',
+};
+
+type NavigationProps = StackScreenProps<HomeStackParamList, 'REZSubmit'>;
+
+function REZSubmit({navigation}: NavigationProps) {
+  const [doctorInfo, setDoctorInfo] = useState<DoctorType>();
+  const [date, setDate] = useState('');
+  const {symptomText} = useContext(SelectSymptomContext);
+  const popAction = StackActions.pop(1);
+
+  useEffect(() => {
+    setDoctorInfo(DOCTOR_MOCK);
+  }, []);
+
+  useEffect(() => {
+    const today = new Date();
+    const weekArray = ['일', '월', '화', '수', '목', '금', '토'];
+    const currentDate =
+      today.getFullYear() +
+      '-' +
+      (today.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      today.getDate().toString().padStart(2, '0') +
+      `(${weekArray[today.getDay()]})` +
+      ' ' +
+      today.toLocaleTimeString([], {timeStyle: 'short'});
+    setDate(currentDate);
+  }, []);
+
+  const test = () => {
+    console.log('test');
+  };
+
+  const goBackScreen = () => {
+    navigation.dispatch(popAction);
+  };
+
   return (
     <Container>
       <Header>
@@ -14,22 +64,29 @@ function REZSubmit() {
       <Body>
         <InfoContainer>
           <InfoTitle>담당의사</InfoTitle>
-          <REZInfo>최우식 (서울성모병원 / 코로나19상담센터)</REZInfo>
+          {doctorInfo && (
+            <REZInfo>
+              {doctorInfo.doctorName} ({doctorInfo.hospital} / &nbsp;
+              {doctorInfo.department})
+            </REZInfo>
+          )}
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>신청일시</InfoTitle>
-          {/* 예약 확정버튼 누르는 순간 시간 기록하기 */}
-          <REZInfo>2020-12-18(금) 오후 1:13</REZInfo>
+          <REZInfo>{date}</REZInfo>
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약일시</InfoTitle>
           {/* TODO : 예약 정보 받아오기*/}
-          <REZInfo>2020-12-21(월) 오후 3:00</REZInfo>
+          <REZInfo>2022-12-21(월) 오후 3:00</REZInfo>
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약내용</InfoTitle>
-          {/* TODO : 텍스트 일정 길이 이상이면 ...처리하기 */}
-          <REZInfo>지난 금요일 발목을 접지른 이후 …</REZInfo>
+          <REZInfo>
+            {symptomText.length < 18
+              ? symptomText
+              : symptomText.slice(0, 17) + '...'}
+          </REZInfo>
         </InfoContainer>
       </Body>
       <CautionInfoContainer>
@@ -39,12 +96,12 @@ function REZSubmit() {
         </CautionInfo>
       </CautionInfoContainer>
       <Footer>
-        <ConfirmBtn>
+        <ConfirmBtn onPress={test}>
           <View>
             <BtnText>예약 확정</BtnText>
           </View>
         </ConfirmBtn>
-        <ModifyBtn>
+        <ModifyBtn onPress={goBackScreen}>
           <BtnText>예약 수정</BtnText>
         </ModifyBtn>
       </Footer>
@@ -57,6 +114,7 @@ export default REZSubmit;
 const Container = styled.View`
   flex: 1;
   padding: 20px;
+  background-color: white;
 `;
 
 const Header = styled.View`
@@ -102,7 +160,7 @@ const CautionInfoContainer = styled.View`
 `;
 
 const CautionInfo = styled.Text`
-    color: ${({theme}) => theme.REZSubmitFooter}; ;s
+  color: ${({theme}) => theme.REZSubmitFooter};
 `;
 
 const Footer = styled.View`

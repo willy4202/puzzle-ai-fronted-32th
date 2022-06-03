@@ -27,9 +27,10 @@ type NavigationProps = StackScreenProps<HomeStackParamList, 'REZSubmit'>;
 function REZSubmit({navigation}: NavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
   const {selectImage} = useContext(SelectImageContext);
+  const [formImg, setFormImg] = useState();
   const [doctorInfo, setDoctorInfo] = useState<DoctorType>();
   const [date, setDate] = useState('');
-  const popAction = StackActions.pop(1);
+  const popAction = StackActions.pop('1');
 
   useEffect(() => {
     setDoctorInfo(DOCTOR_MOCK);
@@ -50,8 +51,36 @@ function REZSubmit({navigation}: NavigationProps) {
     setDate(currentDate);
   }, []);
 
+  useEffect(() => {
+    const formData = new FormData();
+    selectImage.map(picture => {
+      const photo = {
+        uri: picture.uri,
+        type: 'multipart/form-data',
+        name: picture.fileName,
+      };
+      formData.append('select Image', photo);
+      setFormImg(formData);
+    });
+  }, [selectImage]);
+
   const test = () => {
-    console.log('image', selectImage);
+    fetch('server', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {
+        img: formImg,
+        doctor: doctorInfo,
+        symptom: symptomText,
+        date: date,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      });
   };
 
   const goBackScreen = () => {

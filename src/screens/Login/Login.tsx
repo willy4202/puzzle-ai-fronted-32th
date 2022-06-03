@@ -6,7 +6,7 @@ import openEye from 'assets/images/ic-open-eye.png';
 import LoginSignupBtn from '@components/LoginSignupBtn';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
-import {AuthContext} from '~/AuthContext';
+import {AuthContext} from '../../AuthContext';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'Login'>;
 

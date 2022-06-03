@@ -38,6 +38,7 @@ const theme: DefaultTheme = {
   REZSubmitTitle: '#616161',
   REZSubmitFont: '#a3a3a3',
   REZSubmitFooter: '#bdbdbd',
+  REZSubmitBorder: '#CECECE',
 
   //REZDetail———————————————-
   REZDetailFont: '#777777',

@@ -1,29 +1,41 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React, {useState} from 'react';
+import styled, {css} from 'styled-components/native';
+import {
+  SelectImageContext,
+  SelectSymptomContext,
+} from '~/src/ReservationContext';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from 'App';
 import DoctorCard from '@components/DoctorCard';
 import TimeView from './TimeView';
 import SymptomView from './SymptomView';
 import ImagePicker from './ImagePicker';
+import {Asset} from 'react-native-image-picker';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
 
 function MakeREZ() {
+  const [symptomText, setSymptomText] = useState('');
+  const [selectImage, setSelectImage] = useState<Asset[]>([]);
+
   return (
-    <Container>
-      <DoctorView>
-        <DoctorCard />
-      </DoctorView>
-      <TimeView />
-      <SymptomView />
-      <ImagePicker />
-      <ButtonWrapper>
-        <SubmitBtn>
-          <BtnText>진료예약</BtnText>
-        </SubmitBtn>
-      </ButtonWrapper>
-    </Container>
+    <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
+      <SelectImageContext.Provider value={{selectImage, setSelectImage}}>
+        <Container>
+          <DoctorView>
+            <DoctorCard />
+          </DoctorView>
+          <TimeView />
+          <SymptomView />
+          <ImagePicker />
+          <ButtonWrapper>
+            <SubmitBtn disabled={!symptomText}>
+              <BtnText>진료예약</BtnText>
+            </SubmitBtn>
+          </ButtonWrapper>
+        </Container>
+      </SelectImageContext.Provider>
+    </SelectSymptomContext.Provider>
   );
 }
 
@@ -45,14 +57,24 @@ const ButtonWrapper = styled.View`
   padding: 0 15px;
 `;
 
-const SubmitBtn = styled.Pressable`
+const SubmitBtn = styled.TouchableOpacity<{disabled: boolean}>`
   width: 100%;
   height: 52px;
   border-radius: 8px;
   align-self: center;
   justify-content: center;
   align-items: center;
-  background-color: ${({theme}) => theme.primary};
+  ${({disabled}) => {
+    if (disabled) {
+      return css`
+        background-color: ${({theme}) => theme.ButtonDisable};
+      `;
+    } else {
+      return css`
+        background-color: ${({theme}) => theme.primary}; ;
+      `;
+    }
+  }}
 `;
 
 const BtnText = styled.Text`

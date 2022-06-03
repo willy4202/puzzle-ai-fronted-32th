@@ -1,4 +1,5 @@
-import React, {createContext} from 'react';
+import React, {createContext, Dispatch, SetStateAction} from 'react';
+import {Asset} from 'react-native-image-picker';
 import {NewDate} from '~/src/types/type';
 
 interface SelectProps {
@@ -14,4 +15,24 @@ export const SelectContext = createContext<SelectProps>({
     day: 0,
   },
   setSelectDate: () => {},
+});
+
+interface SelectImageProps {
+  selectImage: Asset[];
+  setSelectImage: Dispatch<SetStateAction<Asset[]>>;
+}
+
+export const SelectImageContext = createContext<SelectImageProps>({
+  selectImage: [],
+  setSelectImage: () => {},
+});
+
+interface SelectStymptomProps {
+  symptomText: string;
+  setSymptomText: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const SelectSymptomContext = createContext<SelectStymptomProps>({
+  symptomText: '',
+  setSymptomText: () => {},
 });

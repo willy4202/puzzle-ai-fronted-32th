@@ -16,6 +16,15 @@ export interface InputProps {
   type: string;
 }
 
+export interface SelectImage {
+  type: string;
+  fileName: string;
+  widht?: number;
+  height?: number;
+  fileSize?: number;
+  uri: string;
+}
+
 export interface NewDate {
   year: number;
   month: number;

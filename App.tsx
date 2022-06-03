@@ -50,14 +50,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="DocScheme">
+          <Stack.Navigator>
             {!userState.isLogIn ? (
               <>
+                <Stack.Screen name="MakeREZ" component={MakeREZ} />
                 <Stack.Screen name="Main" component={Main} />
                 <Stack.Screen name="DocList" component={DocList} />
                 <Stack.Screen name="DocScheme" component={DocScheme} />
                 <Stack.Screen name="REZList" component={REZList} />
-                <Stack.Screen name="MakeREZ" component={MakeREZ} />
                 <Stack.Screen name="REZSubmit" component={REZSubmit} />
                 <Stack.Screen name="REZDetail" component={REZDetail} />
               </>

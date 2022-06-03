@@ -1,13 +1,21 @@
 import {View} from 'react-native';
-import React from 'react';
+import {SelectSymptomContext} from '~/src/ReservationContext';
+import React, {useContext} from 'react';
 import styled from 'styled-components/native';
 
 function SymptomView() {
+  const {setSymptomText} = useContext(SelectSymptomContext);
+
   return (
     <ViewContainer>
       <ViewTitle>증상 입력</ViewTitle>
       <View>
-        <SymptomInput multiline placeholder="증상을 입력해주세요" />
+        <SymptomInput
+          multiline
+          placeholder="증상을 입력해주세요"
+          onChangeText={text => setSymptomText(text)}
+          autoCapitalize="none"
+        />
       </View>
     </ViewContainer>
   );

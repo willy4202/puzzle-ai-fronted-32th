@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import styled from 'styled-components/native';
 
@@ -22,7 +21,7 @@ const ViewTitle = styled.Text`
   color: ${({theme}) => theme.primary};
   font-size: ${({theme}) => theme.fontRegular};
   line-height: ${({theme}) => theme.lineHeightRegular};
-  margin-horizontal: 18px;
+  margin: 0 18px 0 18px;
 `;
 
 const SelectTimeWrapper = styled.View`

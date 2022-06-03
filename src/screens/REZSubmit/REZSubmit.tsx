@@ -6,7 +6,7 @@ import {
   SelectImageContext,
 } from '~/src/ReservationContext';
 import checkIcon from '@assets/images/complete_icon.png';
-import {StackActions} from '@react-navigation/native';
+import {CommonActions, StackActions} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from 'App';
 
@@ -64,7 +64,7 @@ function REZSubmit({navigation}: NavigationProps) {
     });
   }, [selectImage]);
 
-  const test = () => {
+  const test = async () => {
     fetch('server', {
       method: 'POST',
       headers: {
@@ -81,6 +81,8 @@ function REZSubmit({navigation}: NavigationProps) {
       .then(data => {
         console.log(data);
       });
+    console.log('post done');
+    await navigation.navigate('REZDetail');
   };
 
   const goBackScreen = () => {

@@ -39,6 +39,7 @@ declare module 'styled-components' {
     REZSubmitTitle: string;
     REZSubmitFont: string;
     REZSubmitFooter: string;
+    REZSubmitBorder: string;
 
     //REZDetail———————————————-
     REZDetailFont: string;

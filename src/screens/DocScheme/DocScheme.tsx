@@ -14,6 +14,7 @@ interface IdType {
 }
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
+const DAYOFF: string[] = ['1', '4', '6', '14', '16', '20', '22', '24', '25'];
 const TIMES: IdType[] = [
   {id: '10:00'},
   {id: '11:00'},
@@ -183,6 +184,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
         </WeekInfo>
         <SelectContext.Provider value={{selectDate, setSelectDate}}>
           <Calendar
+            dayoff={DAYOFF}
             weeklength={calendarDate.length}
             calendarDate={calendarDate}
           />

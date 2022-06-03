@@ -14,9 +14,13 @@ import {Asset} from 'react-native-image-picker';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
 
-function MakeREZ() {
+function MakeREZ({navigation}: NavigationProps) {
   const [symptomText, setSymptomText] = useState('');
   const [selectImage, setSelectImage] = useState<Asset[]>([]);
+
+  const navigate = () => {
+    navigation.push('REZSubmit');
+  };
 
   return (
     <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
@@ -29,7 +33,7 @@ function MakeREZ() {
           <SymptomView />
           <ImagePicker />
           <ButtonWrapper>
-            <SubmitBtn disabled={!symptomText}>
+            <SubmitBtn onPress={navigate} disabled={!symptomText}>
               <BtnText>진료예약</BtnText>
             </SubmitBtn>
           </ButtonWrapper>

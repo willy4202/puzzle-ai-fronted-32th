@@ -1,7 +1,10 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {Image, View} from 'react-native';
 import styled from 'styled-components/native';
-import {SelectSymptomContext} from '~/src/ReservationContext';
+import {
+  SelectSymptomContext,
+  SelectImageContext,
+} from '~/src/ReservationContext';
 import checkIcon from '@assets/images/complete_icon.png';
 import {StackActions} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -22,9 +25,10 @@ const DOCTOR_MOCK = {
 type NavigationProps = StackScreenProps<HomeStackParamList, 'REZSubmit'>;
 
 function REZSubmit({navigation}: NavigationProps) {
+  const {symptomText} = useContext(SelectSymptomContext);
+  const {selectImage} = useContext(SelectImageContext);
   const [doctorInfo, setDoctorInfo] = useState<DoctorType>();
   const [date, setDate] = useState('');
-  const {symptomText} = useContext(SelectSymptomContext);
   const popAction = StackActions.pop(1);
 
   useEffect(() => {
@@ -47,7 +51,7 @@ function REZSubmit({navigation}: NavigationProps) {
   }, []);
 
   const test = () => {
-    console.log('test');
+    console.log('image', selectImage);
   };
 
   const goBackScreen = () => {

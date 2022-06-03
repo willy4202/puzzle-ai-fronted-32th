@@ -51,11 +51,7 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
-<<<<<<< HEAD
-            {!userState.isLogIn ? (
-=======
             {userState.isLogIn ? (
->>>>>>> 21bb968 (타임테이블기능구현완료)
               <>
                 <Stack.Screen
                   name="REZSubmit"

@@ -50,7 +50,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Mains">
+          <Stack.Navigator initialRouteName="DocScheme">
             {!userState.isLogIn ? (
               <>
                 <Stack.Screen

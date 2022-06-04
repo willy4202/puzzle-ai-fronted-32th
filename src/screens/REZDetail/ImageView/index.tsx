@@ -3,14 +3,14 @@ import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import {SelectImageContext} from '~/src/ReservationContext';
 import {Asset} from 'react-native-image-picker';
-import cameraImg from 'assets/images/reservation-photo-icon.png';
 
 const ImageView = () => {
   const {selectImage} = useContext(SelectImageContext);
 
   return (
     <Image>
-      <ViewTitle>환부 사진 업로드(선택)</ViewTitle>
+      {/* TODO : 이미지가 안들어올 경우 && 연산자로 null 처리하기  */}
+      <ViewTitle>환부 사진</ViewTitle>
       <ImageContainer>
         {selectImage.map((item: Asset) => (
           <SelectImgWrapper key={item.fileName}>
@@ -19,11 +19,6 @@ const ImageView = () => {
             </ImageWrapper>
           </SelectImgWrapper>
         ))}
-        {selectImage.length < 3 && (
-          <ImageWrapper>
-            <CameraLogo source={cameraImg} />
-          </ImageWrapper>
-        )}
       </ImageContainer>
     </Image>
   );

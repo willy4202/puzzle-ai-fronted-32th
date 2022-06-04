@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from 'App';
 import DoctorCard from '@components/DoctorCard';
-import {View, Text} from 'react-native';
 import Symptom from './Symptom';
 import DoctorOpinion from './DoctorOpinion';
 import ImageView from './ImageView';
@@ -46,11 +45,11 @@ const DoctorView = styled.View`
 
 const Section = styled.View`
   flex: 7;
-  margin: 0 18px 0 18px;
+  margin: 20px;
 `;
 
 const DateView = styled.View`
-  margin: 20px 0 20px 0;
+  margin-bottom: 20px;
 `;
 
 const Title = styled.Text`

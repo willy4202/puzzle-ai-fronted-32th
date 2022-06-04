@@ -50,8 +50,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="DocScheme">
-            {!userState.isLogIn ? (
+          <Stack.Navigator initialRouteName="Mains">
+            {userState.isLogIn ? (
               <>
                 <Stack.Screen
                   name="REZSubmit"

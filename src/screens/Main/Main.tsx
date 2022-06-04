@@ -1,47 +1,57 @@
-import React, {useEffect} from 'react';
-import styled from 'styled-components/native';
+import React, {useEffect, useState} from 'react';
+import styled, {css} from 'styled-components/native';
 import {FlatList} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Category1 from '@assets/images/1.png';
-import Category2 from '@assets/images/2.png';
-import Category3 from '@assets/images/3.png';
-import Category4 from '@assets/images/4.png';
-import Category5 from '@assets/images/5.png';
-import Category6 from '@assets/images/6.png';
-import Category7 from '@assets/images/7.png';
-import Category8 from '@assets/images/8.png';
-import Category9 from '@assets/images/9.png';
+import {config} from '~/src/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type MainNavigationProps = StackScreenProps<HomeStackParamList, 'Main'>;
 
-const DATA = [
-  {id: 1, url: Category1},
-  {id: 2, url: Category2},
-  {id: 3, url: Category3},
-  {id: 4, url: Category4},
-  {id: 5, url: Category5},
-  {id: 6, url: Category6},
-  {id: 7, url: Category7},
-  {id: 8, url: Category8},
-  {id: 9, url: Category9},
-];
+interface DataProp {
+  result: {id: number; name: string; file_location: string}[];
+  name: string;
+}
 
 function Main({navigation}: MainNavigationProps) {
-  console.log(Category1);
+  const [initialData, setInitialData] = useState<DataProp>({
+    result: [],
+    name: '',
+  });
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
+
+  useEffect(() => {
+    const getToken = async () => {
+      const Token = await AsyncStorage.getItem('token');
+      return String(Token);
+    };
+
+    const fetchData = async () => {
+      fetch(`${config.mains}`, {
+        headers: {
+          Authorization: await getToken(),
+        },
+      })
+        .then(res => res.json())
+        .then(res => setInitialData(res));
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <SafeArea></SafeArea>
       <MainWrapper>
         <MainHeader>
           <UserWrapper>
-            <UserName>김퍼즐</UserName>
+            <UserName>{initialData.name}</UserName>
             <HelloMent>님 반갑습니다.</HelloMent>
           </UserWrapper>
           <Comment>
@@ -50,10 +60,14 @@ function Main({navigation}: MainNavigationProps) {
           </Comment>
         </MainHeader>
         <MainContents
-          data={DATA}
+          data={initialData.result}
           renderItem={({item}) => (
             <CategoryButton onPress={() => navigation.navigate('DocList')}>
-              <Category source={item.url} />
+              <Category
+                id={item.id}
+                source={{uri: item.file_location}}
+                resizeMode="contain"
+              />
             </CategoryButton>
           )}
           keyExtractor={item => item.id.toString()}
@@ -121,6 +135,18 @@ const MainContents = styled.FlatList`
 
 const CategoryButton = styled.Pressable``;
 
-const Category = styled.Image`
+const Category = styled.Image<{id: number}>`
+  width: 70px;
+  ${({id}) => {
+    if (id === 4 || id === 6 || id === 8) {
+      return css`
+        height: 117px;
+      `;
+    } else {
+      return css`
+        height: 95px;
+      `;
+    }
+  }};
   margin-top: 25px;
 `;

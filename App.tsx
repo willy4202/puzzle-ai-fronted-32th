@@ -54,6 +54,11 @@ function App() {
             {!userState.isLogIn ? (
               <>
                 <Stack.Screen
+                  name="REZDetail"
+                  component={REZDetail}
+                  options={{title: '예약 상세보기'}}
+                />
+                <Stack.Screen
                   name="REZSubmit"
                   component={REZSubmit}
                   options={{title: '', headerShown: false}}
@@ -63,7 +68,6 @@ function App() {
                 <Stack.Screen name="DocList" component={DocList} />
                 <Stack.Screen name="DocScheme" component={DocScheme} />
                 <Stack.Screen name="REZList" component={REZList} />
-                <Stack.Screen name="REZDetail" component={REZDetail} />
               </>
             ) : (
               <>

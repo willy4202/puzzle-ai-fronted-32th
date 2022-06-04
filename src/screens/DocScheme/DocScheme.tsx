@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, Image, Pressable} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
 import {DocSchemeNavigationProps} from '~/src/types/type';

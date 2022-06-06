@@ -7,11 +7,11 @@ const Button = () => {
     <BtnWrapper>
       <ConfirmBtn>
         <View>
-          <BtnText>예약 확정</BtnText>
+          <BtnText>다시 예약하기</BtnText>
         </View>
       </ConfirmBtn>
       <ModifyBtn>
-        <BtnText>예약 수정</BtnText>
+        <BtnText>예약 취소</BtnText>
       </ModifyBtn>
     </BtnWrapper>
   );

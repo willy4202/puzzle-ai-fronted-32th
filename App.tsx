@@ -56,12 +56,16 @@ function App() {
                 <Stack.Screen
                   name="REZDetail"
                   component={REZDetail}
-                  options={{title: '예약 상세보기'}}
+                  options={{
+                    title: '예약 상세보기',
+                  }}
                 />
                 <Stack.Screen
                   name="REZSubmit"
                   component={REZSubmit}
-                  options={{title: '', headerShown: false}}
+                  options={{
+                    title: '',
+                  }}
                 />
                 <Stack.Screen name="MakeREZ" component={MakeREZ} />
                 <Stack.Screen name="Main" component={Main} />

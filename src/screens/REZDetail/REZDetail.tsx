@@ -45,7 +45,7 @@ const DoctorView = styled.View`
 
 const Section = styled.View`
   flex: 7;
-  margin: 20px;
+  padding: 20px;
 `;
 
 const DateView = styled.View`

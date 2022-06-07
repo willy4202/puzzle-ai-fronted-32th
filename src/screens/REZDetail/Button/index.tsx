@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import styled from 'styled-components/native';
 import React from 'react';
 
-const Button = ({status, setStatus}) => {
+const Button = ({status, setStatus, goBackCalender}) => {
   return (
     <BtnWrapper>
       <ConfirmBtn status={status}>

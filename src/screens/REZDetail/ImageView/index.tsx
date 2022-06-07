@@ -2,13 +2,12 @@ import styled from 'styled-components/native';
 import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import {SelectImageContext} from '~/src/ReservationContext';
+
 import {Asset} from 'react-native-image-picker';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const ImageView = () => {
   const {selectImage} = useContext(SelectImageContext);
-
-  const array = [1, 2, 3, 4, 5];
 
   return (
     <Container>
@@ -16,7 +15,7 @@ const ImageView = () => {
       <ViewTitle>환부 사진</ViewTitle>
       {/* 원래 데이터타입은 Asset, 임시로 any 지정 , 사진 가로 스크롤뷰로 설정*/}
       <ScrollView horizontal>
-        {array.map((item: any) => (
+        {selectImage.map((item: any) => (
           <SelectImgWrapper key={item.fileName}>
             <ImageWrapper>
               <SpreadImg source={item} />

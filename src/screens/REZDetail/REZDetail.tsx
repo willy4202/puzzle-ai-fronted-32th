@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from 'App';
+import {SelectImageContext} from '~/src/ReservationContext';
 import DoctorCard from '@components/DoctorCard';
 import Symptom from './Symptom';
 import DoctorOpinion from './DoctorOpinion';
@@ -9,10 +10,12 @@ import ImageView from './ImageView';
 import Button from './Button';
 import {Text, View} from 'react-native';
 
-type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
+type NavigationProps = StackScreenProps<HomeStackParamList, 'REZDetail'>;
 
-function REZDetail() {
+function REZDetail({navigation}: NavigationProps) {
   const [status, setStatus] = useState('진료대기');
+
+  const {selectImage} = useContext(SelectImageContext);
 
   const testPress = () => {
     if (status === '진료대기') {
@@ -22,6 +25,10 @@ function REZDetail() {
     } else {
       setStatus('진료대기');
     }
+  };
+
+  const goBackCalender = () => {
+    navigation.popToTop();
   };
 
   return (
@@ -41,7 +48,11 @@ function REZDetail() {
         <Symptom />
         <DoctorOpinion />
       </Section>
-      <Button status={status} setStatus={setStatus} />
+      <Button
+        goBackCalender={goBackCalender}
+        status={status}
+        setStatus={setStatus}
+      />
     </Container>
   );
 }

@@ -1,24 +1,13 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components/native';
-
-interface Props {
-  children: ReactNode;
-  pressHandler: () => void;
-  id?: 'Login' | 'Signup';
-  disabled?: boolean;
-}
-
-interface PressableProps {
-  id: string;
-  disabled: boolean;
-}
+import {LoginSignupBtnProps, LoginPressableProps} from '~/src/types/type';
 
 function LoginSignupBtn({
   children,
   disabled = false,
   id = 'Login',
   pressHandler,
-}: Props) {
+}: LoginSignupBtnProps) {
   return (
     <LoginBtn id={id} disabled={disabled} onPress={() => pressHandler()}>
       <LoginText id={id}>{children}</LoginText>
@@ -28,7 +17,7 @@ function LoginSignupBtn({
 
 export default LoginSignupBtn;
 
-const LoginBtn = styled.Pressable<PressableProps>`
+const LoginBtn = styled.Pressable<LoginPressableProps>`
   width: 300px;
   height: 52px;
   border-radius: 8px;

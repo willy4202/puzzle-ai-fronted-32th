@@ -1,16 +1,10 @@
 import React, {useContext} from 'react';
 import styled from 'styled-components/native';
 import CalendarButton from '@components/CalendarButton';
-import {NewDate} from '~/src/types/type';
+import {NewDate, CalendarProps} from '~/src/types/type';
 import {SelectContext} from '../ReservationContext';
 
-function Calendar({
-  calendarDate,
-  weeklength,
-}: {
-  calendarDate: NewDate[];
-  weeklength: number;
-}) {
+function Calendar({calendarDate, weeklength}: CalendarProps) {
   const {selectDate} = useContext(SelectContext);
   return (
     <CalendarWrapper>

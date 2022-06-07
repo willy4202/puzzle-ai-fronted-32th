@@ -2,15 +2,21 @@ import {View, Text} from 'react-native';
 import styled from 'styled-components/native';
 import React from 'react';
 
-const Button = () => {
+const Button = ({status, setStatus}) => {
   return (
     <BtnWrapper>
-      <ConfirmBtn>
+      <ConfirmBtn status={status}>
         <View>
-          <BtnText>다시 예약하기</BtnText>
+          <BtnText>
+            {status === '진료대기'
+              ? '예약 변경하기'
+              : status === '진료완료'
+              ? '다시 예약하기'
+              : null}
+          </BtnText>
         </View>
       </ConfirmBtn>
-      <ModifyBtn>
+      <ModifyBtn status={status} onPress={() => setStatus('진료취소')}>
         <BtnText>예약 취소</BtnText>
       </ModifyBtn>
     </BtnWrapper>
@@ -38,7 +44,8 @@ const ConfirmBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  background-color: ${({theme}) => theme.primary};
+  background-color: ${({theme, status}) =>
+    status === '진료취소' ? 'white' : theme.primary};
 `;
 
 const ModifyBtn = styled.TouchableOpacity`
@@ -47,5 +54,6 @@ const ModifyBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  background-color: ${({theme}) => theme.REZSubmitFont};
+  background-color: ${({theme, status}) =>
+    status === '진료취소' ? 'white' : theme.REZSubmitFont};
 `;

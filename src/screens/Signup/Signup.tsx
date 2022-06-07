@@ -3,16 +3,12 @@ import styled from 'styled-components/native';
 import {Alert} from 'react-native';
 import InputWrapper from '@components/InputWrapper';
 import PasswordWrapper from '@components/PasswordWrapper';
-import {UserData} from '~/src/types/type';
-import {StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from '../../../App';
+import {SignupUserData, SignupNavigationProps} from '~/src/types/type';
 import LoginSignupBtn from '@components/LoginSignupBtn';
 import {config} from '~/src/config';
 
-type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Signup'>;
-
 function Signup({navigation}: SignupNavigationProps) {
-  const [userData, setUserData] = useState<UserData>({
+  const [userData, setUserData] = useState<SignupUserData>({
     lastName: '',
     firstName: '',
     email: '',
@@ -42,7 +38,6 @@ function Signup({navigation}: SignupNavigationProps) {
           })
             .then(res => res.json())
             .then(res => {
-              console.log(res);
               if (res.message === 'email unique check pass') {
                 setIsSameEmail(true);
               } else {

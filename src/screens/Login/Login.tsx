@@ -4,13 +4,10 @@ import logo from 'assets/images/logo.png';
 import closeEye from 'assets/images/ic-close-eye.png';
 import openEye from 'assets/images/ic-open-eye.png';
 import LoginSignupBtn from '@components/LoginSignupBtn';
-import {StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from '../../../App';
 import {AuthContext} from '../../AuthContext';
+import {LoginNavigationProps} from '~/src/types/type';
 
-type NavigationProps = StackScreenProps<HomeStackParamList, 'Login'>;
-
-function Login({navigation}: NavigationProps) {
+function Login({navigation}: LoginNavigationProps) {
   const [isShowPw, setIsShowPw] = useState(true);
   const [userInfo, setUserInfo] = useState({email: '', password: ''});
 
@@ -61,7 +58,10 @@ function Login({navigation}: NavigationProps) {
             <IconWrapper
               onTouchStart={() => showPwHandler()}
               hitSlop={{top: 5, bottom: 5, left: 5, right: 5}}>
-              <InputIcon source={isShowPw ? closeEye : openEye} />
+              <InputIcon
+                resizeMode="contain"
+                source={isShowPw ? closeEye : openEye}
+              />
             </IconWrapper>
             <StyledTextInput
               placeholder="비밀번호를 입력해주세요"

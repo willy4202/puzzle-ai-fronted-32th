@@ -1,16 +1,13 @@
 import React, {useContext} from 'react';
 import styled, {css} from 'styled-components/native';
 import {SelectSymptomContext} from '~/src/ReservationContext';
-import {StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from 'App';
 import DoctorCard from '@components/DoctorCard';
 import TimeView from './TimeView';
 import SymptomView from './SymptomView';
 import ImagePicker from './ImagePicker';
+import {MakeREZNavigationProps} from '~/src/types/type';
 
-type NavigationProps = StackScreenProps<HomeStackParamList, 'MakeREZ'>;
-
-function MakeREZ({navigation}: NavigationProps) {
+function MakeREZ({navigation}: MakeREZNavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
 
   const navigate = () => {

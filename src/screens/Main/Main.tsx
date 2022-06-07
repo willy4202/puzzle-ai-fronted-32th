@@ -1,21 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css} from 'styled-components/native';
 import {FlatList} from 'react-native';
-import {StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from '../../../App';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {config} from '~/src/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-type MainNavigationProps = StackScreenProps<HomeStackParamList, 'Main'>;
-
-interface DataProp {
-  result: {id: number; name: string; file_location: string}[];
-  name: string;
-}
+import {MainNavigationProps, MainDataProp} from '~/src/types/type';
 
 function Main({navigation}: MainNavigationProps) {
-  const [initialData, setInitialData] = useState<DataProp>({
+  const [initialData, setInitialData] = useState<MainDataProp>({
     result: [],
     name: '',
   });

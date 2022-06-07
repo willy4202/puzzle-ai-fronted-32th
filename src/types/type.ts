@@ -1,8 +1,42 @@
-import {Dispatch, SetStateAction} from 'react';
+import {Dispatch, SetStateAction, ReactNode} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from '../../App';
 
-export interface UserData {
+export type HomeStackParamList = {
+  Splash: undefined;
+  Entry: undefined;
+  Login: undefined;
+  Signup: undefined;
+  Mains: undefined;
+  DocList: undefined;
+  DocScheme: undefined;
+  REZList: undefined;
+  MakeREZ: undefined;
+  REZSubmit: undefined;
+  REZDetail: undefined;
+  Main: undefined;
+};
+
+export type EntryNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'Entry'
+>;
+
+export type LoginNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'Login'
+>;
+
+export interface LoginPressableProps {
+  id: string;
+  disabled: boolean;
+}
+
+export type SignupNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'Signup'
+>;
+
+export interface SignupUserData {
   lastName: string;
   firstName: string;
   email: string;
@@ -12,9 +46,51 @@ export interface UserData {
 
 export interface InputProps {
   children: string;
-  setUserData: Dispatch<SetStateAction<UserData>>;
+  setUserData: Dispatch<SetStateAction<SignupUserData>>;
   type: string;
 }
+
+export interface LoginSignupBtnProps {
+  children: ReactNode;
+  pressHandler: () => void;
+  id?: 'Login' | 'Signup';
+  disabled?: boolean;
+}
+
+export type MainNavigationProps = StackScreenProps<HomeStackParamList, 'Main'>;
+
+export interface MainDataProp {
+  result: {id: number; name: string; file_location: string}[];
+  name: string;
+}
+
+export type DocSchemeNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'DocScheme'
+>;
+
+export interface NewDate {
+  year: number;
+  month: number;
+  date: number;
+  day: number;
+}
+
+export interface CalendarProps {
+  calendarDate: NewDate[];
+  weeklength: number;
+}
+
+export interface CalBtnProps {
+  children: number;
+  isChecked: boolean;
+  dateInfo: NewDate;
+}
+
+export type MakeREZNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'MakeREZ'
+>;
 
 export interface SelectImage {
   type: string;
@@ -24,15 +100,3 @@ export interface SelectImage {
   fileSize?: number;
   uri: string;
 }
-
-export interface NewDate {
-  year: number;
-  month: number;
-  date: number;
-  day: number;
-}
-
-export type DocSchemeNavigationProps = StackScreenProps<
-  HomeStackParamList,
-  'DocScheme'
->;

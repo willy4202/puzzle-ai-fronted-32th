@@ -81,7 +81,7 @@ function REZSubmit({navigation}: NavigationProps) {
         console.log(data);
       });
     console.log('post done');
-    await navigation.navigate('REZDetail');
+    await navigation.navigate('Mains');
   };
 
   const goBackScreen = () => {

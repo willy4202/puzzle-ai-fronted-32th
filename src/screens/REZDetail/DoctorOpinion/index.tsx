@@ -2,14 +2,11 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import styled from 'styled-components/native';
 
-const DoctorOpinion = () => {
+const DoctorOpinion = ({docOpinion}: string) => {
   return (
     <Article>
       <Title>의사 소견</Title>
-      <ContentText>
-        발목쪽 인대파열이 예상됩니다. 정확한 진단은 육안으로 확인 후 진단내려야
-        하지만 우선은 냉찜질 해주는것을 추천드립니다.
-      </ContentText>
+      <ContentText>{docOpinion}</ContentText>
     </Article>
   );
 };

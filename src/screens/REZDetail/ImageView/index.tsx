@@ -1,20 +1,16 @@
 import styled from 'styled-components/native';
 import React, {useContext} from 'react';
-import {SelectImageContext} from '~/src/ReservationContext';
-
 import {Asset} from 'react-native-image-picker';
 import {ScrollView} from 'react-native-gesture-handler';
 
-const ImageView = () => {
-  const {selectImage} = useContext(SelectImageContext);
-
+const ImageView = ({image}) => {
   return (
     <Container>
       {/* TODO : 이미지가 안들어올 경우 && 연산자로 null 처리하기  */}
       <ViewTitle>환부 사진</ViewTitle>
 
       <ScrollView horizontal>
-        {selectImage.map((item: Asset) => (
+        {image.map(item => (
           <SelectImgWrapper key={item.fileName}>
             <ImageWrapper>
               <SpreadImg source={item} />

@@ -1,10 +1,8 @@
 import {View, Text} from 'react-native';
 import React, {useContext} from 'react';
 import styled from 'styled-components/native';
-import {SelectSymptomContext} from '~/src/ReservationContext';
 
-const Symptom = () => {
-  const {symptomText} = useContext(SelectSymptomContext);
+const Symptom = ({symptomText}: string) => {
   return (
     <View>
       <Title>환자 증상</Title>

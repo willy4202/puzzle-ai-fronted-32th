@@ -23,6 +23,7 @@ export default Status;
 
 const StatusTitle = styled.Text<StyledProps>`
   padding: 2px 10px;
+  font-size: ${({theme}) => theme.fontSmall};
   ${({status, theme}) => {
     switch (status) {
       case '진료대기':

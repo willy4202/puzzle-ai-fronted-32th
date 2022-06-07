@@ -5,20 +5,24 @@ import React from 'react';
 const Button = ({status, setStatus, goBackCalender}) => {
   return (
     <BtnWrapper>
-      <ConfirmBtn status={status}>
-        <View>
-          <BtnText>
-            {status === '진료대기'
-              ? '예약 변경하기'
-              : status === '진료완료'
-              ? '다시 예약하기'
-              : null}
-          </BtnText>
-        </View>
-      </ConfirmBtn>
-      <ModifyBtn status={status} onPress={() => setStatus('진료취소')}>
-        <BtnText>예약 취소</BtnText>
-      </ModifyBtn>
+      {status !== '진료취소' && (
+        <>
+          <ConfirmBtn onPress={goBackCalender}>
+            <View>
+              <BtnText>
+                {status === '진료대기'
+                  ? '예약 변경하기'
+                  : status === '진료완료'
+                  ? '다시 예약하기'
+                  : null}
+              </BtnText>
+            </View>
+          </ConfirmBtn>
+          <ModifyBtn onPress={() => setStatus('진료취소')}>
+            <BtnText>예약 취소</BtnText>
+          </ModifyBtn>
+        </>
+      )}
     </BtnWrapper>
   );
 };
@@ -44,8 +48,7 @@ const ConfirmBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  background-color: ${({theme, status}) =>
-    status === '진료취소' ? 'white' : theme.primary};
+  background-color: ${({theme}) => theme.primary};
 `;
 
 const ModifyBtn = styled.TouchableOpacity`
@@ -54,6 +57,5 @@ const ModifyBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  background-color: ${({theme, status}) =>
-    status === '진료취소' ? 'white' : theme.REZSubmitFont};
+  background-color: ${({theme}) => theme.REZSubmitFont};
 `;

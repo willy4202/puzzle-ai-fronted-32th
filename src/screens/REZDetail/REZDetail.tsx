@@ -1,15 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
-import styled, {css} from 'styled-components/native';
-import {StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from 'App';
+import React, {useEffect, useState} from 'react';
+import styled from 'styled-components/native';
 import DoctorCard from '@components/DoctorCard';
 import Symptom from './Symptom';
 import DoctorOpinion from './DoctorOpinion';
 import ImageView from './ImageView';
 import Button from './Button';
 import Status from '~/src/components/Status';
-
-type NavigationProps = StackScreenProps<HomeStackParamList, 'REZDetail'>;
+import {REZDetailNavigationProps} from '~/src/types/type';
 
 interface ImgType {
   id: number;
@@ -49,7 +46,7 @@ const MOCK_DATA: MOCKTYPE = {
     '발목쪽 인대파열이 예상됩니다. 정확한 진단은 육안으로 확인 후 진단내려야 하지만 우선은 냉찜질 해주는것을 추천드립니다.',
 };
 
-function REZDetail({navigation}: NavigationProps) {
+function REZDetail({navigation}: REZDetailNavigationProps) {
   const [status, setStatus] = useState('');
   const [image, setImage] = useState([]);
   const [symptomText, setSymptomText] = useState('');

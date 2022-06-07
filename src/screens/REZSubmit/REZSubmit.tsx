@@ -6,9 +6,7 @@ import {
   SelectImageContext,
 } from '~/src/ReservationContext';
 import checkIcon from '@assets/images/complete_icon.png';
-import {CommonActions, StackActions} from '@react-navigation/native';
-import {StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from 'App';
+import {REZSubmitNavigationProps} from '~/src/types/type';
 
 interface DoctorType {
   doctorName: string;
@@ -22,9 +20,7 @@ const DOCTOR_MOCK = {
   department: '코로나19상담센터',
 };
 
-type NavigationProps = StackScreenProps<HomeStackParamList, 'REZSubmit'>;
-
-function REZSubmit({navigation}: NavigationProps) {
+function REZSubmit({navigation}: REZSubmitNavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
   const {selectImage} = useContext(SelectImageContext);
   const [formImg, setFormImg] = useState();

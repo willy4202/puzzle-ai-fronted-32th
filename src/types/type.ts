@@ -100,3 +100,13 @@ export interface SelectImage {
   fileSize?: number;
   uri: string;
 }
+
+export type REZDetailNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'REZDetail'
+>;
+
+export type REZSubmitNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'REZSubmit'
+>;

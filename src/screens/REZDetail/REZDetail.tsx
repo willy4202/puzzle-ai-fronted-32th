@@ -25,7 +25,7 @@ function REZDetail({navigation}: NavigationProps) {
   };
 
   const goBackCalender = () => {
-    navigation.popToTop();
+    navigation.navigate('DocScheme');
   };
 
   return (
@@ -46,6 +46,7 @@ function REZDetail({navigation}: NavigationProps) {
         <Symptom />
         {status === '진료완료' && <DoctorOpinion />}
       </Section>
+      {/* TODO : status 상황에 따라 매번 다른 기능을 수행하는 버튼 구현 */}
       <Button
         goBackCalender={goBackCalender}
         status={status}

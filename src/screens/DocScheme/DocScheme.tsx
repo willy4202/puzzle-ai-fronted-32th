@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useMemo} from 'react';
 import {FlatList} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
@@ -28,8 +28,8 @@ const TIMES: IdType[] = [
   {id: '19:00'},
   {id: '20:00'},
   {id: '21:00'},
-  {id: '22:00'},
-  {id: '23:00'},
+  {id: '21:30'},
+  {id: '21:35'},
 ];
 
 const FULL: string[] = ['10:00', '11:00', '12:00'];
@@ -64,6 +64,13 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
 
     return {year, month, date, day, time: ''};
   };
+
+  const getToday: NewDate = useMemo(() => getNewDate(TODAY), []);
+  const getLimitTime = useMemo(() => {
+    const hours = TODAY.getHours() + 1;
+    const minutes = TODAY.getMinutes();
+    return {hours, minutes};
+  }, []);
 
   const getAlldate = () => {
     const selectFirstDate = getNewDate(new Date(date.year, date.month - 1, 1));
@@ -144,9 +151,26 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   const renderItem = ({item}: {item: IdType}) =>
     item.id ? (
       <TimeButton
-        disabled={FULL.includes(item.id)}
+        disabled={
+          (selectDate.date === getToday.date &&
+            Number(item.id.split(':')[0]) < getLimitTime.hours) ||
+          Number(item.id.split(':')[0]) === getLimitTime.hours
+            ? Number(item.id.split(':')[1]) <= getLimitTime.minutes
+            : Number(item.id.split(':')[1]) > getLimitTime.minutes ||
+              FULL.includes(item.id)
+        }
         onPress={() => goMakeREZ(item.id)}>
-        <ButtonText disabled={FULL.includes(item.id)}>{item.id}</ButtonText>
+        <ButtonText
+          disabled={
+            (selectDate.date === getToday.date &&
+              Number(item.id.split(':')[0]) < getLimitTime.hours) ||
+            Number(item.id.split(':')[0]) === getLimitTime.hours
+              ? Number(item.id.split(':')[1]) <= getLimitTime.minutes
+              : Number(item.id.split(':')[1]) > getLimitTime.minutes ||
+                FULL.includes(item.id)
+          }>
+          {item.id}
+        </ButtonText>
       </TimeButton>
     ) : (
       <HiddenButton disabled></HiddenButton>
@@ -188,6 +212,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           dayoff={DAYOFF}
           weeklength={calendarDate.length}
           calendarDate={calendarDate}
+          today={getToday}
         />
       </SchemeWrapper>
       <TimeTable isShow={selectDate.date !== 0}>

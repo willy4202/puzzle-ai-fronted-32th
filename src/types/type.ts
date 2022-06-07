@@ -89,6 +89,7 @@ export interface CalendarProps {
   calendarDate: NewDate[];
   weeklength: number;
   dayoff: string[];
+  today: NewDate;
 }
 
 export interface CalBtnProps {

@@ -1,4 +1,10 @@
-import React, {useState, useEffect, useContext, useMemo} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from 'react';
 import {FlatList} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
@@ -9,13 +15,13 @@ import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
 import {SelectContext} from '../../ReservationContext';
 
-interface IdType {
+interface TIMESProp {
   id: string;
 }
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
 const DAYOFF: string[] = ['1', '4', '6', '14', '16', '20', '22', '24', '25'];
-const TIMES: IdType[] = [
+const TIMES: TIMESProp[] = [
   {id: '10:00'},
   {id: '11:00'},
   {id: '12:00'},
@@ -28,8 +34,8 @@ const TIMES: IdType[] = [
   {id: '19:00'},
   {id: '20:00'},
   {id: '21:00'},
-  {id: '21:30'},
-  {id: '21:35'},
+  {id: '22:00'},
+  {id: '23:00'},
 ];
 
 const FULL: string[] = ['10:00', '11:00', '12:00'];
@@ -66,11 +72,6 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   };
 
   const getToday: NewDate = useMemo(() => getNewDate(TODAY), []);
-  const getLimitTime = useMemo(() => {
-    const hours = TODAY.getHours() + 1;
-    const minutes = TODAY.getMinutes();
-    return {hours, minutes};
-  }, []);
 
   const getAlldate = () => {
     const selectFirstDate = getNewDate(new Date(date.year, date.month - 1, 1));
@@ -148,26 +149,31 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     await navigation.navigate('MakeREZ');
   };
 
-  const renderItem = ({item}: {item: IdType}) =>
+  const isTimeValid = useCallback(
+    (item: TIMESProp) => {
+      const LimitHours: number = TODAY.getHours() + 1;
+      const LimitMinutes: number = TODAY.getMinutes();
+      return (
+        Number(item.id.split(':')[0]) < LimitHours ||
+        (Number(item.id.split(':')[0]) === LimitHours &&
+          Number(item.id.split(':')[1]) <= LimitMinutes)
+      );
+    },
+    [date],
+  );
+
+  const renderItem = ({item}: {item: TIMESProp}) =>
     item.id ? (
       <TimeButton
         disabled={
-          (selectDate.date === getToday.date &&
-            Number(item.id.split(':')[0]) < getLimitTime.hours) ||
-          Number(item.id.split(':')[0]) === getLimitTime.hours
-            ? Number(item.id.split(':')[1]) <= getLimitTime.minutes
-            : Number(item.id.split(':')[1]) > getLimitTime.minutes ||
-              FULL.includes(item.id)
+          (selectDate.date === getToday.date && isTimeValid(item)) ||
+          FULL.includes(item.id)
         }
         onPress={() => goMakeREZ(item.id)}>
         <ButtonText
           disabled={
-            (selectDate.date === getToday.date &&
-              Number(item.id.split(':')[0]) < getLimitTime.hours) ||
-            Number(item.id.split(':')[0]) === getLimitTime.hours
-              ? Number(item.id.split(':')[1]) <= getLimitTime.minutes
-              : Number(item.id.split(':')[1]) > getLimitTime.minutes ||
-                FULL.includes(item.id)
+            (selectDate.date === getToday.date && isTimeValid(item)) ||
+            FULL.includes(item.id)
           }>
           {item.id}
         </ButtonText>
@@ -221,7 +227,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           data={TIMES.length % 3 === 2 ? TIMES.concat({id: ''}) : TIMES}
           numColumns={3}
           columnWrapperStyle={{justifyContent: 'space-between'}}
-          keyExtractor={(item: IdType, index: number) => index.toString()}
+          keyExtractor={(item: TIMESProp, index: number) => index.toString()}
         />
         <TimeTableFooter>해당 시간은 현지시간 기준입니다</TimeTableFooter>
       </TimeTable>

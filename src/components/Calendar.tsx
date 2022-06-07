@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext} from 'react';
 import styled from 'styled-components/native';
 import CalendarButton from '@components/CalendarButton';
 import {NewDate, CalendarProps} from '~/src/types/type';
@@ -7,18 +7,21 @@ import {SelectContext} from '../ReservationContext';
 function Calendar({calendarDate, weeklength, dayoff, today}: CalendarProps) {
   const {selectDate} = useContext(SelectContext);
 
+  const isDayValid = useCallback((date: NewDate) => {
+    return (
+      date.year < today.year ||
+      date.month < today.month ||
+      date.date < today.date
+    );
+  }, []);
+
   return (
     <CalendarWrapper>
       <FirstWeek>
         {calendarDate.slice(0, 7).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
-            isDayOff={
-              date.year < today.year ||
-              date.month < today.month ||
-              date.date < today.date ||
-              dayoff.includes(date.date.toString())
-            }
+            isDayOff={isDayValid(date) || dayoff.includes(date.date.toString())}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             dateInfo={date}>
             {date.date}

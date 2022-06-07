@@ -1,24 +1,38 @@
 import React, {useContext} from 'react';
 import styled, {css} from 'styled-components/native';
 import {SelectContext} from '../ReservationContext';
-import {NewDate, CalBtnProps} from '~/src/types/type';
+import {NewDate, SelectDateProp, CalBtnProps} from '~/src/types/type';
 
 function CalendarButton({
   children,
-  isChecked = false,
-  dateInfo = {year: 0, month: 0, date: 0, day: 0},
+  isDayOff,
+  isChecked,
+  dateInfo = {year: 0, month: 0, date: 0, day: 0, time: ''},
 }: CalBtnProps) {
   const {selectDate, setSelectDate} = useContext(SelectContext);
 
   const pressHandler = (dateInfo: NewDate) => {
+    const dayArray = ['일', '월', '화', '수', '목', '금', '토'];
     if (dateInfo.date !== 0) {
-      setSelectDate(dateInfo);
+      const selectDateInfo: SelectDateProp = {
+        year: dateInfo.year,
+        month: dateInfo.month,
+        date: dateInfo.date,
+        day: dayArray[dateInfo.day],
+        time: '',
+      };
+      setSelectDate(selectDateInfo);
     }
   };
 
   return (
-    <CalendarBtn isChecked={isChecked} onPress={() => pressHandler(dateInfo)}>
-      <CalendarText isChecked={isChecked}>{children}</CalendarText>
+    <CalendarBtn
+      disabled={isDayOff}
+      isChecked={isChecked}
+      onPress={() => pressHandler(dateInfo)}>
+      <CalendarText isDayOff={isDayOff} isChecked={isChecked}>
+        {children}
+      </CalendarText>
     </CalendarBtn>
   );
 }
@@ -40,10 +54,12 @@ const CalendarBtn = styled.Pressable<{isChecked: boolean}>`
   }}
 `;
 
-const CalendarText = styled.Text<{isChecked: boolean}>`
+const CalendarText = styled.Text<{isChecked: boolean; isDayOff: boolean}>`
   font-size: ${({theme}) => theme.fontRegular};
-  color: ${({isChecked}) =>
-    isChecked
+  color: ${({isChecked, isDayOff}) =>
+    isDayOff
+      ? ({theme}) => theme.DOCSchemeCaloff
+      : isChecked
       ? ({theme}) => theme.DOCSchemeCalChkFont
       : ({theme}) => theme.DOCSchemeCalFont};
   opacity: ${({children}) => (children === 0 ? 0 : 1)};

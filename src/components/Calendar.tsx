@@ -4,14 +4,16 @@ import CalendarButton from '@components/CalendarButton';
 import {NewDate, CalendarProps} from '~/src/types/type';
 import {SelectContext} from '../ReservationContext';
 
-function Calendar({calendarDate, weeklength}: CalendarProps) {
+function Calendar({calendarDate, weeklength, dayoff}: CalendarProps) {
   const {selectDate} = useContext(SelectContext);
+
   return (
     <CalendarWrapper>
       <FirstWeek>
         {calendarDate.slice(0, 7).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
+            isDayOff={dayoff.includes(date.date.toString())}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             dateInfo={date}>
             {date.date}
@@ -22,6 +24,7 @@ function Calendar({calendarDate, weeklength}: CalendarProps) {
         {calendarDate.slice(7, 14).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
+            isDayOff={dayoff.includes(date.date.toString())}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             dateInfo={date}>
             {date.date}
@@ -32,6 +35,7 @@ function Calendar({calendarDate, weeklength}: CalendarProps) {
         {calendarDate.slice(14, 21).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
+            isDayOff={dayoff.includes(date.date.toString())}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             dateInfo={date}>
             {date.date}
@@ -42,6 +46,7 @@ function Calendar({calendarDate, weeklength}: CalendarProps) {
         {calendarDate.slice(21, 28).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
+            isDayOff={dayoff.includes(date.date.toString())}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             dateInfo={date}>
             {date.date}
@@ -54,6 +59,7 @@ function Calendar({calendarDate, weeklength}: CalendarProps) {
             {calendarDate.slice(28, 35).map((date: NewDate, idx: number) => (
               <CalendarButton
                 key={idx}
+                isDayOff={dayoff.includes(date.date.toString())}
                 isChecked={
                   selectDate.date !== 0 && date.date === selectDate.date
                 }
@@ -67,6 +73,7 @@ function Calendar({calendarDate, weeklength}: CalendarProps) {
               {calendarDate.slice(35, 42).map((date: NewDate, idx: number) => (
                 <CalendarButton
                   key={idx}
+                  isDayOff={dayoff.includes(date.date.toString())}
                   isChecked={
                     selectDate.date !== 0 && date.date === selectDate.date
                   }

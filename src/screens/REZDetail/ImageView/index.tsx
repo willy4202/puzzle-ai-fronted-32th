@@ -15,7 +15,7 @@ const ImageView = () => {
       <ViewTitle>환부 사진</ViewTitle>
       {/* 원래 데이터타입은 Asset, 임시로 any 지정 , 사진 가로 스크롤뷰로 설정*/}
       <ScrollView horizontal>
-        {selectImage.map((item: any) => (
+        {selectImage.map((item: Asset) => (
           <SelectImgWrapper key={item.fileName}>
             <ImageWrapper>
               <SpreadImg source={item} />

@@ -6,5 +6,5 @@ export const config = {
   emailCheck: `${BASE_URL}/users/email_check`,
   check: `${BASE_URL}/users/check`,
   mains: `${BASE_URL}/reservations/subject`,
-  DocScheme: `${BASE_URL}/reservations/time`,
+  docScheme: `${BASE_URL}/reservations/time`,
 };

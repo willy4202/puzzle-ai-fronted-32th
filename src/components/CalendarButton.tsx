@@ -12,27 +12,13 @@ function CalendarButton({
   const {selectDate, setSelectDate} = useContext(SelectContext);
 
   const pressHandler = (dateInfo: NewDate) => {
+    const dayArray = ['일', '월', '화', '수', '목', '금', '토'];
     if (dateInfo.date !== 0) {
       const selectDateInfo: SelectDateProp = {
         year: dateInfo.year,
         month: dateInfo.month,
         date: dateInfo.date,
-        day:
-          dateInfo.day === 0
-            ? '일'
-            : dateInfo.day === 1
-            ? '월'
-            : dateInfo.day === 2
-            ? '화'
-            : dateInfo.day === 3
-            ? '수'
-            : dateInfo.day === 4
-            ? '목'
-            : dateInfo.day === 5
-            ? '금'
-            : dateInfo.day === 6
-            ? '토'
-            : '',
+        day: dayArray[dateInfo.day],
         time: '',
       };
       setSelectDate(selectDateInfo);

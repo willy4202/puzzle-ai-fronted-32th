@@ -6,6 +6,7 @@ import {SelectContext} from '../ReservationContext';
 
 function Calendar({calendarDate, weeklength, dayoff}: CalendarProps) {
   const {selectDate} = useContext(SelectContext);
+
   return (
     <CalendarWrapper>
       <FirstWeek>

@@ -57,13 +57,13 @@ function App() {
                 <Stack.Navigator>
                   {userState.isLogIn ? (
                     <>
-                      <Stack.Screen name="DocScheme" component={DocScheme} />
                       <Stack.Screen
                         name="Mains"
                         component={Mains}
                         options={{headerShown: false}}
                       />
                       <Stack.Screen name="DocList" component={DocList} />
+                      <Stack.Screen name="DocScheme" component={DocScheme} />
                       <Stack.Screen name="MakeREZ" component={MakeREZ} />
                       <Stack.Screen
                         name="REZSubmit"

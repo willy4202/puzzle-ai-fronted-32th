@@ -1,15 +1,7 @@
 import React, {useContext} from 'react';
 import styled, {css} from 'styled-components/native';
-import {Text, Pressable} from 'react-native';
-import theme from '~/src/styles/theme';
 import {SelectContext} from '../ReservationContext';
-import {NewDate} from '~/src/types/type';
-
-interface CalBtnProps {
-  children: number;
-  isChecked: boolean;
-  dateInfo: NewDate;
-}
+import {NewDate, CalBtnProps} from '~/src/types/type';
 
 function CalendarButton({
   children,

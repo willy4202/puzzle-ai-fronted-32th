@@ -5,10 +5,7 @@ function Splash() {
   return (
     <View>
       <Text>Main</Text>
-      <Button
-        title="go to Entry"
-        onPress={() => navigation.navigate('MakeREZ')}
-      />
+      <Button title="go to Entry" />
     </View>
   );
 }

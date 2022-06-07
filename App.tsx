@@ -45,9 +45,6 @@ function App() {
   const [symptomText, setSymptomText] = useState('');
   const [selectImage, setSelectImage] = useState<Asset[]>([]);
 
-  const textStorage = {symptomText, setSymptomText};
-  const imgStorage = {selectImage, setSelectImage};
-
   useEffect(() => {
     loadData();
   }, []);
@@ -57,8 +54,8 @@ function App() {
   }
 
   return (
-    <SelectSymptomContext.Provider value={textStorage}>
-      <SelectImageContext.Provider value={imgStorage}>
+    <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
+      <SelectImageContext.Provider value={{selectImage, setSelectImage}}>
         <ThemeProvider theme={theme}>
           <SafeAreaProvider>
             <NavigationContainer>

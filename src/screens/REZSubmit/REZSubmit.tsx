@@ -30,7 +30,6 @@ function REZSubmit({navigation}: NavigationProps) {
   const [formImg, setFormImg] = useState();
   const [doctorInfo, setDoctorInfo] = useState<DoctorType>();
   const [date, setDate] = useState('');
-  const popAction = StackActions.pop('1');
 
   useEffect(() => {
     setDoctorInfo(DOCTOR_MOCK);
@@ -86,7 +85,7 @@ function REZSubmit({navigation}: NavigationProps) {
   };
 
   const goBackScreen = () => {
-    navigation.dispatch(popAction);
+    navigation.goBack();
   };
 
   return (

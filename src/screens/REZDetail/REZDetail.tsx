@@ -1,21 +1,18 @@
 import React, {useContext, useState} from 'react';
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from 'App';
-import {SelectImageContext} from '~/src/ReservationContext';
 import DoctorCard from '@components/DoctorCard';
 import Symptom from './Symptom';
 import DoctorOpinion from './DoctorOpinion';
 import ImageView from './ImageView';
 import Button from './Button';
-import {Text, View} from 'react-native';
+import Status from '~/src/components/Status';
 
 type NavigationProps = StackScreenProps<HomeStackParamList, 'REZDetail'>;
 
 function REZDetail({navigation}: NavigationProps) {
   const [status, setStatus] = useState('진료대기');
-
-  const {selectImage} = useContext(SelectImageContext);
 
   const testPress = () => {
     if (status === '진료대기') {
@@ -35,6 +32,7 @@ function REZDetail({navigation}: NavigationProps) {
     <Container>
       <DoctorView>
         <DoctorCard />
+        {/* TEST : 임시로 스테이터스 변동하는 함수 */}
         <StatusView onPress={testPress}>
           <Status status={status}>{status}</Status>
         </StatusView>
@@ -46,7 +44,7 @@ function REZDetail({navigation}: NavigationProps) {
         </DateView>
         <ImageView />
         <Symptom />
-        <DoctorOpinion />
+        {status === '진료완료' && <DoctorOpinion />}
       </Section>
       <Button
         goBackCalender={goBackCalender}
@@ -75,11 +73,6 @@ const StatusView = styled.TouchableOpacity`
   position: absolute;
   right: 0;
   top: 0;
-`;
-
-const Status = styled.Text`
-  background-color: yellow;
-  padding: 2px 10px;
 `;
 
 const Section = styled.View`

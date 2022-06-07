@@ -22,21 +22,7 @@ import {
 
 import {ThemeProvider} from 'styled-components';
 import theme from './src/styles/theme';
-
-export type HomeStackParamList = {
-  Splash: undefined;
-  Entry: undefined;
-  Login: undefined;
-  Signup: undefined;
-  Mains: undefined;
-  DocList: undefined;
-  DocScheme: undefined;
-  REZList: undefined;
-  MakeREZ: undefined;
-  REZSubmit: undefined;
-  REZDetail: undefined;
-  Main: undefined;
-};
+import {HomeStackParamList} from '~/src/types/type';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
@@ -60,8 +46,15 @@ function App() {
           <SafeAreaProvider>
             <NavigationContainer>
               <Stack.Navigator>
-                {!userState.isLogIn ? (
+                {userState.isLogIn ? (
                   <>
+                    <Stack.Screen
+                      name="Mains"
+                      component={Mains}
+                      options={{headerShown: false}}
+                    />
+                    <Stack.Screen name="DocList" component={DocList} />
+                    <Stack.Screen name="DocScheme" component={DocScheme} />
                     <Stack.Screen name="MakeREZ" component={MakeREZ} />
                     <Stack.Screen
                       name="REZSubmit"
@@ -69,10 +62,6 @@ function App() {
                       options={{title: '', headerShown: false}}
                     />
                     <Stack.Screen name="REZDetail" component={REZDetail} />
-                    <Stack.Screen name="Main" component={Main} />
-                    <Stack.Screen name="DocList" component={DocList} />
-                    <Stack.Screen name="DocScheme" component={DocScheme} />
-                    <Stack.Screen name="REZList" component={REZList} />
                   </>
                 ) : (
                   <>

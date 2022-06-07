@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {Text, View, Image} from 'react-native';
 import logo from 'assets/images/logo.png';
 import LoginSignupBtn from '@components/LoginSignupBtn';
-import {StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from '../../../App';
-
-type EntryNavigationProps = StackScreenProps<HomeStackParamList, 'Entry'>;
+import {EntryNavigationProps} from '~/src/types/type';
 
 function Entry({navigation}: EntryNavigationProps) {
   const navigateHandler = (path: 'Login' | 'Signup') => {

@@ -52,16 +52,6 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
   const [symptomText, setSymptomText] = useState('');
   const [docOpinion, setDocOpinion] = useState('');
 
-  const testPress = () => {
-    if (status === '진료대기') {
-      setStatus('진료완료');
-    } else if (status === '진료완료') {
-      setStatus('진료취소');
-    } else {
-      setStatus('진료대기');
-    }
-  };
-
   const goBackCalender = () => {
     navigation.navigate('DocScheme');
   };
@@ -78,7 +68,7 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
       <DoctorView>
         <DoctorCard />
         {/* TODO : 임시로 스테이터스 변동하는 스타일링 적용, fetch 체크 예정 */}
-        <StatusView onPress={testPress}>
+        <StatusView>
           <Status status={status}>{status}</Status>
         </StatusView>
       </DoctorView>

@@ -1,8 +1,14 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import styled from 'styled-components/native';
 import React from 'react';
 
-const Button = ({status, setStatus, goBackCalender}) => {
+interface ButtonProps {
+  status: string;
+  setStatus: () => void;
+  goBackCalender: () => void;
+}
+
+const Button = ({status, setStatus, goBackCalender}: ButtonProps) => {
   return (
     <BtnWrapper>
       {status !== '진료취소' && (

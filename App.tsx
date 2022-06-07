@@ -5,10 +5,9 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import Entry from '@screens/Entry/Entry';
 import Login from '@screens/Login/Login';
-import Main from '@screens/Main/Main';
+import Mains from '@components/Mains';
 import DocList from '@screens/DocList/DocList';
 import DocScheme from '@screens/DocScheme/DocScheme';
-import REZList from '@screens/REZList/REZList';
 import MakeREZ from '@screens/MakeREZ/MakeREZ';
 import REZDetail from '@screens/REZDetail/REZDetail';
 import REZSubmit from '@screens/REZSubmit/REZSubmit';
@@ -29,13 +28,14 @@ export type HomeStackParamList = {
   Entry: undefined;
   Login: undefined;
   Signup: undefined;
-  Main: undefined;
+  Mains: undefined;
   DocList: undefined;
   DocScheme: undefined;
   REZList: undefined;
   MakeREZ: undefined;
   REZSubmit: undefined;
   REZDetail: undefined;
+  Main: undefined;
 };
 
 const Stack = createStackNavigator<HomeStackParamList>();
@@ -54,6 +54,7 @@ function App() {
   }
 
   return (
+<<<<<<< HEAD
     <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
       <SelectImageContext.Provider value={{selectImage, setSelectImage}}>
         <ThemeProvider theme={theme}>
@@ -87,6 +88,40 @@ function App() {
         </ThemeProvider>
       </SelectImageContext.Provider>
     </SelectSymptomContext.Provider>
+=======
+    <ThemeProvider theme={theme}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Mains">
+            {userState.isLogIn ? (
+              <>
+                <Stack.Screen
+                  name="REZSubmit"
+                  component={REZSubmit}
+                  options={{title: '', headerShown: false}}
+                />
+                <Stack.Screen name="MakeREZ" component={MakeREZ} />
+                <Stack.Screen name="DocList" component={DocList} />
+                <Stack.Screen name="DocScheme" component={DocScheme} />
+                <Stack.Screen name="REZDetail" component={REZDetail} />
+                <Stack.Screen
+                  name="Mains"
+                  component={Mains}
+                  options={{headerShown: false}}
+                />
+              </>
+            ) : (
+              <>
+                <Stack.Screen name="Entry" component={Entry} />
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Signup" component={Signup} />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </ThemeProvider>
+>>>>>>> feature/REZSubmit/ui
   );
 }
 

@@ -1,20 +1,13 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import styled from 'styled-components/native';
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  TextInput,
-  Platform,
-  Alert,
-} from 'react-native';
+import {Alert} from 'react-native';
 import InputWrapper from '@components/InputWrapper';
 import PasswordWrapper from '@components/PasswordWrapper';
-import {UserData} from '~/types/type';
+import {UserData} from '~/src/types/type';
 import {StackScreenProps} from '@react-navigation/stack';
 import {HomeStackParamList} from '../../../App';
 import LoginSignupBtn from '@components/LoginSignupBtn';
-import {config} from '../../config';
+import {config} from '~/src/config';
 
 type SignupNavigationProps = StackScreenProps<HomeStackParamList, 'Signup'>;
 
@@ -49,7 +42,8 @@ function Signup({navigation}: SignupNavigationProps) {
           })
             .then(res => res.json())
             .then(res => {
-              if (res.message === 'email validation pass') {
+              console.log(res);
+              if (res.message === 'email unique check pass') {
                 setIsSameEmail(true);
               } else {
                 setIsSameEmail(false);
@@ -105,13 +99,13 @@ function Signup({navigation}: SignupNavigationProps) {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         if (res.message === 'signup success') {
           return Alert.alert('회원가입에 성공하셨습니다.');
         } else {
           return Alert.alert('입력정보를 확인하신 후 다시 시도해주세요');
         }
       });
+    navigation.navigate('Entry');
   };
 
   return (

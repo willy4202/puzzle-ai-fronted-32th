@@ -6,9 +6,11 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Entry from '@screens/Entry/Entry';
 import Login from '@screens/Login/Login';
 import Mains from '@components/Mains';
+import Main from '@screens/Main/Main';
 import DocList from '@screens/DocList/DocList';
 import DocScheme from '@screens/DocScheme/DocScheme';
 import MakeREZ from '@screens/MakeREZ/MakeREZ';
+import REZList from '@screens/REZList/REZList';
 import REZDetail from '@screens/REZDetail/REZDetail';
 import REZSubmit from '@screens/REZSubmit/REZSubmit';
 import Signup from '@screens/Signup/Signup';
@@ -54,43 +56,48 @@ function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
-            {!userState.isLogIn ? (
-              <>
-                <Stack.Screen
-                  name="REZDetail"
-                  component={REZDetail}
-                  options={{
-                    title: '예약 상세보기',
-                  }}
-                />
-                <Stack.Screen
-                  name="REZSubmit"
-                  component={REZSubmit}
-                  options={{
-                    title: '',
-                  }}
-                />
-                <Stack.Screen name="MakeREZ" component={MakeREZ} />
-                <Stack.Screen name="Main" component={Main} />
-                <Stack.Screen name="DocList" component={DocList} />
-                <Stack.Screen name="DocScheme" component={DocScheme} />
-                <Stack.Screen name="REZList" component={REZList} />
-              </>
-            ) : (
-              <>
-                <Stack.Screen name="Entry" component={Entry} />
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Signup" component={Signup} />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </ThemeProvider>
+    <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
+      <SelectImageContext.Provider value={{selectImage, setSelectImage}}>
+        <ThemeProvider theme={theme}>
+          <SafeAreaProvider>
+            <NavigationContainer>
+              <Stack.Navigator>
+                {!userState.isLogIn ? (
+                  <>
+                    <Stack.Screen name="MakeREZ" component={MakeREZ} />
+                    <Stack.Screen
+                      name="REZSubmit"
+                      component={REZSubmit}
+                      options={{
+                        title: '',
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="REZDetail"
+                      component={REZDetail}
+                      options={{
+                        title: '예약 상세보기',
+                      }}
+                    />
+                    <Stack.Screen name="Main" component={Main} />
+                    <Stack.Screen name="DocList" component={DocList} />
+                    <Stack.Screen name="DocScheme" component={DocScheme} />
+                    <Stack.Screen name="REZList" component={REZList} />
+                  </>
+                ) : (
+                  <>
+                    <Stack.Screen name="Entry" component={Entry} />
+                    <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen name="Signup" component={Signup} />
+                  </>
+                )}
+              </Stack.Navigator>
+            </NavigationContainer>
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </SelectImageContext.Provider>
+    </SelectSymptomContext.Provider>
   );
 }
 

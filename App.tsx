@@ -59,9 +59,17 @@ function App() {
                     <Stack.Screen
                       name="REZSubmit"
                       component={REZSubmit}
-                      options={{title: '', headerShown: false}}
+                      options={{
+                        title: '',
+                      }}
                     />
-                    <Stack.Screen name="REZDetail" component={REZDetail} />
+                    <Stack.Screen
+                      name="REZDetail"
+                      component={REZDetail}
+                      options={{
+                        title: '예약 상세보기',
+                      }}
+                    />
                   </>
                 ) : (
                   <>

@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import React, {useContext} from 'react';
-import {View, Text} from 'react-native';
 import {SelectImageContext} from '~/src/ReservationContext';
 
 import {Asset} from 'react-native-image-picker';
@@ -13,7 +12,7 @@ const ImageView = () => {
     <Container>
       {/* TODO : 이미지가 안들어올 경우 && 연산자로 null 처리하기  */}
       <ViewTitle>환부 사진</ViewTitle>
-      {/* 원래 데이터타입은 Asset, 임시로 any 지정 , 사진 가로 스크롤뷰로 설정*/}
+
       <ScrollView horizontal>
         {selectImage.map((item: Asset) => (
           <SelectImgWrapper key={item.fileName}>

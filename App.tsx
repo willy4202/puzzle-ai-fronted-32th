@@ -64,7 +64,13 @@ function App() {
               <Stack.Navigator>
                 {!userState.isLogIn ? (
                   <>
-                    <Stack.Screen name="MakeREZ" component={MakeREZ} />
+                    <Stack.Screen
+                      name="MakeREZ"
+                      component={MakeREZ}
+                      options={{
+                        title: '진료 예약',
+                      }}
+                    />
                     <Stack.Screen
                       name="REZSubmit"
                       component={REZSubmit}

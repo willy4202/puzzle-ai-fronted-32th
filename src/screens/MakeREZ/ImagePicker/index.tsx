@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import styled from 'styled-components/native';
-import {ScrollView, Text} from 'react-native';
 import {SelectImageContext} from '~/src/ReservationContext';
 import cameraImg from 'assets/images/reservation-photo-icon.png';
 import deleteBtn from 'assets/images/delet-btn.png';

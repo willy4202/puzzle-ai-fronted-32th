@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {FlatList} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
-import {DocSchemeNavigationProps} from '~/src/types/type';
+import {DocSchemeNavigationProps, SelectDateProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
@@ -42,12 +42,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     date: TODAY.getDate(),
     day: TODAY.getDay(),
   });
-  const [selectDate, setSelectDate] = useState({
-    year: 0,
-    month: 0,
-    date: 0,
-    day: 0,
-  });
+  const {selectDate, setSelectDate} = useContext(SelectContext);
 
   useEffect(() => {
     navigation.setOptions({
@@ -67,7 +62,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     const date = newDate.getDate();
     const day = newDate.getDay();
 
-    return {year, month, date, day};
+    return {year, month, date, day, time: ''};
   };
 
   const getAlldate = () => {
@@ -120,7 +115,8 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       year: 0,
       month: 0,
       date: 0,
-      day: 0,
+      day: '',
+      time: '',
     });
     direction === 'prev'
       ? setDate(prev => ({...prev, month: date.month - 1}))
@@ -132,18 +128,24 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       year: 0,
       month: 0,
       date: 0,
-      day: 0,
+      day: '',
+      time: '',
     });
     direction === 'prev'
       ? setDate(prev => ({...prev, year: date.year - 1}))
       : setDate(prev => ({...prev, year: date.year + 1}));
   };
 
+  const goMakeREZ = async (time: string) => {
+    setSelectDate((prev: SelectDateProp) => ({...prev, time: time}));
+    await navigation.navigate('MakeREZ');
+  };
+
   const renderItem = ({item}: {item: IdType}) =>
     item.id ? (
       <TimeButton
         disabled={FULL.includes(item.id)}
-        onPress={() => navigation.navigate('MakeREZ')}>
+        onPress={() => goMakeREZ(item.id)}>
         <ButtonText disabled={FULL.includes(item.id)}>{item.id}</ButtonText>
       </TimeButton>
     ) : (
@@ -182,13 +184,11 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
             </WeekButton>
           ))}
         </WeekInfo>
-        <SelectContext.Provider value={{selectDate, setSelectDate}}>
-          <Calendar
-            dayoff={DAYOFF}
-            weeklength={calendarDate.length}
-            calendarDate={calendarDate}
-          />
-        </SelectContext.Provider>
+        <Calendar
+          dayoff={DAYOFF}
+          weeklength={calendarDate.length}
+          calendarDate={calendarDate}
+        />
       </SchemeWrapper>
       <TimeTable isShow={selectDate.date !== 0}>
         <TimeButtonWrapper

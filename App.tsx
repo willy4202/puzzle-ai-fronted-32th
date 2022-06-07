@@ -35,7 +35,7 @@ function App() {
     year: 0,
     month: 0,
     date: 0,
-    day: 0,
+    day: '',
     time: '',
   });
 
@@ -47,51 +47,51 @@ function App() {
     return <Splash />;
   }
 
-  console.log(selectDate);
-
   return (
     <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
       <SelectImageContext.Provider value={{selectImage, setSelectImage}}>
-        <ThemeProvider theme={theme}>
-          <SafeAreaProvider>
-            <NavigationContainer>
-              <Stack.Navigator>
-                {userState.isLogIn ? (
-                  <>
-                    <Stack.Screen
-                      name="Mains"
-                      component={Mains}
-                      options={{headerShown: false}}
-                    />
-                    <Stack.Screen name="DocList" component={DocList} />
-                    <Stack.Screen name="DocScheme" component={DocScheme} />
-                    <Stack.Screen name="MakeREZ" component={MakeREZ} />
-                    <Stack.Screen
-                      name="REZSubmit"
-                      component={REZSubmit}
-                      options={{
-                        title: '',
-                      }}
-                    />
-                    <Stack.Screen
-                      name="REZDetail"
-                      component={REZDetail}
-                      options={{
-                        title: '예약 상세보기',
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Stack.Screen name="Entry" component={Entry} />
-                    <Stack.Screen name="Login" component={Login} />
-                    <Stack.Screen name="Signup" component={Signup} />
-                  </>
-                )}
-              </Stack.Navigator>
-            </NavigationContainer>
-          </SafeAreaProvider>
-        </ThemeProvider>
+        <SelectContext.Provider value={{selectDate, setSelectDate}}>
+          <ThemeProvider theme={theme}>
+            <SafeAreaProvider>
+              <NavigationContainer>
+                <Stack.Navigator>
+                  {userState.isLogIn ? (
+                    <>
+                      <Stack.Screen name="DocScheme" component={DocScheme} />
+                      <Stack.Screen
+                        name="Mains"
+                        component={Mains}
+                        options={{headerShown: false}}
+                      />
+                      <Stack.Screen name="DocList" component={DocList} />
+                      <Stack.Screen name="MakeREZ" component={MakeREZ} />
+                      <Stack.Screen
+                        name="REZSubmit"
+                        component={REZSubmit}
+                        options={{
+                          title: '',
+                        }}
+                      />
+                      <Stack.Screen
+                        name="REZDetail"
+                        component={REZDetail}
+                        options={{
+                          title: '예약 상세보기',
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Stack.Screen name="Entry" component={Entry} />
+                      <Stack.Screen name="Login" component={Login} />
+                      <Stack.Screen name="Signup" component={Signup} />
+                    </>
+                  )}
+                </Stack.Navigator>
+              </NavigationContainer>
+            </SafeAreaProvider>
+          </ThemeProvider>
+        </SelectContext.Provider>
       </SelectImageContext.Provider>
     </SelectSymptomContext.Provider>
   );

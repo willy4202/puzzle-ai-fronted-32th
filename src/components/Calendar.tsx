@@ -4,15 +4,7 @@ import CalendarButton from '@components/CalendarButton';
 import {NewDate, CalendarProps} from '~/src/types/type';
 import {SelectContext} from '../ReservationContext';
 
-function Calendar({
-  calendarDate,
-  weeklength,
-  dayoff,
-}: {
-  calendarDate: NewDate[];
-  weeklength: number;
-  dayoff: string[];
-}) {
+function Calendar({calendarDate, weeklength, dayoff}: CalendarProps) {
   const {selectDate} = useContext(SelectContext);
   return (
     <CalendarWrapper>

@@ -74,17 +74,28 @@ export interface NewDate {
   month: number;
   date: number;
   day: number;
+  time: string;
+}
+
+export interface SelectDateProp {
+  year: number;
+  month: number;
+  date: number;
+  day: string;
+  time: string;
 }
 
 export interface CalendarProps {
   calendarDate: NewDate[];
   weeklength: number;
+  dayoff: string[];
 }
 
 export interface CalBtnProps {
   children: number;
   isChecked: boolean;
   dateInfo: NewDate;
+  isDayOff: boolean;
 }
 
 export type MakeREZNavigationProps = StackScreenProps<

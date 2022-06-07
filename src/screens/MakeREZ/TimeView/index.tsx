@@ -1,12 +1,32 @@
-import React from 'react';
+import React, {useContext, useMemo} from 'react';
 import styled from 'styled-components/native';
+import {SelectContext} from '~/src/ReservationContext';
 
 function TimeView() {
+  const {selectDate} = useContext(SelectContext);
+
+  const getTime: Date = useMemo(
+    () =>
+      new Date(
+        selectDate.year,
+        selectDate.month,
+        selectDate.date,
+        Number(selectDate.time.split(':')[0]),
+        Number(selectDate.time.split(':')[1]),
+      ),
+    [],
+  );
+
   return (
     <ViewContainer>
       <ViewTitle>예약시간</ViewTitle>
       <SelectTimeWrapper>
-        <SelectTimeText>2020-07-24(금) 오후 3:00 </SelectTimeText>
+        <SelectTimeText>
+          {String(selectDate.year).padStart(2, '0')}-
+          {String(selectDate.month).padStart(2, '0')}-
+          {String(selectDate.date).padStart(2, '0')}({selectDate.day}){' '}
+          {getTime.toLocaleTimeString([], {timeStyle: 'short'})}
+        </SelectTimeText>
       </SelectTimeWrapper>
     </ViewContainer>
   );

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, {useContext, useEffect, useState} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
@@ -7,15 +6,6 @@ import DoctorCard from '@components/DoctorCard';
 import {DocInfoContext} from '~/src/ReservationContext';
 
 const DATA: InitialDocListProp[] = [];
-=======
-import React, {useEffect, useState} from 'react';
-import {Dimensions, FlatList} from 'react-native';
-import styled from 'styled-components/native';
-import {DocListNavigationProps, initialDocListProp} from '~/src/types/type';
-import DoctorCard from '@components/DoctorCard';
-
-const DATA: initialDocListProp[] = [];
->>>>>>> 7aa0589 (list페이지(Doc,REZ)레이아웃 완료)
 for (let i = 0; i < 100; i++) {
   DATA.push({
     id: i,

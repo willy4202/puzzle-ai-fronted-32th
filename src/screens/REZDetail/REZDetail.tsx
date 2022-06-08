@@ -58,6 +58,8 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
     navigation.navigate('DocScheme');
   };
 
+  console.log(docInfo);
+
   useEffect(() => {
     setStatus(MOCK_DATA.status);
     setSymptomText(MOCK_DATA.symptom);

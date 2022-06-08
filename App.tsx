@@ -66,12 +66,20 @@ function App() {
                       />
                       <Stack.Screen name="DocList" component={DocList} />
                       <Stack.Screen name="DocScheme" component={DocScheme} />
-                      <Stack.Screen name="MakeREZ" component={MakeREZ} />
+                      <Stack.Screen
+                        name="MakeREZ"
+                        component={MakeREZ}
+                        options={{
+                          title: '진료 예약',
+                          headerStyle: {shadowColor: 'white'},
+                          headerTitleAlign: 'center',
+                        }}
+                      />
                       <Stack.Screen
                         name="REZSubmit"
                         component={REZSubmit}
                         options={{
-                          title: '',
+                          headerShown: false,
                         }}
                       />
                       <Stack.Screen
@@ -79,6 +87,8 @@ function App() {
                         component={REZDetail}
                         options={{
                           title: '예약 상세보기',
+                          headerStyle: {shadowColor: 'white'},
+                          headerTitleAlign: 'center',
                         }}
                       />
                     </>

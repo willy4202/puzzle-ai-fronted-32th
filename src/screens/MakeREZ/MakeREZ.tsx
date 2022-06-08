@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import styled, {css} from 'styled-components/native';
-import {SelectSymptomContext} from '~/src/ReservationContext';
+import {SelectSymptomContext, DocInfoContext} from '~/src/ReservationContext';
 import DoctorCard from '@components/DoctorCard';
 import TimeView from './TimeView';
 import SymptomView from './SymptomView';
@@ -9,6 +9,7 @@ import {MakeREZNavigationProps} from '~/src/types/type';
 
 function MakeREZ({navigation}: MakeREZNavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
+  const {docInfo} = useContext(DocInfoContext);
 
   const navigate = () => {
     navigation.push('REZSubmit');
@@ -17,7 +18,7 @@ function MakeREZ({navigation}: MakeREZNavigationProps) {
   return (
     <Container>
       <DoctorView>
-        <DoctorCard />
+        <DoctorCard docData={docInfo} />
       </DoctorView>
       <TimeView />
       <SymptomView />

@@ -172,22 +172,21 @@ const Container = styled.View`
 const Header = styled.View`
   flex: 2;
   align-items: center;
-  margin-top: 30%;
-  margin-bottom: 10%;
+  margin-top: 60px;
+  margin-bottom: 20px;
   border-bottom-width: 1px;
   border-bottom-color: ${({theme}) => theme.REZSubmitBorder};
-  border-bottom-style: dotted;
 `;
 
 const HeaderText = styled.Text`
-  margin: 28px 0 36px 0;
+  margin: 20px;
   color: ${({theme}) => theme.REZSubmitTitle};
   font-size: ${({theme}) => theme.fontMedium};
   line-height: ${({theme}) => theme.lineHeightLarge};
 `;
 
 const Body = styled.View`
-  flex: 5;
+  flex: 4;
   align-items: flex-start;
 `;
 
@@ -208,7 +207,8 @@ const REZInfo = styled.Text`
 `;
 
 const CautionInfoContainer = styled.View`
-  flex: 1;
+  flex: 2;
+  justify-content: flex-end;
 `;
 
 const CautionInfo = styled.Text`

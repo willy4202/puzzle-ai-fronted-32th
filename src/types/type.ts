@@ -7,7 +7,7 @@ export type HomeStackParamList = {
   Login: undefined;
   Signup: undefined;
   Mains: undefined;
-  DocList: undefined;
+  DocList: CategoryProp;
   DocScheme: undefined;
   REZList: undefined;
   MakeREZ: undefined;
@@ -59,9 +59,33 @@ export interface LoginSignupBtnProps {
 
 export type MainNavigationProps = StackScreenProps<HomeStackParamList, 'Main'>;
 
-export interface MainDataProp {
-  result: {id: number; name: string; file_location: string}[];
+export interface CategoryProp {
+  id: number;
   name: string;
+  file_location: string;
+}
+
+export interface MainDataProp {
+  result: CategoryProp[];
+  name: string;
+}
+
+export type REZListNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'REZList'
+>;
+
+export type DocListNavigationProps = StackScreenProps<
+  HomeStackParamList,
+  'DocList'
+>;
+
+export interface InitialDocListProp {
+  id: number;
+  name: string;
+  subject: string;
+  hospital: string;
+  profile_image: string;
 }
 
 export type DocSchemeNavigationProps = StackScreenProps<

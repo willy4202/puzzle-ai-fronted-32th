@@ -9,9 +9,8 @@ function Calendar({calendarDate, weeklength, dayoff, today}: CalendarProps) {
 
   const isDayValid = useCallback((date: NewDate) => {
     return (
-      date.year < today.year ||
-      date.month < today.month ||
-      date.date < today.date
+      new Date(date.year, date.month, date.date) <
+      new Date(today.year, today.month, today.date)
     );
   }, []);
 

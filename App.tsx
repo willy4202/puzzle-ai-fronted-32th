@@ -23,12 +23,19 @@ import {
 
 import {ThemeProvider} from 'styled-components';
 import theme from './src/styles/theme';
-import {HomeStackParamList} from '~/src/types/type';
+import {HomeStackParamList, initialDocListProp} from '~/src/types/type';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
   const {userState, loadData} = useContext(AuthContext);
+  const [initialDocData, setInitialDocData] = useState<initialDocListProp>({
+    id: 0,
+    name: '',
+    subject: '',
+    hospital: '',
+    profile_image: '',
+  });
   const [symptomText, setSymptomText] = useState('');
   const [selectImage, setSelectImage] = useState<Asset[]>([]);
   const [selectDate, setSelectDate] = useState({

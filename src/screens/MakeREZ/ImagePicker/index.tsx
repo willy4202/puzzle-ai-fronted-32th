@@ -12,7 +12,7 @@ import {
 const options: ImageLibraryOptions = {
   maxHeight: 200,
   maxWidth: 200,
-  selectionLimit: 3,
+  selectionLimit: 6,
   mediaType: 'photo',
   includeBase64: false,
 };
@@ -39,7 +39,12 @@ function ImagePicker() {
   return (
     <ImageView>
       <ViewTitle>환부 사진 업로드(선택)</ViewTitle>
-      <ImageContainer>
+      <ScrollViewContainer horizontal>
+        {selectImage.length < 6 && (
+          <ImageWrapper onPress={openGallery}>
+            <CameraLogo source={cameraImg} />
+          </ImageWrapper>
+        )}
         {selectImage.map((item: Asset) => (
           <SelectImgWrapper key={item.fileName}>
             <DeleteWrapper onPress={() => handleDelete(item.fileName)}>
@@ -50,12 +55,7 @@ function ImagePicker() {
             </ImageWrapper>
           </SelectImgWrapper>
         ))}
-        {selectImage.length < 3 && (
-          <ImageWrapper onPress={openGallery}>
-            <CameraLogo source={cameraImg} />
-          </ImageWrapper>
-        )}
-      </ImageContainer>
+      </ScrollViewContainer>
     </ImageView>
   );
 }
@@ -73,30 +73,20 @@ const ViewTitle = styled.Text`
   margin: 0 18px 0 18px;
 `;
 
-const ImageContainer = styled.View`
-  flex: 1;
-  flex-direction: row;
-  padding: 4% 2%;
-  align-items: center;
-  height: 100%;
-  width: 33%;
+const ScrollViewContainer = styled.ScrollView`
+  margin: 20px;
 `;
 
 const ImageWrapper = styled.Pressable`
-  height: 100%;
-  width: 100%;
-  margin: 0 4px;
+  width: 106px;
+  height: 106px;
   align-items: center;
   justify-content: center;
   background-color: ${({theme}) => theme.MakeREZInputBack};
 `;
 
 const SelectImgWrapper = styled.View`
-  height: 100%;
-  width: 100%;
   margin: 5px;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   background-color: ${({theme}) => theme.MakeREZInputBack};
 `;

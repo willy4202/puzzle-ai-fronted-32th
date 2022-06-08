@@ -6,11 +6,9 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Entry from '@screens/Entry/Entry';
 import Login from '@screens/Login/Login';
 import Mains from '@components/Mains';
-import Main from '@screens/Main/Main';
 import DocList from '@screens/DocList/DocList';
 import DocScheme from '@screens/DocScheme/DocScheme';
 import MakeREZ from '@screens/MakeREZ/MakeREZ';
-import REZList from '@screens/REZList/REZList';
 import REZDetail from '@screens/REZDetail/REZDetail';
 import REZSubmit from '@screens/REZSubmit/REZSubmit';
 import Signup from '@screens/Signup/Signup';
@@ -25,12 +23,19 @@ import {
 
 import {ThemeProvider} from 'styled-components';
 import theme from './src/styles/theme';
-import {HomeStackParamList} from '~/src/types/type';
+import {HomeStackParamList, initialDocListProp} from '~/src/types/type';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
   const {userState, loadData} = useContext(AuthContext);
+  const [initialDocData, setInitialDocData] = useState<initialDocListProp>({
+    id: 0,
+    name: '',
+    subject: '',
+    hospital: '',
+    profile_image: '',
+  });
   const [symptomText, setSymptomText] = useState('');
   const [selectImage, setSelectImage] = useState<Asset[]>([]);
   const [selectDate, setSelectDate] = useState({

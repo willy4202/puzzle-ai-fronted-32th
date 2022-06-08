@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import {initialDocListProp} from '~/src/types/type';
 
-function DoctorCard() {
+function DoctorCard({docData}: {docData: initialDocListProp}) {
+  console.log(docData);
+
   return (
     <Card>
-      <DoctorImg></DoctorImg>
+      <DoctorImg source={{uri: docData.profile_image}}></DoctorImg>
       <DoctorInfoWrapper>
-        <DoctorName>홍정의 선생님</DoctorName>
+        <DoctorName>{docData.name} 선생님</DoctorName>
         <CategoryInfo>
-          <Category>피부과 전문의</Category>
-          <Hospital>퍼즐AI병원</Hospital>
+          <Category>{docData.subject} 전문의</Category>
+          <Hospital>{docData.hospital}</Hospital>
         </CategoryInfo>
       </DoctorInfoWrapper>
     </Card>
@@ -25,7 +28,7 @@ const Card = styled.View`
   border-bottom-color: ${({theme}) => theme.REZListBorder};
 `;
 
-const DoctorImg = styled.View`
+const DoctorImg = styled.Image`
   width: 50px;
   height: 50px;
   margin-right: 20px;

@@ -33,7 +33,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     date: TODAY.getDate(),
     day: TODAY.getDay(),
   });
-  const [weeksOff, setWeeksOff] = useState([]);
+  const [weeksOff, setWeeksOff] = useState<number[]>([]);
   const [timeTable, setTimeTable] = useState<TimeTableProp>({
     expired_times: [],
     working_times: {times: []},
@@ -172,6 +172,9 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       const timetableHours: number = Number(item.split(':')[0]);
       const timetableMinutes: number = Number(item.split(':')[1]);
       return (
+        selectDate.year === today.year &&
+        selectDate.month === today.month &&
+        selectDate.date === today.date &&
         new Date(
           today.year,
           today.month,
@@ -179,7 +182,13 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           timetableHours,
           timetableMinutes,
         ) <=
-        new Date(today.year, today.month, today.date, limitHours, limitMinutes)
+          new Date(
+            today.year,
+            today.month,
+            today.date,
+            limitHours,
+            limitMinutes,
+          )
       );
     },
     [date.month, date.year],
@@ -195,16 +204,9 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   const renderItem = ({item}: {item: string}) =>
     item ? (
       <TimeButton
-        disabled={
-          (selectDate.date === today.date && isTimePass(item)) ||
-          isTimeExpired(item)
-        }
+        disabled={isTimePass(item) || isTimeExpired(item)}
         onPress={() => goMakeREZ(item)}>
-        <ButtonText
-          disabled={
-            (selectDate.date === today.date && isTimePass(item)) ||
-            isTimeExpired(item)
-          }>
+        <ButtonText disabled={isTimePass(item) || isTimeExpired(item)}>
           {item}
         </ButtonText>
       </TimeButton>
@@ -238,9 +240,9 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           </NextYear>
         </CalendarButtonWrapper>
         <WeekInfo>
-          {DAYS.map((day, idx) => (
+          {DAYS.map((day: string, idx: number) => (
             <WeekButton key={idx}>
-              <WeekText>{day}</WeekText>
+              <WeekText invalid={weeksOff.includes(idx)}>{day}</WeekText>
             </WeekButton>
           ))}
         </WeekInfo>
@@ -336,9 +338,10 @@ const WeekButton = styled.View`
   height: 35px;
 `;
 
-const WeekText = styled.Text`
+const WeekText = styled.Text<{invalid: boolean}>`
   font-size: ${({theme}) => theme.fontRegular};
-  color: ${({theme}) => theme.primary};
+  color: ${({invalid}) =>
+    invalid ? ({theme}) => theme.DOCSchemeCaloff : ({theme}) => theme.primary};
 `;
 
 const TimeTable = styled.View<{isShow: boolean}>`

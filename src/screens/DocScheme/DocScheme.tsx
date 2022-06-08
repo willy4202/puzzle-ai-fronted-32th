@@ -13,7 +13,7 @@ import DoctorCard from '@components/DoctorCard';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
-import {SelectContext} from '../../ReservationContext';
+import {SelectContext, DocInfoContext} from '../../ReservationContext';
 
 interface TIMESProp {
   id: string;
@@ -49,6 +49,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     day: TODAY.getDay(),
   });
   const {selectDate, setSelectDate} = useContext(SelectContext);
+  const {docInfo} = useContext(DocInfoContext);
 
   useEffect(() => {
     navigation.setOptions({
@@ -193,7 +194,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     <Scheme>
       <SchemeWrapper>
         <CardWrapper>
-          <DoctorCard></DoctorCard>
+          <DoctorCard docData={docInfo}></DoctorCard>
         </CardWrapper>
         <CalendarButtonWrapper>
           <PrevYear onPress={() => yearHandler('prev')}>

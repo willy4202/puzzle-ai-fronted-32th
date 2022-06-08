@@ -70,7 +70,7 @@ const ViewTitle = styled.Text`
   color: ${({theme}) => theme.primary};
   font-size: ${({theme}) => theme.fontRegular};
   line-height: ${({theme}) => theme.lineHeightRegular};
-  margin: 0 18px 0 18px;
+  margin: 0 20px;
 `;
 
 const ScrollViewContainer = styled.ScrollView`
@@ -78,17 +78,16 @@ const ScrollViewContainer = styled.ScrollView`
 `;
 
 const ImageWrapper = styled.Pressable`
-  width: 106px;
-  height: 106px;
+  width: 110px;
+  height: 110px;
   align-items: center;
   justify-content: center;
   background-color: ${({theme}) => theme.MakeREZInputBack};
 `;
 
 const SelectImgWrapper = styled.View`
-  margin: 5px;
+  margin: 0 5px;
   overflow: hidden;
-  background-color: ${({theme}) => theme.MakeREZInputBack};
 `;
 
 const SpreadImg = styled.Image`

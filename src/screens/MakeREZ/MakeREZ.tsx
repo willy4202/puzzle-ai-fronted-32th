@@ -20,7 +20,6 @@ function MakeREZ({navigation}: MakeREZNavigationProps) {
       <DoctorView>
         <DoctorCard />
       </DoctorView>
-
       <ScrollView
         contentContainerStyle={{
           flex: 1,

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useMemo} from 'react';
 import {Image, View} from 'react-native';
 import styled from 'styled-components/native';
 import {
@@ -7,6 +7,7 @@ import {
 } from '~/src/ReservationContext';
 import checkIcon from '@assets/images/complete_icon.png';
 import {REZSubmitNavigationProps} from '~/src/types/type';
+import {SelectContext} from '~/src/ReservationContext';
 
 interface DoctorType {
   doctorName: string;
@@ -26,6 +27,28 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
   const [formImg, setFormImg] = useState();
   const [doctorInfo, setDoctorInfo] = useState<DoctorType>();
   const [date, setDate] = useState('');
+  const {selectDate} = useContext(SelectContext);
+
+  const getTime: Date = useMemo(
+    () =>
+      new Date(
+        selectDate.year,
+        selectDate.month,
+        selectDate.date,
+        Number(selectDate.time.split(':')[0]),
+        Number(selectDate.time.split(':')[1]),
+      ),
+    [],
+  );
+
+  const userSelectedDate = `${String(selectDate.year).padStart(
+    2,
+    '0',
+  )}-${String(selectDate.month).padStart(2, '0')}-${String(
+    selectDate.date,
+  ).padStart(2, '0')}(${selectDate.day}) ${getTime.toLocaleTimeString([], {
+    timeStyle: 'short',
+  })}`;
 
   useEffect(() => {
     setDoctorInfo(DOCTOR_MOCK);
@@ -107,8 +130,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약일시</InfoTitle>
-          {/* TODO : 예약 정보 받아오기*/}
-          <REZInfo>2022-12-21(월) 오후 3:00</REZInfo>
+          <REZInfo>{userSelectedDate}</REZInfo>
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약내용</InfoTitle>

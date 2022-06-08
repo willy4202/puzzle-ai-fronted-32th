@@ -19,7 +19,7 @@ for (let i = 0; i < 100; i++) {
 
 const deviceHeight: number = Dimensions.get('window').height;
 
-const renderItemNum: number = Math.floor(deviceHeight / 100);
+const renderItemNum: number = Math.floor(deviceHeight / 125);
 
 function REZList({navigation}: REZListNavigationProps) {
   const [initialDocData, setInitialDocData] = useState(

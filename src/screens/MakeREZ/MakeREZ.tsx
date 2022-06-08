@@ -39,7 +39,7 @@ const Container = styled.View`
 `;
 
 const DoctorView = styled.View`
-  margin: 5% 0 0 4%;
+  margin: 0 20px;
   flex: 1;
 `;
 

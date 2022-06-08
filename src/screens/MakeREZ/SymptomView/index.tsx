@@ -15,6 +15,7 @@ function SymptomView() {
           placeholder="증상을 입력해주세요"
           onChangeText={text => setSymptomText(text)}
           autoCapitalize="none"
+          textAlignVertical="top"
         />
       </View>
     </ViewContainer>

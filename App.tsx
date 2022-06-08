@@ -6,11 +6,9 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Entry from '@screens/Entry/Entry';
 import Login from '@screens/Login/Login';
 import Mains from '@components/Mains';
-import Main from '@screens/Main/Main';
 import DocList from '@screens/DocList/DocList';
 import DocScheme from '@screens/DocScheme/DocScheme';
 import MakeREZ from '@screens/MakeREZ/MakeREZ';
-import REZList from '@screens/REZList/REZList';
 import REZDetail from '@screens/REZDetail/REZDetail';
 import REZSubmit from '@screens/REZSubmit/REZSubmit';
 import Signup from '@screens/Signup/Signup';
@@ -57,15 +55,15 @@ function App() {
             <SafeAreaProvider>
               <NavigationContainer>
                 <Stack.Navigator>
-                  {!userState.isLogIn ? (
+                  {userState.isLogIn ? (
                     <>
-                      <Stack.Screen name="DocScheme" component={DocScheme} />
                       <Stack.Screen
                         name="Mains"
                         component={Mains}
                         options={{headerShown: false}}
                       />
                       <Stack.Screen name="DocList" component={DocList} />
+                      <Stack.Screen name="DocScheme" component={DocScheme} />
                       <Stack.Screen name="MakeREZ" component={MakeREZ} />
                       <Stack.Screen
                         name="REZSubmit"

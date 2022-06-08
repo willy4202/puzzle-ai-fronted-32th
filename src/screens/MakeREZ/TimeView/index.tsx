@@ -41,14 +41,14 @@ const ViewTitle = styled.Text`
   color: ${({theme}) => theme.primary};
   font-size: ${({theme}) => theme.fontRegular};
   line-height: ${({theme}) => theme.lineHeightRegular};
-  margin: 0 18px 0 18px;
+  margin: 5px 20px;
 `;
 
 const SelectTimeWrapper = styled.View`
   justify-content: center;
   background-color: ${({theme}) => theme.MakeREZTimeBack};
   height: 60%;
-  margin: 5px 18px 0 18px;
+  margin: 5px 20px;
 `;
 
 const SelectTimeText = styled.Text`

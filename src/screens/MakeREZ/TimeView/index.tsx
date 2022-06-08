@@ -24,7 +24,7 @@ function TimeView() {
         <SelectTimeText>
           {String(selectDate.year).padStart(2, '0')}-
           {String(selectDate.month).padStart(2, '0')}-
-          {String(selectDate.date).padStart(2, '0')}({selectDate.day}){' '}
+          {String(selectDate.date).padStart(2, '0')}({selectDate.day})
           {getTime.toLocaleTimeString([], {timeStyle: 'short'})}
         </SelectTimeText>
       </SelectTimeWrapper>

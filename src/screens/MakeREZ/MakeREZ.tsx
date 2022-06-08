@@ -6,6 +6,7 @@ import TimeView from './TimeView';
 import SymptomView from './SymptomView';
 import ImagePicker from './ImagePicker';
 import {MakeREZNavigationProps} from '~/src/types/type';
+import {ScrollView} from 'react-native-gesture-handler';
 
 function MakeREZ({navigation}: MakeREZNavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
@@ -19,14 +20,20 @@ function MakeREZ({navigation}: MakeREZNavigationProps) {
       <DoctorView>
         <DoctorCard />
       </DoctorView>
-      <TimeView />
-      <SymptomView />
-      <ImagePicker />
-      <ButtonWrapper>
-        <SubmitBtn onPress={navigate} disabled={!symptomText}>
-          <BtnText>진료예약</BtnText>
-        </SubmitBtn>
-      </ButtonWrapper>
+
+      <ScrollView
+        contentContainerStyle={{
+          flex: 1,
+        }}>
+        <TimeView />
+        <SymptomView />
+        <ImagePicker />
+        <ButtonWrapper>
+          <SubmitBtn onPress={navigate} disabled={!symptomText}>
+            <BtnText>진료예약</BtnText>
+          </SubmitBtn>
+        </ButtonWrapper>
+      </ScrollView>
     </Container>
   );
 }
@@ -39,8 +46,7 @@ const Container = styled.View`
 `;
 
 const DoctorView = styled.View`
-  margin: 0 20px;
-  flex: 1;
+  margin: 10px 20px;
 `;
 
 const ButtonWrapper = styled.View`

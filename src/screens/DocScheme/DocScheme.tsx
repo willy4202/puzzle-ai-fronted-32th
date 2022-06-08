@@ -22,15 +22,15 @@ const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
 const DAYOFF: string[] = ['1', '4', '6', '14', '16', '20', '22', '24', '25'];
 const TIMES: TIMESProp[] = [
-  {id: '10:00'},
-  {id: '11:00'},
-  {id: '12:00'},
-  {id: '13:00'},
+  {id: '05:20'},
+  {id: '06:50'},
+  {id: '07:00'},
+  {id: '12:12'},
   {id: '14:00'},
   {id: '15:00'},
-  {id: '16:00'},
+  {id: '16:50'},
   {id: '17:00'},
-  {id: '18:00'},
+  {id: '18:55'},
   {id: '19:00'},
   {id: '20:00'},
   {id: '21:00'},
@@ -71,7 +71,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     return {year, month, date, day, time: ''};
   };
 
-  const getToday: NewDate = useMemo(() => getNewDate(TODAY), []);
+  const today: NewDate = useMemo(() => getNewDate(TODAY), []);
 
   const getAlldate = () => {
     const selectFirstDate = getNewDate(new Date(date.year, date.month - 1, 1));
@@ -151,12 +151,19 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
 
   const isTimeValid = useCallback(
     (item: TIMESProp) => {
-      const LimitHours: number = TODAY.getHours() + 1;
-      const LimitMinutes: number = TODAY.getMinutes();
+      const limitHours: number = TODAY.getHours() + 1;
+      const limitMinutes: number = TODAY.getMinutes();
+      const timetableHours: number = Number(item.id.split(':')[0]);
+      const timetableMinutes: number = Number(item.id.split(':')[1]);
       return (
-        Number(item.id.split(':')[0]) < LimitHours ||
-        (Number(item.id.split(':')[0]) === LimitHours &&
-          Number(item.id.split(':')[1]) <= LimitMinutes)
+        new Date(
+          today.year,
+          today.month,
+          today.date,
+          timetableHours,
+          timetableMinutes,
+        ) <=
+        new Date(today.year, today.month, today.date, limitHours, limitMinutes)
       );
     },
     [date],
@@ -166,13 +173,13 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     item.id ? (
       <TimeButton
         disabled={
-          (selectDate.date === getToday.date && isTimeValid(item)) ||
+          (selectDate.date === today.date && isTimeValid(item)) ||
           FULL.includes(item.id)
         }
         onPress={() => goMakeREZ(item.id)}>
         <ButtonText
           disabled={
-            (selectDate.date === getToday.date && isTimeValid(item)) ||
+            (selectDate.date === today.date && isTimeValid(item)) ||
             FULL.includes(item.id)
           }>
           {item.id}
@@ -218,7 +225,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           dayoff={DAYOFF}
           weeklength={calendarDate.length}
           calendarDate={calendarDate}
-          today={getToday}
+          today={today}
         />
       </SchemeWrapper>
       <TimeTable isShow={selectDate.date !== 0}>

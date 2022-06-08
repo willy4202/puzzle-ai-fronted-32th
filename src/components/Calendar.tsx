@@ -32,12 +32,7 @@ function Calendar({calendarDate, weeklength, dayoff, today}: CalendarProps) {
         {calendarDate.slice(7, 14).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
-            isDayOff={
-              date.year < today.year ||
-              date.month < today.month ||
-              date.date < today.date ||
-              dayoff.includes(date.date.toString())
-            }
+            isDayOff={isDayValid(date) || dayoff.includes(date.date.toString())}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             dateInfo={date}>
             {date.date}
@@ -48,12 +43,7 @@ function Calendar({calendarDate, weeklength, dayoff, today}: CalendarProps) {
         {calendarDate.slice(14, 21).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
-            isDayOff={
-              date.year < today.year ||
-              date.month < today.month ||
-              date.date < today.date ||
-              dayoff.includes(date.date.toString())
-            }
+            isDayOff={isDayValid(date) || dayoff.includes(date.date.toString())}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             dateInfo={date}>
             {date.date}
@@ -64,12 +54,7 @@ function Calendar({calendarDate, weeklength, dayoff, today}: CalendarProps) {
         {calendarDate.slice(21, 28).map((date: NewDate, idx: number) => (
           <CalendarButton
             key={idx}
-            isDayOff={
-              date.year < today.year ||
-              date.month < today.month ||
-              date.date < today.date ||
-              dayoff.includes(date.date.toString())
-            }
+            isDayOff={isDayValid(date) || dayoff.includes(date.date.toString())}
             isChecked={selectDate.date !== 0 && date.date === selectDate.date}
             dateInfo={date}>
             {date.date}
@@ -83,10 +68,7 @@ function Calendar({calendarDate, weeklength, dayoff, today}: CalendarProps) {
               <CalendarButton
                 key={idx}
                 isDayOff={
-                  date.year < today.year ||
-                  date.month < today.month ||
-                  date.date < today.date ||
-                  dayoff.includes(date.date.toString())
+                  isDayValid(date) || dayoff.includes(date.date.toString())
                 }
                 isChecked={
                   selectDate.date !== 0 && date.date === selectDate.date
@@ -102,10 +84,7 @@ function Calendar({calendarDate, weeklength, dayoff, today}: CalendarProps) {
                 <CalendarButton
                   key={idx}
                   isDayOff={
-                    date.year < today.year ||
-                    date.month < today.month ||
-                    date.date < today.date ||
-                    dayoff.includes(date.date.toString())
+                    isDayValid(date) || dayoff.includes(date.date.toString())
                   }
                   isChecked={
                     selectDate.date !== 0 && date.date === selectDate.date

@@ -4,7 +4,6 @@ import {SelectContext} from '~/src/ReservationContext';
 
 function TimeView() {
   const {selectDate} = useContext(SelectContext);
-  console.log(selectDate);
 
   const getTime: Date = useMemo(
     () =>

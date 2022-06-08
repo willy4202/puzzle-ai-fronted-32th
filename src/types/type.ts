@@ -88,7 +88,7 @@ export interface SelectDateProp {
 export interface CalendarProps {
   calendarDate: NewDate[];
   weeklength: number;
-  dayoff: string[];
+  dayoff: number[];
   today: NewDate;
 }
 

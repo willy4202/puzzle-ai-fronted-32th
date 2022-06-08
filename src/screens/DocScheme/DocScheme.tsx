@@ -1,4 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from 'react';
 import {FlatList} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
@@ -9,22 +15,22 @@ import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
 import {SelectContext} from '../../ReservationContext';
 
-interface IdType {
+interface TIMESProp {
   id: string;
 }
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
 const DAYOFF: string[] = ['1', '4', '6', '14', '16', '20', '22', '24', '25'];
-const TIMES: IdType[] = [
-  {id: '10:00'},
-  {id: '11:00'},
-  {id: '12:00'},
-  {id: '13:00'},
+const TIMES: TIMESProp[] = [
+  {id: '05:20'},
+  {id: '06:50'},
+  {id: '07:00'},
+  {id: '12:12'},
   {id: '14:00'},
   {id: '15:00'},
-  {id: '16:00'},
+  {id: '16:50'},
   {id: '17:00'},
-  {id: '18:00'},
+  {id: '18:55'},
   {id: '19:00'},
   {id: '20:00'},
   {id: '21:00'},
@@ -64,6 +70,8 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
 
     return {year, month, date, day, time: ''};
   };
+
+  const today: NewDate = useMemo(() => getNewDate(TODAY), []);
 
   const getAlldate = () => {
     const selectFirstDate = getNewDate(new Date(date.year, date.month - 1, 1));
@@ -141,12 +149,41 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     await navigation.navigate('MakeREZ');
   };
 
-  const renderItem = ({item}: {item: IdType}) =>
+  const isTimeValid = useCallback(
+    (item: TIMESProp) => {
+      const limitHours: number = TODAY.getHours() + 1;
+      const limitMinutes: number = TODAY.getMinutes();
+      const timetableHours: number = Number(item.id.split(':')[0]);
+      const timetableMinutes: number = Number(item.id.split(':')[1]);
+      return (
+        new Date(
+          today.year,
+          today.month,
+          today.date,
+          timetableHours,
+          timetableMinutes,
+        ) <=
+        new Date(today.year, today.month, today.date, limitHours, limitMinutes)
+      );
+    },
+    [date],
+  );
+
+  const renderItem = ({item}: {item: TIMESProp}) =>
     item.id ? (
       <TimeButton
-        disabled={FULL.includes(item.id)}
+        disabled={
+          (selectDate.date === today.date && isTimeValid(item)) ||
+          FULL.includes(item.id)
+        }
         onPress={() => goMakeREZ(item.id)}>
-        <ButtonText disabled={FULL.includes(item.id)}>{item.id}</ButtonText>
+        <ButtonText
+          disabled={
+            (selectDate.date === today.date && isTimeValid(item)) ||
+            FULL.includes(item.id)
+          }>
+          {item.id}
+        </ButtonText>
       </TimeButton>
     ) : (
       <HiddenButton disabled></HiddenButton>
@@ -188,6 +225,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           dayoff={DAYOFF}
           weeklength={calendarDate.length}
           calendarDate={calendarDate}
+          today={today}
         />
       </SchemeWrapper>
       <TimeTable isShow={selectDate.date !== 0}>
@@ -196,7 +234,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           data={TIMES.length % 3 === 2 ? TIMES.concat({id: ''}) : TIMES}
           numColumns={3}
           columnWrapperStyle={{justifyContent: 'space-between'}}
-          keyExtractor={(item: IdType, index: number) => index.toString()}
+          keyExtractor={(item: TIMESProp, index: number) => index.toString()}
         />
         <TimeTableFooter>해당 시간은 현지시간 기준입니다</TimeTableFooter>
       </TimeTable>

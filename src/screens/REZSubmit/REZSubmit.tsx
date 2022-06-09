@@ -8,26 +8,15 @@ import {
 import checkIcon from '@assets/images/complete_icon.png';
 import {REZSubmitNavigationProps} from '~/src/types/type';
 import {SelectContext} from '~/src/ReservationContext';
-
-interface DoctorType {
-  doctorName: string;
-  hospital: string;
-  department: string;
-}
-
-const DOCTOR_MOCK = {
-  doctorName: '최우식',
-  hospital: '서울성모병원',
-  department: '코로나19상담센터',
-};
+import {DocInfoContext} from '~/src/ReservationContext';
+import {getToken} from '~/src/AuthContext';
 
 function REZSubmit({navigation}: REZSubmitNavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
   const {selectImage} = useContext(SelectImageContext);
   const [formImg, setFormImg] = useState();
-  const [doctorInfo, setDoctorInfo] = useState<DoctorType>();
-  const [date, setDate] = useState('');
   const {selectDate} = useContext(SelectContext);
+  const {docInfo} = useContext(DocInfoContext);
 
   const getTime: Date = useMemo(
     () =>
@@ -46,27 +35,23 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
     '0',
   )}-${String(selectDate.month).padStart(2, '0')}-${String(
     selectDate.date,
-  ).padStart(2, '0')}(${selectDate.day}) ${getTime.toLocaleTimeString([], {
-    timeStyle: 'short',
-  })}`;
+  ).padStart(2, '0')}(${selectDate.day})`;
 
-  useEffect(() => {
-    setDoctorInfo(DOCTOR_MOCK);
-  }, []);
+  const userSelectTime = `${selectDate.time}`;
 
-  useEffect(() => {
+  const currentDate = useMemo(() => {
     const today = new Date();
     const weekArray = ['일', '월', '화', '수', '목', '금', '토'];
-    const currentDate =
+    const stringDate =
       today.getFullYear() +
       '-' +
       (today.getMonth() + 1).toString().padStart(2, '0') +
       '-' +
       today.getDate().toString().padStart(2, '0') +
       `(${weekArray[today.getDay()]})` +
-      ' ' +
       today.toLocaleTimeString([], {timeStyle: 'short'});
-    setDate(currentDate);
+
+    return stringDate;
   }, []);
 
   useEffect(() => {
@@ -86,13 +71,15 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
     fetch('server', {
       method: 'POST',
       headers: {
+        Authorization: await getToken(),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {
         img: formImg,
-        doctor: doctorInfo,
+        doctor: docInfo.id,
         symptom: symptomText,
-        date: date,
+        reservationDate: userSelectedDate,
+        reservationTime: userSelectTime,
       },
     })
       .then(response => response.json())
@@ -117,20 +104,23 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       <Body>
         <InfoContainer>
           <InfoTitle>담당의사</InfoTitle>
-          {doctorInfo && (
+          {docInfo && (
             <REZInfo>
-              {doctorInfo.doctorName} ({doctorInfo.hospital} / &nbsp;
-              {doctorInfo.department})
+              {docInfo.name} ({docInfo.hospital} / &nbsp;
+              {docInfo.subject})
             </REZInfo>
           )}
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>신청일시</InfoTitle>
-          <REZInfo>{date}</REZInfo>
+          <REZInfo>{currentDate}</REZInfo>
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약일시</InfoTitle>
-          <REZInfo>{userSelectedDate}</REZInfo>
+          <REZInfo>
+            {userSelectedDate +
+              getTime.toLocaleTimeString([], {timeStyle: 'short'})}
+          </REZInfo>
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약내용</InfoTitle>
@@ -186,7 +176,7 @@ const HeaderText = styled.Text`
 `;
 
 const Body = styled.View`
-  flex: 4;
+  flex: 3;
   align-items: flex-start;
 `;
 
@@ -231,7 +221,7 @@ const BtnText = styled.Text`
 
 const ConfirmBtn = styled.TouchableOpacity`
   width: 60%;
-  height: 80%;
+  height: 70%;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
@@ -240,7 +230,7 @@ const ConfirmBtn = styled.TouchableOpacity`
 
 const ModifyBtn = styled.TouchableOpacity`
   width: 37%;
-  height: 80%;
+  height: 70%;
   justify-content: center;
   align-items: center;
   border-radius: 8px;

@@ -8,6 +8,7 @@ import Button from './Button';
 import Status from '~/src/components/Status';
 import {REZDetailNavigationProps} from '~/src/types/type';
 import {DocInfoContext} from '~/src/ReservationContext';
+import {getToken} from '~/src/AuthContext';
 
 interface ImgType {
   id: number;
@@ -23,8 +24,11 @@ interface MOCKTYPE {
 }
 
 const MOCK_DATA: MOCKTYPE = {
-  status: '진료완료',
+  status: '진료대기',
   reservation: '2020-04-14(금) 오후 2:00',
+  symptom: '지난 금요일 발목을 접지른 이후...',
+  doctorOpinion:
+    '발목쪽 인대파열이 예상됩니다. 정확한 진단은 육안으로 확인 후 진단내려야 하지만 우선은 냉찜질 해주는것을 추천드립니다.',
   image: [
     {
       id: 1,
@@ -42,38 +46,43 @@ const MOCK_DATA: MOCKTYPE = {
       uri: 'https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202103/08/18f30524-01ea-4961-b160-33d642de086f.jpg',
     },
   ],
-  symptom: '지난 금요일 발목을 접지른 이후...',
-  doctorOpinion:
-    '발목쪽 인대파열이 예상됩니다. 정확한 진단은 육안으로 확인 후 진단내려야 하지만 우선은 냉찜질 해주는것을 추천드립니다.',
 };
 
 function REZDetail({navigation}: REZDetailNavigationProps) {
-  const [status, setStatus] = useState('');
-  const [image, setImage] = useState([]);
-  const [symptomText, setSymptomText] = useState('');
-  const [docOpinion, setDocOpinion] = useState('');
   const {docInfo} = useContext(DocInfoContext);
+  const [detailData, setDetailData] = useState({
+    status: '진료대기',
+    reservation: '',
+    image: [{id: '', fileName: '', uri: ''}],
+    symptom: '',
+    doctorOpinion: '',
+  });
 
   const goBackCalender = () => {
     navigation.navigate('DocScheme');
   };
 
-  console.log(docInfo);
-
   useEffect(() => {
-    setStatus(MOCK_DATA.status);
-    setSymptomText(MOCK_DATA.symptom);
-    setDocOpinion(MOCK_DATA.doctorOpinion);
-    setImage(MOCK_DATA.image);
+    const fetchData = async () => {
+      fetch('server', {
+        headers: {
+          Authorization: await getToken(),
+        },
+      })
+        .then(res => res.json())
+        .then(res => setDetailData(res));
+    };
+    setDetailData(MOCK_DATA);
+
+    fetchData();
   }, []);
 
   return (
     <Container>
       <DoctorView>
         <DoctorCard docData={docInfo} />
-        {/* TODO : 임시로 스테이터스 변동하는 스타일링 적용, fetch 체크 예정 */}
         <StatusView>
-          <Status status={status}>{status}</Status>
+          <Status>{detailData.status}</Status>
         </StatusView>
       </DoctorView>
       <Section>
@@ -81,15 +90,14 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
           <Title>예약 날짜 및 시간</Title>
           <Date>2020-07-24(금) 오후 3:00</Date>
         </DateView>
-        <ImageView image={image} />
-        <Symptom symptomText={symptomText} />
-        <DoctorOpinion docOpinion={docOpinion} />
+        <ImageView image={detailData.image} />
+        <Symptom symptomText={detailData.symptom} />
+        <DoctorOpinion docOpinion={detailData.doctorOpinion} />
       </Section>
-      {/* TODO : status 상황에 따라 매번 다른 기능을 수행하는 버튼 구현 */}
       <Button
         goBackCalender={goBackCalender}
-        status={status}
-        setStatus={setStatus}
+        status={detailData.status}
+        setDetailData={setDetailData}
       />
     </Container>
   );

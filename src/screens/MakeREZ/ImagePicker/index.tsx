@@ -74,7 +74,7 @@ const ViewTitle = styled.Text`
 `;
 
 const ScrollViewContainer = styled.ScrollView`
-  margin: 20px;
+  margin: 10px 20px;
 `;
 
 const ImageWrapper = styled.Pressable`

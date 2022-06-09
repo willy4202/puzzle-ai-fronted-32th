@@ -1,21 +1,22 @@
 import {View} from 'react-native';
 import styled from 'styled-components/native';
 import React from 'react';
+import {getToken} from '~/src/AuthContext';
 
 interface ButtonProps {
   status: string;
-  setStatus: () => void;
+  setDetailData: () => void;
   goBackCalender: () => void;
 }
 
-const Button = ({status, setStatus, goBackCalender}: ButtonProps) => {
-  const cancelReservation = () => {
+const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
+  const cancelReservation = async () => {
     fetch('server', {
       method: 'POST',
       headers: {
+        Authorization: await getToken(),
         'Content-Type': 'application/json',
       },
-      // ToDO: 예약 취소시 boolean, 또는 문자열 중 하나를 선택해서 전송
       body: JSON.stringify(data),
     })
       .then(response => response.json())
@@ -26,7 +27,9 @@ const Button = ({status, setStatus, goBackCalender}: ButtonProps) => {
         console.error('실패:', error);
       });
     console.log('예약 취소');
-    setStatus('진료취소');
+
+    // TODO : 진료 취소하고 서버에는 해당 예약을 삭제해달라는 요청 보내기
+    setDetailData(prev => ({...prev, status: '진료취소'}));
   };
 
   return (

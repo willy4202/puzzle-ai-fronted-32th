@@ -1,8 +1,12 @@
-import {View, Text} from 'react-native';
-import React, {useContext} from 'react';
+import {View} from 'react-native';
+import React from 'react';
 import styled from 'styled-components/native';
 
-const Symptom = ({symptomText}: string) => {
+type props = {
+  symptomText: string;
+};
+
+const Symptom = ({symptomText}: props) => {
   return (
     <View>
       <Title>환자 증상</Title>

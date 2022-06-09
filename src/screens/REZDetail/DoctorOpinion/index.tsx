@@ -2,7 +2,11 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import styled from 'styled-components/native';
 
-const DoctorOpinion = ({docOpinion}: string) => {
+type props = {
+  docOpinion: string;
+};
+
+const DoctorOpinion = ({docOpinion}: props) => {
   return (
     <Article>
       <Title>의사 소견</Title>

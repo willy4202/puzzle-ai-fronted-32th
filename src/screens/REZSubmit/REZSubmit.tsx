@@ -189,7 +189,7 @@ const HeaderText = styled.Text`
 `;
 
 const Body = styled.View`
-  flex: 4;
+  flex: 3;
   align-items: flex-start;
 `;
 
@@ -234,7 +234,7 @@ const BtnText = styled.Text`
 
 const ConfirmBtn = styled.TouchableOpacity`
   width: 60%;
-  height: 80%;
+  height: 70%;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
@@ -243,7 +243,7 @@ const ConfirmBtn = styled.TouchableOpacity`
 
 const ModifyBtn = styled.TouchableOpacity`
   width: 37%;
-  height: 80%;
+  height: 70%;
   justify-content: center;
   align-items: center;
   border-radius: 8px;

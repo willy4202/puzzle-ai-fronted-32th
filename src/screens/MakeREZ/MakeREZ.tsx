@@ -45,7 +45,7 @@ const Container = styled.View`
 `;
 
 const DoctorView = styled.View`
-  margin: 10px 20px;
+  margin: 0 20px;
 `;
 
 const ButtonWrapper = styled.View`

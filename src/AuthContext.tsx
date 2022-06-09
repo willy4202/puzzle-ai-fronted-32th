@@ -81,7 +81,6 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         }),
       });
       const data = await response.json();
-
       switch (data.message) {
         case 'signin success':
           storeToken('token', data.token);

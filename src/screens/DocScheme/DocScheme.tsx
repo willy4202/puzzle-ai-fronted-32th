@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useCallback,
 } from 'react';
-import {FlatList} from 'react-native';
+import {Alert, FlatList} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
 import {DocSchemeNavigationProps, SelectDateProp} from '~/src/types/type';
@@ -13,12 +13,13 @@ import DoctorCard from '@components/DoctorCard';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {config} from '~/src/config';
 import {SelectContext, DocInfoContext} from '../../ReservationContext';
 
 interface TimeTableProp {
   expired_times: string[];
-  working_times: {times: string[]};
+  working_times: string[];
 }
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
@@ -33,10 +34,10 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     date: TODAY.getDate(),
     day: TODAY.getDay(),
   });
-  const [weeksOff, setWeeksOff] = useState<number[]>([]);
+  const [workingWeeks, setWorkingWeeks] = useState<number[]>([]);
   const [timeTable, setTimeTable] = useState<TimeTableProp>({
     expired_times: [],
-    working_times: {times: []},
+    working_times: [],
   });
 
   const {selectDate, setSelectDate} = useContext(SelectContext);
@@ -50,33 +51,57 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     });
   }, [navigation]);
 
+  const getToken = async () => {
+    const token = await AsyncStorage.getItem('token');
+    return String(token);
+  };
+
   useEffect(() => {
     const nowCalDate: NewDate = getNewDate(new Date(date.year, date.month - 1));
-    fetch(
-      `${config.docScheme}/1?year=${nowCalDate.year}&month=${nowCalDate.month}`,
-    )
-      .then(res => res.json())
-      .then(res =>
-        setWeeksOff(res.result.map((el: number) => CHANGEWEEKS[el])),
-      );
 
+    const fetchData = async () => {
+      const response = await fetch(
+        `${config.docScheme}/1?year=${nowCalDate.year}&month=${nowCalDate.month}`,
+        {headers: {Authorization: await getToken()}},
+      );
+      if (response.status === 200) {
+        const fetchResult = await response.json();
+        return setWorkingWeeks(
+          fetchResult.result.map((el: number) => CHANGEWEEKS[el]),
+        );
+      } else {
+        Alert.alert('로그인을 다시 시도해주세요');
+      }
+    };
+
+    fetchData();
     getAlldate();
   }, [date]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
     if (selectDate.date !== 0) {
+      let timer: NodeJS.Timeout;
       timer = setTimeout(() => {
-        fetch(
-          `${config.docScheme}/1?year=${selectDate.year}&month=${selectDate.month}&dates=${selectDate.date}`,
-        )
-          .then(res => res.json())
-          .then(res => setTimeTable(res));
+        const fetchData = async () => {
+          const response = await fetch(
+            `${config.docScheme}/1?year=${selectDate.year}&month=${selectDate.month}&dates=${selectDate.date}`,
+            {headers: {Authorization: await getToken()}},
+          );
+          if (response.status === 200) {
+            const fetchResult = await response.json();
+            return setTimeTable(fetchResult);
+          } else {
+            Alert.alert('로그인을 다시 시도해주세요');
+          }
+        };
+
+        fetchData();
       }, 600);
+
+      return () => {
+        clearTimeout(timer);
+      };
     }
-    return () => {
-      clearTimeout(timer);
-    };
   }, [selectDate]);
 
   const getNewDate = (newDate: Date): NewDate => {
@@ -243,12 +268,12 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
         <WeekInfo>
           {DAYS.map((day: string, idx: number) => (
             <WeekButton key={idx}>
-              <WeekText invalid={weeksOff.includes(idx)}>{day}</WeekText>
+              <WeekText invalid={workingWeeks.includes(idx)}>{day}</WeekText>
             </WeekButton>
           ))}
         </WeekInfo>
         <Calendar
-          dayoff={weeksOff}
+          dayoff={workingWeeks}
           weeklength={calendarDate.length}
           calendarDate={calendarDate}
           today={today}
@@ -258,9 +283,9 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
         <TimeButtonWrapper
           renderItem={renderItem}
           data={
-            timeTable.working_times.times.length % 3 === 2
-              ? timeTable.working_times.times.concat('')
-              : timeTable.working_times.times
+            timeTable.working_times.length % 3 === 2
+              ? timeTable.working_times.concat('')
+              : timeTable.working_times
           }
           numColumns={3}
           columnWrapperStyle={{justifyContent: 'space-between'}}

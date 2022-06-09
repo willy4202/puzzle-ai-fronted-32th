@@ -1,11 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Dimensions, FlatList} from 'react-native';
+import React, {useContext, useEffect} from 'react';
 import styled from 'styled-components/native';
-import {DocListNavigationProps, InitialDocListProp} from '~/src/types/type';
+import {Dimensions, FlatList} from 'react-native';
+import {DocListNavigationProps, DocDataProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import {DocInfoContext} from '~/src/ReservationContext';
+import usePagination from '~/src/components/usePagination';
 
-const DATA: InitialDocListProp[] = [];
+const DATA: DocDataProp[] = [];
 for (let i = 0; i < 100; i++) {
   DATA.push({
     id: i,
@@ -31,22 +32,32 @@ function DocList({navigation, route}: DocListNavigationProps) {
 
   const {setDocInfo} = useContext(DocInfoContext);
 
-  const [initialDocData, setInitialDocData] = useState(
-    DATA.slice(0, renderItemNum),
+  const {renderItemInfo, addList} = usePagination<DocDataProp>(
+    renderItemNum,
+    DATA,
   );
 
-  const goDocScheme = (docInfo: InitialDocListProp) => {
+  const goDocScheme = (docInfo: DocDataProp) => {
     setDocInfo(docInfo);
     navigation.navigate('DocScheme');
   };
 
-  const renderItem = ({item}: {item: InitialDocListProp}) => (
-    <ListButton onPress={() => goDocScheme(item)}>
-      <DoctorCard docData={item}></DoctorCard>
-    </ListButton>
-  );
+  function renderItem({item}: {item: DocDataProp}): JSX.Element {
+    return (
+      <ListButton onPress={() => goDocScheme(item)}>
+        <DoctorCard docData={item}></DoctorCard>
+      </ListButton>
+    );
+  }
 
-  return <DocListWrapper data={initialDocData} renderItem={renderItem} />;
+  return (
+    <DocListWrapper
+      data={renderItemInfo}
+      renderItem={renderItem}
+      onEndReached={addList}
+      onEndReachedThreshold={0}
+    />
+  );
 }
 
 export default DocList;

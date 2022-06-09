@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {InitialDocListProp} from '~/src/types/type';
+import {DocDataProp} from '~/src/types/type';
 
-function DoctorCard({docData}: {docData: InitialDocListProp}) {
+function DoctorCard({docData}: {docData: DocDataProp}) {
   return (
     <Card>
       <DoctorImg source={{uri: docData.profile_image}}></DoctorImg>

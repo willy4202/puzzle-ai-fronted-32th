@@ -46,9 +46,11 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
     '0',
   )}-${String(selectDate.month).padStart(2, '0')}-${String(
     selectDate.date,
-  ).padStart(2, '0')}(${selectDate.day}) ${getTime.toLocaleTimeString([], {
-    timeStyle: 'short',
-  })}`;
+  ).padStart(2, '0')}(${selectDate.day})`;
+
+  const userSelectTime = `${selectDate.time}`;
+
+  console.log(userSelectedDate, userSelectTime);
 
   useEffect(() => {
     setDoctorInfo(DOCTOR_MOCK);
@@ -64,7 +66,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       '-' +
       today.getDate().toString().padStart(2, '0') +
       `(${weekArray[today.getDay()]})` +
-      ' ' +
       today.toLocaleTimeString([], {timeStyle: 'short'});
     setDate(currentDate);
   }, []);
@@ -92,7 +93,8 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         img: formImg,
         doctor: doctorInfo,
         symptom: symptomText,
-        date: date,
+        reservationDate: userSelectedDate,
+        reservationTime: userSelectTime,
       },
     })
       .then(response => response.json())
@@ -130,7 +132,10 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약일시</InfoTitle>
-          <REZInfo>{userSelectedDate}</REZInfo>
+          <REZInfo>
+            {userSelectedDate +
+              getTime.toLocaleTimeString([], {timeStyle: 'short'})}
+          </REZInfo>
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약내용</InfoTitle>

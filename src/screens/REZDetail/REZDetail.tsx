@@ -8,6 +8,7 @@ import Button from './Button';
 import Status from '~/src/components/Status';
 import {REZDetailNavigationProps} from '~/src/types/type';
 import {DocInfoContext} from '~/src/ReservationContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface ImgType {
   id: number;
@@ -57,14 +58,29 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
   const goBackCalender = () => {
     navigation.navigate('DocScheme');
   };
-
   console.log(docInfo);
 
   useEffect(() => {
+    const getToken = async () => {
+      const Token = await AsyncStorage.getItem('token');
+      return String(Token);
+    };
+    // 토큰 담아서 전송하는 로직
+    const fetchData = async () => {
+      fetch('server', {
+        headers: {
+          Authorization: await getToken(),
+        },
+      })
+        .then(res => res.json())
+        .then(res => console.log(res));
+    };
     setStatus(MOCK_DATA.status);
     setSymptomText(MOCK_DATA.symptom);
     setDocOpinion(MOCK_DATA.doctorOpinion);
     setImage(MOCK_DATA.image);
+
+    fetchData();
   }, []);
 
   return (

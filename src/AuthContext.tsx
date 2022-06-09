@@ -118,10 +118,6 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 };
 
 export const getToken = async () => {
-  try {
-    const token = await AsyncStorage.getItem('token');
-    return String(token);
-  } catch (error) {
-    throw new Error('token get 실패');
-  }
+  const token = await AsyncStorage.getItem('token');
+  return String(token);
 };

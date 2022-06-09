@@ -56,10 +56,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
   }, []);
 
   useEffect(() => {
-    setDate(currentDate);
-  }, []);
-
-  useEffect(() => {
     const formData = new FormData();
     selectImage.map(picture => {
       const photo = {
@@ -118,7 +114,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>신청일시</InfoTitle>
-          <REZInfo>{date}</REZInfo>
+          <REZInfo>{currentDate}</REZInfo>
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약일시</InfoTitle>

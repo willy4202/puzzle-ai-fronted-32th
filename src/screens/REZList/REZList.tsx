@@ -33,13 +33,8 @@ function REZList({navigation}: REZListNavigationProps) {
     navigation.setOptions({title: '예약 목록', headerShadowVisible: false});
   });
 
-<<<<<<< HEAD
   const goDocScheme = (docInfo: InitialDocListProp) => {
     setDocInfo(docInfo);
-=======
-  const goDocScheme = (item: InitialDocListProp) => {
-    setDocInfo(item);
->>>>>>> 9f586ea (context 전역처리)
     navigation.navigate('REZDetail');
   };
 

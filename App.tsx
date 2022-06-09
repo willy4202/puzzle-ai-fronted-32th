@@ -19,17 +19,18 @@ import {
   SelectImageContext,
   SelectSymptomContext,
   SelectContext,
+  DocInfoContext,
 } from '~/src/ReservationContext';
 
 import {ThemeProvider} from 'styled-components';
 import theme from './src/styles/theme';
-import {HomeStackParamList, initialDocListProp} from '~/src/types/type';
+import {HomeStackParamList, InitialDocListProp} from '~/src/types/type';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
   const {userState, loadData} = useContext(AuthContext);
-  const [initialDocData, setInitialDocData] = useState<initialDocListProp>({
+  const [docInfo, setDocInfo] = useState<InitialDocListProp>({
     id: 0,
     name: '',
     subject: '',
@@ -58,56 +59,58 @@ function App() {
     <SelectSymptomContext.Provider value={{symptomText, setSymptomText}}>
       <SelectImageContext.Provider value={{selectImage, setSelectImage}}>
         <SelectContext.Provider value={{selectDate, setSelectDate}}>
-          <ThemeProvider theme={theme}>
-            <SafeAreaProvider>
-              <NavigationContainer>
-                <Stack.Navigator>
-                  {userState.isLogIn ? (
-                    <>
-                      <Stack.Screen
-                        name="Mains"
-                        component={Mains}
-                        options={{headerShown: false}}
-                      />
-                      <Stack.Screen name="DocList" component={DocList} />
-                      <Stack.Screen name="DocScheme" component={DocScheme} />
-                      <Stack.Screen
-                        name="MakeREZ"
-                        component={MakeREZ}
-                        options={{
-                          title: '진료 예약',
-                          headerStyle: {shadowColor: 'white'},
-                          headerTitleAlign: 'center',
-                        }}
-                      />
-                      <Stack.Screen
-                        name="REZSubmit"
-                        component={REZSubmit}
-                        options={{
-                          headerShown: false,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="REZDetail"
-                        component={REZDetail}
-                        options={{
-                          title: '예약 상세보기',
-                          headerStyle: {shadowColor: 'white'},
-                          headerTitleAlign: 'center',
-                        }}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Stack.Screen name="Entry" component={Entry} />
-                      <Stack.Screen name="Login" component={Login} />
-                      <Stack.Screen name="Signup" component={Signup} />
-                    </>
-                  )}
-                </Stack.Navigator>
-              </NavigationContainer>
-            </SafeAreaProvider>
-          </ThemeProvider>
+          <DocInfoContext.Provider value={{docInfo, setDocInfo}}>
+            <ThemeProvider theme={theme}>
+              <SafeAreaProvider>
+                <NavigationContainer>
+                  <Stack.Navigator>
+                    {userState.isLogIn ? (
+                      <>
+                        <Stack.Screen
+                          name="Mains"
+                          component={Mains}
+                          options={{headerShown: false}}
+                        />
+                        <Stack.Screen name="DocList" component={DocList} />
+                        <Stack.Screen name="DocScheme" component={DocScheme} />
+                        <Stack.Screen
+                          name="MakeREZ"
+                          component={MakeREZ}
+                          options={{
+                            title: '진료 예약',
+                            headerStyle: {shadowColor: 'white'},
+                            headerTitleAlign: 'center',
+                          }}
+                        />
+                        <Stack.Screen
+                          name="REZSubmit"
+                          component={REZSubmit}
+                          options={{
+                            headerShown: false,
+                          }}
+                        />
+                        <Stack.Screen
+                          name="REZDetail"
+                          component={REZDetail}
+                          options={{
+                            title: '예약 상세보기',
+                            headerStyle: {shadowColor: 'white'},
+                            headerTitleAlign: 'center',
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <Stack.Screen name="Entry" component={Entry} />
+                        <Stack.Screen name="Login" component={Login} />
+                        <Stack.Screen name="Signup" component={Signup} />
+                      </>
+                    )}
+                  </Stack.Navigator>
+                </NavigationContainer>
+              </SafeAreaProvider>
+            </ThemeProvider>
+          </DocInfoContext.Provider>
         </SelectContext.Provider>
       </SelectImageContext.Provider>
     </SelectSymptomContext.Provider>

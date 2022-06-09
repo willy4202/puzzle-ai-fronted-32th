@@ -13,8 +13,8 @@ import DoctorCard from '@components/DoctorCard';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
-import {SelectContext} from '../../ReservationContext';
 import {config} from '~/src/config';
+import {SelectContext, DocInfoContext} from '../../ReservationContext';
 
 interface TimeTableProp {
   expired_times: string[];
@@ -40,6 +40,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   });
 
   const {selectDate, setSelectDate} = useContext(SelectContext);
+  const {docInfo} = useContext(DocInfoContext);
 
   useEffect(() => {
     navigation.setOptions({
@@ -218,7 +219,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     <Scheme>
       <SchemeWrapper>
         <CardWrapper>
-          <DoctorCard></DoctorCard>
+          <DoctorCard docData={docInfo}></DoctorCard>
         </CardWrapper>
         <CalendarButtonWrapper>
           <PrevYear onPress={() => yearHandler('prev')}>

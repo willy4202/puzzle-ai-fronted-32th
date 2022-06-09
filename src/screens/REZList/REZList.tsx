@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
-import {REZListNavigationProps, initialDocListProp} from '~/src/types/type';
+import {REZListNavigationProps, InitialDocListProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import CalendarImage from '@assets/images/calendar_icon.png';
+import {DocInfoContext} from '~/src/ReservationContext';
 
-const DATA: initialDocListProp[] = [];
+const DATA: InitialDocListProp[] = [];
 for (let i = 0; i < 100; i++) {
   DATA.push({
     id: i,
@@ -26,16 +27,19 @@ function REZList({navigation}: REZListNavigationProps) {
     DATA.slice(0, renderItemNum),
   );
 
+  const {setDocInfo} = useContext(DocInfoContext);
+
   useEffect(() => {
     navigation.setOptions({title: '예약 목록', headerShadowVisible: false});
   });
 
-  const goDocScheme = () => {
+  const goDocScheme = (item: InitialDocListProp) => {
+    setDocInfo(item);
     navigation.navigate('REZDetail');
   };
 
-  const renderItem = ({item}: {item: initialDocListProp}) => (
-    <ListButton onPress={goDocScheme}>
+  const renderItem = ({item}: {item: InitialDocListProp}) => (
+    <ListButton onPress={() => goDocScheme(item)}>
       <ListHeader>
         <DateWrapper>
           <CalendarIcon source={CalendarImage} resizeMode="contain" />

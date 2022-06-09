@@ -13,12 +13,13 @@ import DoctorCard from '@components/DoctorCard';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {config} from '~/src/config';
 import {SelectContext, DocInfoContext} from '../../ReservationContext';
 
 interface TimeTableProp {
   expired_times: string[];
-  working_times: {times: string[]};
+  working_times: string[];
 }
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
@@ -33,10 +34,10 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     date: TODAY.getDate(),
     day: TODAY.getDay(),
   });
-  const [weeksOff, setWeeksOff] = useState<number[]>([]);
+  const [workingWeeks, setWorkingWeeks] = useState<number[]>([]);
   const [timeTable, setTimeTable] = useState<TimeTableProp>({
     expired_times: [],
-    working_times: {times: []},
+    working_times: [],
   });
 
   const {selectDate, setSelectDate} = useContext(SelectContext);
@@ -50,16 +51,30 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     });
   }, [navigation]);
 
+  const getToken = async () => {
+    const Token = await AsyncStorage.getItem('token');
+    return String(Token);
+  };
+
   useEffect(() => {
     const nowCalDate: NewDate = getNewDate(new Date(date.year, date.month - 1));
-    fetch(
-      `${config.docScheme}/1?year=${nowCalDate.year}&month=${nowCalDate.month}`,
-    )
-      .then(res => res.json())
-      .then(res =>
-        setWeeksOff(res.result.map((el: number) => CHANGEWEEKS[el])),
-      );
 
+    const fetchData = async () => {
+      fetch(
+        `${config.docScheme}/1?year=${nowCalDate.year}&month=${nowCalDate.month}`,
+        {
+          headers: {
+            Authorization: await getToken(),
+          },
+        },
+      )
+        .then(res => res.json())
+        .then(res =>
+          setWorkingWeeks(res.result.map((el: number) => CHANGEWEEKS[el])),
+        );
+    };
+
+    fetchData();
     getAlldate();
   }, [date]);
 
@@ -67,11 +82,20 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     let timer: NodeJS.Timeout;
     if (selectDate.date !== 0) {
       timer = setTimeout(() => {
-        fetch(
-          `${config.docScheme}/1?year=${selectDate.year}&month=${selectDate.month}&dates=${selectDate.date}`,
-        )
-          .then(res => res.json())
-          .then(res => setTimeTable(res));
+        const fetchData = async () => {
+          fetch(
+            `${config.docScheme}/1?year=${selectDate.year}&month=${selectDate.month}&dates=${selectDate.date}`,
+            {
+              headers: {
+                Authorization: await getToken(),
+              },
+            },
+          )
+            .then(res => res.json())
+            .then(res => setTimeTable(res));
+        };
+
+        fetchData();
       }, 600);
     }
     return () => {
@@ -243,12 +267,12 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
         <WeekInfo>
           {DAYS.map((day: string, idx: number) => (
             <WeekButton key={idx}>
-              <WeekText invalid={weeksOff.includes(idx)}>{day}</WeekText>
+              <WeekText invalid={workingWeeks.includes(idx)}>{day}</WeekText>
             </WeekButton>
           ))}
         </WeekInfo>
         <Calendar
-          dayoff={weeksOff}
+          dayoff={workingWeeks}
           weeklength={calendarDate.length}
           calendarDate={calendarDate}
           today={today}
@@ -258,9 +282,9 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
         <TimeButtonWrapper
           renderItem={renderItem}
           data={
-            timeTable.working_times.times.length % 3 === 2
-              ? timeTable.working_times.times.concat('')
-              : timeTable.working_times.times
+            timeTable.working_times.length % 3 === 2
+              ? timeTable.working_times.concat('')
+              : timeTable.working_times
           }
           numColumns={3}
           columnWrapperStyle={{justifyContent: 'space-between'}}

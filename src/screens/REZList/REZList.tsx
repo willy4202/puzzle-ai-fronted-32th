@@ -1,10 +1,11 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useRef} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
 import {REZListNavigationProps, InitialDocListProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import CalendarImage from '@assets/images/calendar_icon.png';
 import {DocInfoContext} from '~/src/ReservationContext';
+import Status from '~/src/components/Status';
 
 const DATA: InitialDocListProp[] = [];
 for (let i = 0; i < 100; i++) {
@@ -29,6 +30,8 @@ function REZList({navigation}: REZListNavigationProps) {
 
   const {setDocInfo} = useContext(DocInfoContext);
 
+  const pageNum = useRef(0);
+
   useEffect(() => {
     navigation.setOptions({title: '예약 목록', headerShadowVisible: false});
   });
@@ -38,6 +41,18 @@ function REZList({navigation}: REZListNavigationProps) {
     navigation.navigate('REZDetail');
   };
 
+  const addList = () => {
+    const limit = 5;
+    pageNum.current++;
+    let offset =
+      pageNum.current === 1
+        ? renderItemNum
+        : renderItemNum + (pageNum.current - 1) * limit;
+    const additionalData = DATA.slice(offset, offset + limit);
+    console.log(additionalData);
+    setInitialDocData(initialDocData.concat(additionalData));
+  };
+
   const renderItem = ({item}: {item: InitialDocListProp}) => (
     <ListButton onPress={() => goDocScheme(item)}>
       <ListHeader>
@@ -45,13 +60,20 @@ function REZList({navigation}: REZListNavigationProps) {
           <CalendarIcon source={CalendarImage} resizeMode="contain" />
           <DateText>2020-07-24(금) 오후 3:00</DateText>
         </DateWrapper>
-        {/* todo : 스테이터스 컴포넌트 완료되면 불러오기 */}
+        <Status status={'진료대기'}>진료대기</Status>
       </ListHeader>
       <DoctorCard docData={item}></DoctorCard>
     </ListButton>
   );
 
-  return <REZListWrapper data={initialDocData} renderItem={renderItem} />;
+  return (
+    <REZListWrapper
+      data={initialDocData}
+      renderItem={renderItem}
+      onEndReached={addList}
+      onEndReachedThreshold={0}
+    />
+  );
 }
 
 export default REZList;
@@ -67,6 +89,7 @@ const ListButton = styled.Pressable`
 `;
 const ListHeader = styled.View`
   flex-direction: row;
+  justify-content: space-between;
   padding: 24px 0px 24px;
 `;
 

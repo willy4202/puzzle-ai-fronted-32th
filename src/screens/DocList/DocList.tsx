@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
 import {DocListNavigationProps, InitialDocListProp} from '~/src/types/type';
@@ -35,8 +35,13 @@ function DocList({navigation, route}: DocListNavigationProps) {
     DATA.slice(0, renderItemNum),
   );
 
+  const pageNum = useRef(0);
+
+  console.log(pageNum);
+
   const goDocScheme = (docInfo: InitialDocListProp) => {
     setDocInfo(docInfo);
+    pageNum.current = 0;
     navigation.navigate('DocScheme');
   };
 
@@ -46,7 +51,26 @@ function DocList({navigation, route}: DocListNavigationProps) {
     </ListButton>
   );
 
-  return <DocListWrapper data={initialDocData} renderItem={renderItem} />;
+  const addList = () => {
+    const limit = 5;
+    pageNum.current++;
+    let offset =
+      pageNum.current === 1
+        ? renderItemNum
+        : renderItemNum + (pageNum.current - 1) * limit;
+    const additionalData = DATA.slice(offset, offset + limit);
+    console.log(additionalData);
+    setInitialDocData(initialDocData.concat(additionalData));
+  };
+
+  return (
+    <DocListWrapper
+      data={initialDocData}
+      renderItem={renderItem}
+      onEndReached={addList}
+      onEndReachedThreshold={0}
+    />
+  );
 }
 
 export default DocList;

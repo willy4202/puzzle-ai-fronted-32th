@@ -8,26 +8,16 @@ import {
 import checkIcon from '@assets/images/complete_icon.png';
 import {REZSubmitNavigationProps} from '~/src/types/type';
 import {SelectContext} from '~/src/ReservationContext';
-
-interface DoctorType {
-  doctorName: string;
-  hospital: string;
-  department: string;
-}
-
-const DOCTOR_MOCK = {
-  doctorName: '최우식',
-  hospital: '서울성모병원',
-  department: '코로나19상담센터',
-};
+import {DocInfoContext} from '~/src/ReservationContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function REZSubmit({navigation}: REZSubmitNavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
   const {selectImage} = useContext(SelectImageContext);
   const [formImg, setFormImg] = useState();
-  const [doctorInfo, setDoctorInfo] = useState<DoctorType>();
   const [date, setDate] = useState('');
   const {selectDate} = useContext(SelectContext);
+  const {docInfo} = useContext(DocInfoContext);
 
   const getTime: Date = useMemo(
     () =>
@@ -40,7 +30,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       ),
     [],
   );
-
   const userSelectedDate = `${String(selectDate.year).padStart(
     2,
     '0',
@@ -49,10 +38,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
   ).padStart(2, '0')}(${selectDate.day})`;
 
   const userSelectTime = `${selectDate.time}`;
-
-  useEffect(() => {
-    setDoctorInfo(DOCTOR_MOCK);
-  }, []);
 
   useEffect(() => {
     const today = new Date();
@@ -81,15 +66,21 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
     });
   }, [selectImage]);
 
+  const getToken = async () => {
+    const Token = await AsyncStorage.getItem('token');
+    return String(Token);
+  };
+
   const test = async () => {
     fetch('server', {
       method: 'POST',
       headers: {
+        Authorization: await getToken(),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {
         img: formImg,
-        doctor: doctorInfo,
+        doctor: docInfo.id,
         symptom: symptomText,
         reservationDate: userSelectedDate,
         reservationTime: userSelectTime,
@@ -117,10 +108,10 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       <Body>
         <InfoContainer>
           <InfoTitle>담당의사</InfoTitle>
-          {doctorInfo && (
+          {docInfo && (
             <REZInfo>
-              {doctorInfo.doctorName} ({doctorInfo.hospital} / &nbsp;
-              {doctorInfo.department})
+              {docInfo.name} ({docInfo.hospital} / &nbsp;
+              {docInfo.subject})
             </REZInfo>
           )}
         </InfoContainer>

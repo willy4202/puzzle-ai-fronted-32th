@@ -167,11 +167,11 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   };
 
   const isTimePass = useCallback(
-    (item: string) => {
+    (time: string) => {
       const limitHours: number = TODAY.getHours() + 1;
       const limitMinutes: number = TODAY.getMinutes();
-      const timetableHours: number = Number(item.split(':')[0]);
-      const timetableMinutes: number = Number(item.split(':')[1]);
+      const timetableHours: number = Number(time.split(':')[0]);
+      const timetableMinutes: number = Number(time.split(':')[1]);
       return (
         selectDate.year === today.year &&
         selectDate.month === today.month &&
@@ -196,9 +196,9 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   );
 
   const isTimeExpired = useCallback(
-    (item: string) =>
+    (time: string) =>
       timeTable.expired_times.length !== 0 &&
-      timeTable.expired_times.includes(item),
+      timeTable.expired_times.includes(time),
     [timeTable],
   );
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext, useMemo} from 'react';
-import {Image, View} from 'react-native';
+import {Alert, Image, View} from 'react-native';
 import styled from 'styled-components/native';
 import {
   SelectSymptomContext,
@@ -68,26 +68,27 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
   }, [selectImage]);
 
   const test = async () => {
-    fetch('server', {
+    const response = await fetch('server', {
       method: 'POST',
       headers: {
         Authorization: await getToken(),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: {
+      body: JSON.stringify({
         img: formImg,
         doctor: docInfo.id,
         symptom: symptomText,
         reservationDate: userSelectedDate,
         reservationTime: userSelectTime,
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      });
-    console.log('post done');
-    await navigation.navigate('Mains');
+      }),
+    });
+    const data = await response.json();
+    if (data.status === 200) {
+      Alert.alert('예약이 완료됐습니다.');
+      await navigation.navigate('Mains');
+    } else {
+      Alert.alert('예약에 실패했습니다. 잠시후 다시 시도해주세요.');
+    }
   };
 
   const goBackScreen = () => {

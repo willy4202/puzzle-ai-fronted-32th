@@ -35,8 +35,8 @@ function DocList({navigation, route}: DocListNavigationProps) {
     DATA.slice(0, renderItemNum),
   );
 
-  const goDocScheme = (item: InitialDocListProp) => {
-    setDocInfo(item);
+  const goDocScheme = (docInfo: InitialDocListProp) => {
+    setDocInfo(docInfo);
     navigation.navigate('DocScheme');
   };
 

@@ -58,15 +58,11 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
     doctorOpinion: '',
   });
 
-  //TODO : PARAMS 적용 하기, 해당 예약에 대한 id를 받아와서 뿌려주기
-
   const goBackCalender = () => {
     navigation.navigate('DocScheme');
   };
 
-  // 통신 이후 spread 로직
   useEffect(() => {
-    // 토큰 담아서 전송하는 로직
     const fetchData = async () => {
       fetch('server', {
         headers: {
@@ -78,14 +74,13 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
     };
     setDetailData(MOCK_DATA);
 
-    // fetchData();
+    fetchData();
   }, []);
 
   return (
     <Container>
       <DoctorView>
         <DoctorCard docData={docInfo} />
-        {/* TODO : 임시로 스테이터스 변동하는 스타일링 적용, fetch 체크 예정 */}
         <StatusView>
           <Status>{detailData.status}</Status>
         </StatusView>
@@ -99,7 +94,6 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
         <Symptom symptomText={detailData.symptom} />
         <DoctorOpinion docOpinion={detailData.doctorOpinion} />
       </Section>
-      {/* TODO : status 상황에 따라 매번 다른 기능을 수행하는 버튼 구현 */}
       <Button
         goBackCalender={goBackCalender}
         status={detailData.status}

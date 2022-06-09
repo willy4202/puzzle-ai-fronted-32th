@@ -17,8 +17,6 @@ const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
         Authorization: await getToken(),
         'Content-Type': 'application/json',
       },
-      // ToDO: 예약 취소시 boolean, 또는 문자열 중 하나를 선택해서 서버와 통신 이후
-      // 전달온 정보를 setStatus에 반영해주기
       body: JSON.stringify(data),
     })
       .then(response => response.json())

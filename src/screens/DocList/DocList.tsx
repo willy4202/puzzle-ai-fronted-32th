@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
 import {DocListNavigationProps, InitialDocListProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
+import {DocInfoContext} from '~/src/ReservationContext';
 
 const DATA: InitialDocListProp[] = [];
 for (let i = 0; i < 100; i++) {
@@ -28,16 +29,19 @@ function DocList({navigation, route}: DocListNavigationProps) {
     }),
   );
 
+  const {setDocInfo} = useContext(DocInfoContext);
+
   const [initialDocData, setInitialDocData] = useState(
     DATA.slice(0, renderItemNum),
   );
 
-  const goDocScheme = () => {
+  const goDocScheme = (docInfo: InitialDocListProp) => {
+    setDocInfo(docInfo);
     navigation.navigate('DocScheme');
   };
 
   const renderItem = ({item}: {item: InitialDocListProp}) => (
-    <ListButton onPress={goDocScheme}>
+    <ListButton onPress={() => goDocScheme(item)}>
       <DoctorCard docData={item}></DoctorCard>
     </ListButton>
   );

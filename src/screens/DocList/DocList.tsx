@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
-import {DocListNavigationProps, initialDocListProp} from '~/src/types/type';
+import {DocListNavigationProps, InitialDocListProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 
-const DATA: initialDocListProp[] = [];
+const DATA: InitialDocListProp[] = [];
 for (let i = 0; i < 100; i++) {
   DATA.push({
     id: i,
@@ -36,7 +36,7 @@ function DocList({navigation, route}: DocListNavigationProps) {
     navigation.navigate('DocScheme');
   };
 
-  const renderItem = ({item}: {item: initialDocListProp}) => (
+  const renderItem = ({item}: {item: InitialDocListProp}) => (
     <ListButton onPress={goDocScheme}>
       <DoctorCard docData={item}></DoctorCard>
     </ListButton>

@@ -1,31 +1,26 @@
 import React, {ReactNode} from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {View} from 'react-native';
 import styled, {css} from 'styled-components/native';
 
 interface Props {
   children: ReactNode;
-  status: string;
 }
 
-interface StyledProps {
-  status: string;
-}
-
-function Status({children, status}: Props) {
+function Status({children}: Props) {
   return (
     <View>
-      <StatusTitle status={status}>{children}</StatusTitle>
+      <StatusTitle>{children}</StatusTitle>
     </View>
   );
 }
 
 export default Status;
 
-const StatusTitle = styled.Text<StyledProps>`
+const StatusTitle = styled.Text<Props>`
   padding: 2px 10px;
   font-size: ${({theme}) => theme.fontSmall};
-  ${({status, theme}) => {
-    switch (status) {
+  ${({children, theme}) => {
+    switch (children) {
       case '진료대기':
         return css`
           color: ${theme.StatusWaitingFont};

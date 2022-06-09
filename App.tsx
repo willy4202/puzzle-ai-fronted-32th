@@ -23,13 +23,13 @@ import {
 
 import {ThemeProvider} from 'styled-components';
 import theme from './src/styles/theme';
-import {HomeStackParamList, initialDocListProp} from '~/src/types/type';
+import {HomeStackParamList, InitialDocListProp} from '~/src/types/type';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
   const {userState, loadData} = useContext(AuthContext);
-  const [initialDocData, setInitialDocData] = useState<initialDocListProp>({
+  const [initialDocData, setInitialDocData] = useState<InitialDocListProp>({
     id: 0,
     name: '',
     subject: '',

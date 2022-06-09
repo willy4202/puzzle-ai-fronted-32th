@@ -49,7 +49,6 @@ function REZList({navigation}: REZListNavigationProps) {
         ? renderItemNum
         : renderItemNum + (pageNum.current - 1) * limit;
     const additionalData = DATA.slice(offset, offset + limit);
-    console.log(additionalData);
     setInitialDocData(initialDocData.concat(additionalData));
   };
 

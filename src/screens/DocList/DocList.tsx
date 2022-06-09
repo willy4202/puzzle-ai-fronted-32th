@@ -37,8 +37,6 @@ function DocList({navigation, route}: DocListNavigationProps) {
 
   const pageNum = useRef(0);
 
-  console.log(pageNum);
-
   const goDocScheme = (docInfo: InitialDocListProp) => {
     setDocInfo(docInfo);
     pageNum.current = 0;
@@ -59,7 +57,6 @@ function DocList({navigation, route}: DocListNavigationProps) {
         ? renderItemNum
         : renderItemNum + (pageNum.current - 1) * limit;
     const additionalData = DATA.slice(offset, offset + limit);
-    console.log(additionalData);
     setInitialDocData(initialDocData.concat(additionalData));
   };
 

@@ -1,10 +1,18 @@
 import React, {createContext, Dispatch, SetStateAction} from 'react';
 import {Asset} from 'react-native-image-picker';
+<<<<<<< HEAD
 import {SelectDateProp, InitialDocListProp} from '~/src/types/type';
 
 interface DocInfoProps {
   docInfo: InitialDocListProp;
   setDocInfo: React.Dispatch<React.SetStateAction<InitialDocListProp>>;
+=======
+import {SelectDateProp, initialDocListProp} from '~/src/types/type';
+
+interface DocInfoProps {
+  docInfo: initialDocListProp;
+  setDocInfo: React.Dispatch<React.SetStateAction<initialDocListProp>>;
+>>>>>>> 9f586ea (context 전역처리)
 }
 
 export const DocInfoContext = createContext<DocInfoProps>({

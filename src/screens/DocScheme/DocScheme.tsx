@@ -13,8 +13,8 @@ import DoctorCard from '@components/DoctorCard';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
-import {SelectContext} from '../../ReservationContext';
 import {config} from '~/src/config';
+import {SelectContext, DocInfoContext} from '../../ReservationContext';
 
 interface TimeTableProp {
   expired_times: string[];
@@ -40,6 +40,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   });
 
   const {selectDate, setSelectDate} = useContext(SelectContext);
+  const {docInfo} = useContext(DocInfoContext);
 
   useEffect(() => {
     navigation.setOptions({
@@ -166,11 +167,11 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   };
 
   const isTimePass = useCallback(
-    (item: string) => {
+    (time: string) => {
       const limitHours: number = TODAY.getHours() + 1;
       const limitMinutes: number = TODAY.getMinutes();
-      const timetableHours: number = Number(item.split(':')[0]);
-      const timetableMinutes: number = Number(item.split(':')[1]);
+      const timetableHours: number = Number(time.split(':')[0]);
+      const timetableMinutes: number = Number(time.split(':')[1]);
       return (
         selectDate.year === today.year &&
         selectDate.month === today.month &&
@@ -195,9 +196,9 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   );
 
   const isTimeExpired = useCallback(
-    (item: string) =>
+    (time: string) =>
       timeTable.expired_times.length !== 0 &&
-      timeTable.expired_times.includes(item),
+      timeTable.expired_times.includes(time),
     [timeTable],
   );
 
@@ -218,7 +219,7 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     <Scheme>
       <SchemeWrapper>
         <CardWrapper>
-          <DoctorCard></DoctorCard>
+          <DoctorCard docData={docInfo}></DoctorCard>
         </CardWrapper>
         <CalendarButtonWrapper>
           <PrevYear onPress={() => yearHandler('prev')}>

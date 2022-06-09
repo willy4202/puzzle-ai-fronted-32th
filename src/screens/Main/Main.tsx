@@ -41,10 +41,8 @@ function Main({navigation}: MainNavigationProps) {
     fetchData();
   }, []);
 
-  console.log(initialData);
-
-  const goDocList = (item: CategoryProp) => {
-    navigation.navigate('DocList', item);
+  const goDocList = (category: CategoryProp) => {
+    navigation.navigate('DocList', category);
   };
 
   return (

@@ -14,31 +14,16 @@ import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
 import {SelectContext} from '../../ReservationContext';
+import {config} from '~/src/config';
 
-interface TIMESProp {
-  id: string;
+interface TimeTableProp {
+  expired_times: string[];
+  working_times: {times: string[]};
 }
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
-const DAYOFF: string[] = ['1', '4', '6', '14', '16', '20', '22', '24', '25'];
-const TIMES: TIMESProp[] = [
-  {id: '05:20'},
-  {id: '06:50'},
-  {id: '07:00'},
-  {id: '12:12'},
-  {id: '14:00'},
-  {id: '15:00'},
-  {id: '16:50'},
-  {id: '17:00'},
-  {id: '18:55'},
-  {id: '19:00'},
-  {id: '20:00'},
-  {id: '21:00'},
-  {id: '22:00'},
-  {id: '23:00'},
-];
 
-const FULL: string[] = ['10:00', '11:00', '12:00'];
+const CHANGEWEEKS = [1, 2, 3, 4, 5, 6, 0];
 
 function DocScheme({navigation}: DocSchemeNavigationProps) {
   const [calendarDate, setCalendarDate] = useState<NewDate[]>([]);
@@ -48,6 +33,12 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     date: TODAY.getDate(),
     day: TODAY.getDay(),
   });
+  const [weeksOff, setWeeksOff] = useState<number[]>([]);
+  const [timeTable, setTimeTable] = useState<TimeTableProp>({
+    expired_times: [],
+    working_times: {times: []},
+  });
+
   const {selectDate, setSelectDate} = useContext(SelectContext);
 
   useEffect(() => {
@@ -59,8 +50,33 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   }, [navigation]);
 
   useEffect(() => {
+    const nowCalDate: NewDate = getNewDate(new Date(date.year, date.month - 1));
+    fetch(
+      `${config.docScheme}/1?year=${nowCalDate.year}&month=${nowCalDate.month}`,
+    )
+      .then(res => res.json())
+      .then(res =>
+        setWeeksOff(res.result.map((el: number) => CHANGEWEEKS[el])),
+      );
+
     getAlldate();
   }, [date]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (selectDate.date !== 0) {
+      timer = setTimeout(() => {
+        fetch(
+          `${config.docScheme}/1?year=${selectDate.year}&month=${selectDate.month}&dates=${selectDate.date}`,
+        )
+          .then(res => res.json())
+          .then(res => setTimeTable(res));
+      }, 600);
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [selectDate]);
 
   const getNewDate = (newDate: Date): NewDate => {
     const year = newDate.getFullYear();
@@ -149,13 +165,16 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     await navigation.navigate('MakeREZ');
   };
 
-  const isTimeValid = useCallback(
-    (item: TIMESProp) => {
+  const isTimePass = useCallback(
+    (item: string) => {
       const limitHours: number = TODAY.getHours() + 1;
       const limitMinutes: number = TODAY.getMinutes();
-      const timetableHours: number = Number(item.id.split(':')[0]);
-      const timetableMinutes: number = Number(item.id.split(':')[1]);
+      const timetableHours: number = Number(item.split(':')[0]);
+      const timetableMinutes: number = Number(item.split(':')[1]);
       return (
+        selectDate.year === today.year &&
+        selectDate.month === today.month &&
+        selectDate.date === today.date &&
         new Date(
           today.year,
           today.month,
@@ -163,26 +182,32 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           timetableHours,
           timetableMinutes,
         ) <=
-        new Date(today.year, today.month, today.date, limitHours, limitMinutes)
+          new Date(
+            today.year,
+            today.month,
+            today.date,
+            limitHours,
+            limitMinutes,
+          )
       );
     },
-    [date],
+    [date.month, date.year],
   );
 
-  const renderItem = ({item}: {item: TIMESProp}) =>
-    item.id ? (
+  const isTimeExpired = useCallback(
+    (item: string) =>
+      timeTable.expired_times.length !== 0 &&
+      timeTable.expired_times.includes(item),
+    [timeTable],
+  );
+
+  const renderItem = ({item}: {item: string}) =>
+    item ? (
       <TimeButton
-        disabled={
-          (selectDate.date === today.date && isTimeValid(item)) ||
-          FULL.includes(item.id)
-        }
-        onPress={() => goMakeREZ(item.id)}>
-        <ButtonText
-          disabled={
-            (selectDate.date === today.date && isTimeValid(item)) ||
-            FULL.includes(item.id)
-          }>
-          {item.id}
+        disabled={isTimePass(item) || isTimeExpired(item)}
+        onPress={() => goMakeREZ(item)}>
+        <ButtonText disabled={isTimePass(item) || isTimeExpired(item)}>
+          {item}
         </ButtonText>
       </TimeButton>
     ) : (
@@ -215,14 +240,14 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
           </NextYear>
         </CalendarButtonWrapper>
         <WeekInfo>
-          {DAYS.map((day, idx) => (
+          {DAYS.map((day: string, idx: number) => (
             <WeekButton key={idx}>
-              <WeekText>{day}</WeekText>
+              <WeekText invalid={weeksOff.includes(idx)}>{day}</WeekText>
             </WeekButton>
           ))}
         </WeekInfo>
         <Calendar
-          dayoff={DAYOFF}
+          dayoff={weeksOff}
           weeklength={calendarDate.length}
           calendarDate={calendarDate}
           today={today}
@@ -231,10 +256,14 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       <TimeTable isShow={selectDate.date !== 0}>
         <TimeButtonWrapper
           renderItem={renderItem}
-          data={TIMES.length % 3 === 2 ? TIMES.concat({id: ''}) : TIMES}
+          data={
+            timeTable.working_times.times.length % 3 === 2
+              ? timeTable.working_times.times.concat('')
+              : timeTable.working_times.times
+          }
           numColumns={3}
           columnWrapperStyle={{justifyContent: 'space-between'}}
-          keyExtractor={(item: TIMESProp, index: number) => index.toString()}
+          keyExtractor={(item: string, index: number) => index.toString()}
         />
         <TimeTableFooter>해당 시간은 현지시간 기준입니다</TimeTableFooter>
       </TimeTable>
@@ -309,9 +338,10 @@ const WeekButton = styled.View`
   height: 35px;
 `;
 
-const WeekText = styled.Text`
+const WeekText = styled.Text<{invalid: boolean}>`
   font-size: ${({theme}) => theme.fontRegular};
-  color: ${({theme}) => theme.primary};
+  color: ${({invalid}) =>
+    invalid ? ({theme}) => theme.DOCSchemeCaloff : ({theme}) => theme.primary};
 `;
 
 const TimeTable = styled.View<{isShow: boolean}>`

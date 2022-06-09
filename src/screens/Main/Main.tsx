@@ -4,7 +4,11 @@ import {FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {config} from '~/src/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {MainNavigationProps, MainDataProp} from '~/src/types/type';
+import {
+  MainNavigationProps,
+  MainDataProp,
+  CategoryProp,
+} from '~/src/types/type';
 
 function Main({navigation}: MainNavigationProps) {
   const [initialData, setInitialData] = useState<MainDataProp>({
@@ -37,6 +41,12 @@ function Main({navigation}: MainNavigationProps) {
     fetchData();
   }, []);
 
+  console.log(initialData);
+
+  const goDocList = (item: CategoryProp) => {
+    navigation.navigate('DocList', item);
+  };
+
   return (
     <>
       <SafeArea></SafeArea>
@@ -54,7 +64,7 @@ function Main({navigation}: MainNavigationProps) {
         <MainContents
           data={initialData.result}
           renderItem={({item}) => (
-            <CategoryButton onPress={() => navigation.navigate('DocList')}>
+            <CategoryButton onPress={() => goDocList(item)}>
               <Category
                 id={item.id}
                 source={{uri: item.file_location}}

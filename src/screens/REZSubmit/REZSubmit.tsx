@@ -50,8 +50,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
 
   const userSelectTime = `${selectDate.time}`;
 
-  console.log(userSelectedDate, userSelectTime);
-
   useEffect(() => {
     setDoctorInfo(DOCTOR_MOCK);
   }, []);

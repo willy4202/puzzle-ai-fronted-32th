@@ -9,7 +9,7 @@ import checkIcon from '@assets/images/complete_icon.png';
 import {REZSubmitNavigationProps} from '~/src/types/type';
 import {SelectContext} from '~/src/ReservationContext';
 import {DocInfoContext} from '~/src/ReservationContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getToken} from '~/src/AuthContext';
 
 function REZSubmit({navigation}: REZSubmitNavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
@@ -30,6 +30,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       ),
     [],
   );
+
   const userSelectedDate = `${String(selectDate.year).padStart(
     2,
     '0',
@@ -39,10 +40,10 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
 
   const userSelectTime = `${selectDate.time}`;
 
-  useEffect(() => {
+  const currentDate = useMemo(() => {
     const today = new Date();
     const weekArray = ['일', '월', '화', '수', '목', '금', '토'];
-    const currentDate =
+    const stringDate =
       today.getFullYear() +
       '-' +
       (today.getMonth() + 1).toString().padStart(2, '0') +
@@ -50,6 +51,11 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       today.getDate().toString().padStart(2, '0') +
       `(${weekArray[today.getDay()]})` +
       today.toLocaleTimeString([], {timeStyle: 'short'});
+
+    return stringDate;
+  }, []);
+
+  useEffect(() => {
     setDate(currentDate);
   }, []);
 
@@ -65,11 +71,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       setFormImg(formData);
     });
   }, [selectImage]);
-
-  const getToken = async () => {
-    const Token = await AsyncStorage.getItem('token');
-    return String(Token);
-  };
 
   const test = async () => {
     fetch('server', {

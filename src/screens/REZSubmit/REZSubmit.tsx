@@ -15,7 +15,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
   const {symptomText} = useContext(SelectSymptomContext);
   const {selectImage} = useContext(SelectImageContext);
   const [formImg, setFormImg] = useState();
-  const [date, setDate] = useState('');
   const {selectDate} = useContext(SelectContext);
   const {docInfo} = useContext(DocInfoContext);
 

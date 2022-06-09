@@ -79,8 +79,8 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   }, [date]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
     if (selectDate.date !== 0) {
+      let timer: NodeJS.Timeout;
       timer = setTimeout(() => {
         const fetchData = async () => {
           const response = await fetch(
@@ -97,10 +97,11 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
 
         fetchData();
       }, 600);
+
+      return () => {
+        clearTimeout(timer);
+      };
     }
-    return () => {
-      clearTimeout(timer);
-    };
   }, [selectDate]);
 
   const getNewDate = (newDate: Date): NewDate => {

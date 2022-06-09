@@ -8,8 +8,6 @@ import {
   ImageLibraryOptions,
   Asset,
 } from 'react-native-image-picker';
-import {useWindowDimensions} from 'react-native';
-import {responsiveWidth} from '~/src/styles/responsive';
 
 const options: ImageLibraryOptions = {
   maxHeight: 200,
@@ -21,11 +19,6 @@ const options: ImageLibraryOptions = {
 
 function ImagePicker() {
   const {selectImage, setSelectImage} = useContext(SelectImageContext);
-  const {height, width} = useWindowDimensions();
-
-  console.log(height, width);
-
-  console.log(responsiveWidth(100));
 
   const openGallery = (): void => {
     launchImageLibrary(options, response => {
@@ -81,7 +74,7 @@ const ViewTitle = styled.Text`
 `;
 
 const ScrollViewContainer = styled.ScrollView`
-  margin: 20px;
+  margin: 10px 20px;
 `;
 
 const ImageWrapper = styled.Pressable`

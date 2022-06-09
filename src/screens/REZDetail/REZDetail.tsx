@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components/native';
 import DoctorCard from '@components/DoctorCard';
 import Symptom from './Symptom';
@@ -7,6 +7,7 @@ import ImageView from './ImageView';
 import Button from './Button';
 import Status from '~/src/components/Status';
 import {REZDetailNavigationProps} from '~/src/types/type';
+import {DocInfoContext} from '~/src/ReservationContext';
 
 interface ImgType {
   id: number;
@@ -51,10 +52,13 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
   const [image, setImage] = useState([]);
   const [symptomText, setSymptomText] = useState('');
   const [docOpinion, setDocOpinion] = useState('');
+  const {docInfo} = useContext(DocInfoContext);
 
   const goBackCalender = () => {
     navigation.navigate('DocScheme');
   };
+
+  console.log(docInfo);
 
   useEffect(() => {
     setStatus(MOCK_DATA.status);
@@ -66,7 +70,7 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
   return (
     <Container>
       <DoctorView>
-        <DoctorCard />
+        <DoctorCard docData={docInfo} />
         {/* TODO : 임시로 스테이터스 변동하는 스타일링 적용, fetch 체크 예정 */}
         <StatusView>
           <Status status={status}>{status}</Status>

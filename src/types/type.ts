@@ -80,7 +80,7 @@ export type DocListNavigationProps = StackScreenProps<
   'DocList'
 >;
 
-export interface InitialDocListProp {
+export interface DocDataProp {
   id: number;
   name: string;
   subject: string;

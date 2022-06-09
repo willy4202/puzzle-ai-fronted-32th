@@ -1,13 +1,14 @@
-import React, {useEffect, useState, useContext, useRef} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
-import {REZListNavigationProps, InitialDocListProp} from '~/src/types/type';
+import {REZListNavigationProps, DocDataProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import CalendarImage from '@assets/images/calendar_icon.png';
 import {DocInfoContext} from '~/src/ReservationContext';
 import Status from '~/src/components/Status';
+import usePagination from '~/src/components/usePagination';
 
-const DATA: InitialDocListProp[] = [];
+const DATA: DocDataProp[] = [];
 for (let i = 0; i < 100; i++) {
   DATA.push({
     id: i,
@@ -24,35 +25,20 @@ const deviceHeight: number = Dimensions.get('window').height;
 const renderItemNum: number = Math.floor(deviceHeight / 125);
 
 function REZList({navigation}: REZListNavigationProps) {
-  const [initialDocData, setInitialDocData] = useState(
-    DATA.slice(0, renderItemNum),
-  );
-
   const {setDocInfo} = useContext(DocInfoContext);
 
-  const pageNum = useRef(0);
+  const {docData, addList} = usePagination(renderItemNum, DATA);
 
   useEffect(() => {
     navigation.setOptions({title: '예약 목록', headerShadowVisible: false});
   });
 
-  const goDocScheme = (docInfo: InitialDocListProp) => {
+  const goDocScheme = (docInfo: DocDataProp) => {
     setDocInfo(docInfo);
     navigation.navigate('REZDetail');
   };
 
-  const addList = () => {
-    const limit = 5;
-    pageNum.current++;
-    let offset =
-      pageNum.current === 1
-        ? renderItemNum
-        : renderItemNum + (pageNum.current - 1) * limit;
-    const additionalData = DATA.slice(offset, offset + limit);
-    setInitialDocData(initialDocData.concat(additionalData));
-  };
-
-  const renderItem = ({item}: {item: InitialDocListProp}) => (
+  const renderItem = ({item}: {item: DocDataProp}) => (
     <ListButton onPress={() => goDocScheme(item)}>
       <ListHeader>
         <DateWrapper>
@@ -67,7 +53,7 @@ function REZList({navigation}: REZListNavigationProps) {
 
   return (
     <REZListWrapper
-      data={initialDocData}
+      data={docData}
       renderItem={renderItem}
       onEndReached={addList}
       onEndReachedThreshold={0}

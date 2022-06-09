@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css} from 'styled-components/native';
-import {FlatList} from 'react-native';
+import {Alert, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {config} from '~/src/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,18 +24,22 @@ function Main({navigation}: MainNavigationProps) {
 
   useEffect(() => {
     const getToken = async () => {
-      const Token = await AsyncStorage.getItem('token');
-      return String(Token);
+      const token = await AsyncStorage.getItem('token');
+      return String(token);
     };
 
     const fetchData = async () => {
-      fetch(`${config.mains}`, {
+      const response = await fetch(`${config.mains}`, {
         headers: {
           Authorization: await getToken(),
         },
-      })
-        .then(res => res.json())
-        .then(res => setInitialData(res));
+      });
+      if (response.status === 200) {
+        const fetchResult = await response.json();
+        return setInitialData(fetchResult);
+      } else {
+        Alert.alert('로그인을 다시 시도해주세요');
+      }
     };
 
     fetchData();

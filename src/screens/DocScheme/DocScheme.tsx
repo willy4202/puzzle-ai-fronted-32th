@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useCallback,
 } from 'react';
-import {FlatList} from 'react-native';
+import {Alert, FlatList} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
 import {DocSchemeNavigationProps, SelectDateProp} from '~/src/types/type';
@@ -52,26 +52,26 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
   }, [navigation]);
 
   const getToken = async () => {
-    const Token = await AsyncStorage.getItem('token');
-    return String(Token);
+    const token = await AsyncStorage.getItem('token');
+    return String(token);
   };
 
   useEffect(() => {
     const nowCalDate: NewDate = getNewDate(new Date(date.year, date.month - 1));
 
     const fetchData = async () => {
-      fetch(
+      const response = await fetch(
         `${config.docScheme}/1?year=${nowCalDate.year}&month=${nowCalDate.month}`,
-        {
-          headers: {
-            Authorization: await getToken(),
-          },
-        },
-      )
-        .then(res => res.json())
-        .then(res =>
-          setWorkingWeeks(res.result.map((el: number) => CHANGEWEEKS[el])),
+        {headers: {Authorization: await getToken()}},
+      );
+      if (response.status === 200) {
+        const fetchResult = await response.json();
+        return setWorkingWeeks(
+          fetchResult.result.map((el: number) => CHANGEWEEKS[el]),
         );
+      } else {
+        Alert.alert('로그인을 다시 시도해주세요');
+      }
     };
 
     fetchData();
@@ -83,16 +83,16 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     if (selectDate.date !== 0) {
       timer = setTimeout(() => {
         const fetchData = async () => {
-          fetch(
+          const response = await fetch(
             `${config.docScheme}/1?year=${selectDate.year}&month=${selectDate.month}&dates=${selectDate.date}`,
-            {
-              headers: {
-                Authorization: await getToken(),
-              },
-            },
-          )
-            .then(res => res.json())
-            .then(res => setTimeTable(res));
+            {headers: {Authorization: await getToken()}},
+          );
+          if (response.status === 200) {
+            const fetchResult = await response.json();
+            return setTimeTable(fetchResult);
+          } else {
+            Alert.alert('로그인을 다시 시도해주세요');
+          }
         };
 
         fetchData();

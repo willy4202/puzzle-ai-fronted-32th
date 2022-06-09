@@ -1,11 +1,12 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
-import {Dimensions, FlatList} from 'react-native';
+import React, {useContext, useEffect} from 'react';
 import styled from 'styled-components/native';
-import {DocListNavigationProps, InitialDocListProp} from '~/src/types/type';
+import {Dimensions, FlatList} from 'react-native';
+import {DocListNavigationProps, DocDataProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import {DocInfoContext} from '~/src/ReservationContext';
+import usePagination from '~/src/components/usePagination';
 
-const DATA: InitialDocListProp[] = [];
+const DATA: DocDataProp[] = [];
 for (let i = 0; i < 100; i++) {
   DATA.push({
     id: i,
@@ -31,38 +32,24 @@ function DocList({navigation, route}: DocListNavigationProps) {
 
   const {setDocInfo} = useContext(DocInfoContext);
 
-  const [initialDocData, setInitialDocData] = useState(
-    DATA.slice(0, renderItemNum),
-  );
+  const {docData, addList} = usePagination(renderItemNum, DATA);
 
-  const pageNum = useRef(0);
-
-  const goDocScheme = (docInfo: InitialDocListProp) => {
+  const goDocScheme = (docInfo: DocDataProp) => {
     setDocInfo(docInfo);
-    pageNum.current = 0;
     navigation.navigate('DocScheme');
   };
 
-  const renderItem = ({item}: {item: InitialDocListProp}) => (
-    <ListButton onPress={() => goDocScheme(item)}>
-      <DoctorCard docData={item}></DoctorCard>
-    </ListButton>
-  );
-
-  const addList = () => {
-    const limit = 5;
-    pageNum.current++;
-    let offset =
-      pageNum.current === 1
-        ? renderItemNum
-        : renderItemNum + (pageNum.current - 1) * limit;
-    const additionalData = DATA.slice(offset, offset + limit);
-    setInitialDocData(initialDocData.concat(additionalData));
-  };
+  function renderItem({item}: {item: DocDataProp}): JSX.Element {
+    return (
+      <ListButton onPress={() => goDocScheme(item)}>
+        <DoctorCard docData={item}></DoctorCard>
+      </ListButton>
+    );
+  }
 
   return (
     <DocListWrapper
-      data={initialDocData}
+      data={docData}
       renderItem={renderItem}
       onEndReached={addList}
       onEndReachedThreshold={0}

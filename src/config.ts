@@ -7,4 +7,5 @@ export const config = {
   check: `${BASE_URL}/users/check`,
   mains: `${BASE_URL}/reservations/subject`,
   docScheme: `${BASE_URL}/reservations/time`,
+  detail: `${BASE_URL}/reservations`,
 };

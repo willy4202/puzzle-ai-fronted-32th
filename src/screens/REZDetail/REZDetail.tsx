@@ -9,45 +9,7 @@ import Status from '~/src/components/Status';
 import {REZDetailNavigationProps} from '~/src/types/type';
 import {DocInfoContext} from '~/src/ReservationContext';
 import {getToken} from '~/src/AuthContext';
-
-interface ImgType {
-  id: number;
-  fileName: string;
-  uri: string;
-}
-
-interface MOCKTYPE {
-  status: string;
-  reservation: string;
-  symptom: string;
-  doctorOpinion: string;
-  image: ImgType[];
-}
-
-const MOCK_DATA: MOCKTYPE = {
-  status: '진료대기',
-  reservation: '2020-04-14(금) 오후 2:00',
-  symptom: '지난 금요일 발목을 접지른 이후...',
-  doctorOpinion:
-    '발목쪽 인대파열이 예상됩니다. 정확한 진단은 육안으로 확인 후 진단내려야 하지만 우선은 냉찜질 해주는것을 추천드립니다.',
-  image: [
-    {
-      id: 1,
-      fileName: 'hhi',
-      uri: 'https://www.medical.or.kr/center/images/suwon.jpg',
-    },
-    {
-      id: 2,
-      fileName: 'fwefc',
-      uri: 'https://www.medigatenews.com/file/news/81993',
-    },
-    {
-      id: 3,
-      fileName: 'jyrs',
-      uri: 'https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202103/08/18f30524-01ea-4961-b160-33d642de086f.jpg',
-    },
-  ],
-};
+import {config} from '~/src/config';
 
 function REZDetail({navigation}: REZDetailNavigationProps) {
   const {docInfo} = useContext(DocInfoContext);
@@ -65,16 +27,14 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      fetch('server', {
+      fetch(`${config.detail}/${docInfo.id}`, {
         headers: {
           Authorization: await getToken(),
         },
       })
         .then(res => res.json())
-        .then(res => setDetailData(res));
+        .then(data => setDetailData(data.result));
     };
-    setDetailData(MOCK_DATA);
-
     fetchData();
   }, []);
 

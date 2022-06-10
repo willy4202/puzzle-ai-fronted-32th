@@ -9,7 +9,7 @@ const ImageView = ({image}) => {
       <ViewTitle>환부 사진</ViewTitle>
       <ScrollView horizontal>
         {image.map(item => (
-          <SelectImgWrapper key={item.fileName}>
+          <SelectImgWrapper key={item.id}>
             <ImageWrapper>
               <SpreadImg source={item} />
             </ImageWrapper>

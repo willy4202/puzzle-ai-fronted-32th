@@ -15,6 +15,7 @@ interface ImgType {
   fileName: string;
   uri: string;
 }
+
 interface MOCKTYPE {
   status: string;
   reservation: string;
@@ -117,13 +118,13 @@ const DoctorView = styled.View`
   margin: 20px 18px 0 18px;
 `;
 
-const StatusView = styled.TouchableOpacity`
+const StatusView = styled.View`
   position: absolute;
   right: 0;
   top: 0;
 `;
 
-const Section = styled.View`
+const Section = styled.ScrollView`
   flex: 7;
   padding: 20px;
 `;

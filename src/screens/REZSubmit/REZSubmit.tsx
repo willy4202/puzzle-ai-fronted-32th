@@ -67,7 +67,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
     });
   }, [selectImage]);
 
-  const test = async () => {
+  const postReservationData = async () => {
     const response = await fetch('server', {
       method: 'POST',
       headers: {
@@ -139,7 +139,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         </CautionInfo>
       </CautionInfoContainer>
       <Footer>
-        <ConfirmBtn onPress={test}>
+        <ConfirmBtn onPress={postReservationData}>
           <View>
             <BtnText>예약 확정</BtnText>
           </View>

@@ -80,7 +80,7 @@ export type DocListNavigationProps = StackScreenProps<
   'DocList'
 >;
 
-export interface InitialDocListProp {
+export interface DocDataProp {
   id: number;
   name: string;
   subject: string;
@@ -92,6 +92,11 @@ export type DocSchemeNavigationProps = StackScreenProps<
   HomeStackParamList,
   'DocScheme'
 >;
+
+export interface TimeTableProp {
+  expired_times: string[];
+  working_times: string[];
+}
 
 export interface NewDate {
   year: number;

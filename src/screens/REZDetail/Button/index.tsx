@@ -1,7 +1,9 @@
 import {View} from 'react-native';
 import styled from 'styled-components/native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {getToken} from '~/src/AuthContext';
+import {config} from '~/src/config';
+import {DocInfoContext} from '~/src/ReservationContext';
 
 interface ButtonProps {
   status: string;
@@ -10,14 +12,16 @@ interface ButtonProps {
 }
 
 const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
+  const {docInfo} = useContext(DocInfoContext);
+
   const cancelReservation = async () => {
-    fetch('server', {
-      method: 'POST',
+    await fetch(`${config.detail}/${docInfo.id}?work=cancel`, {
+      method: 'PATCH',
       headers: {
         Authorization: await getToken(),
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(docInfo.id),
     })
       .then(response => response.json())
       .then(data => {

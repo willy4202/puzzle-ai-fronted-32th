@@ -16,7 +16,7 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
   const [detailData, setDetailData] = useState({
     status: '진료대기',
     reservation: '',
-    image: [{id: '', fileName: '', uri: ''}],
+    image: [{id: '', uri: ''}],
     symptom: '',
     doctorOpinion: '',
   });

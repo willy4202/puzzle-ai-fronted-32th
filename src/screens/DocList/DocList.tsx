@@ -4,7 +4,7 @@ import {Dimensions, FlatList} from 'react-native';
 import {DocListNavigationProps, DocDataProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import {DocInfoContext} from '~/src/ReservationContext';
-import usePagination from '~/src/components/usePagination';
+import usePagination from '@components/usePagination';
 
 const DATA: DocDataProp[] = [];
 for (let i = 0; i < 100; i++) {

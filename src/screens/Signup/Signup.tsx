@@ -18,14 +18,6 @@ function Signup({navigation}: SignupNavigationProps) {
   const [isSameEmail, setIsSameEmail] = useState(true);
 
   useEffect(() => {
-    navigation.setOptions({
-      title: '회원가입',
-      headerStyle: {shadowColor: 'white'},
-      headerTitleAlign: 'center',
-    });
-  }, [navigation]);
-
-  useEffect(() => {
     let timer: NodeJS.Timeout;
     if (!!userData.email) {
       if (isEmailValid) {
@@ -121,13 +113,16 @@ function Signup({navigation}: SignupNavigationProps) {
         <EmailInput type="email" setUserData={setUserData}>
           이메일
         </EmailInput>
-        {!!userData.email.length && !isEmailValid ? (
-          <EmailValidErrorMsg>이메일 형식이 잘못되었습니다.</EmailValidErrorMsg>
-        ) : (
-          !isSameEmail && (
-            <EmailErrorMsg>존재하는 이메일 주소입니다.</EmailErrorMsg>
-          )
-        )}
+        {!!userData.email.length &&
+          (!isEmailValid ? (
+            <EmailValidErrorMsg>
+              이메일 형식이 잘못되었습니다.
+            </EmailValidErrorMsg>
+          ) : (
+            !isSameEmail && (
+              <EmailErrorMsg>존재하는 이메일 주소입니다.</EmailErrorMsg>
+            )
+          ))}
         <PasswordInput type="password" setUserData={setUserData}>
           비밀번호
         </PasswordInput>

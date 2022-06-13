@@ -1,9 +1,10 @@
-import React, {useCallback, useContext, useMemo, useState} from 'react';
+import React, {useCallback, useContext, useMemo} from 'react';
 import styled from 'styled-components/native';
 import {ActivityIndicator, FlatList} from 'react-native';
-import {TimeTableProp} from '~/src/types/type';
+import {TimeTableProp, SelectDateProp} from '~/src/types/type';
 import {SelectContext} from '~/src/ReservationContext';
 import useFetch from '~/src/components/useFetch';
+import useDebounce from '~/src/components/useDebounce';
 import {config} from '~/src/config';
 
 function TimeTable({
@@ -13,16 +14,13 @@ function TimeTable({
   goMakeREZ: (item: string) => void;
   date: {year: number; month: number; date: number; day: number};
 }) {
-  const [timeTable, setTimeTable] = useState<TimeTableProp>({
-    expired_times: [],
-    working_times: [],
-  });
-
   const {selectDate} = useContext(SelectContext);
 
+  const debounceValue = useDebounce<SelectDateProp>(selectDate, 1000);
+
   const url = useMemo(() => {
-    return `${config.docScheme}/1?year=${selectDate.year}&month=${selectDate.month}&dates=${selectDate.date}`;
-  }, [selectDate.date]);
+    return `${config.docScheme}/1?year=${debounceValue.year}&month=${debounceValue.month}&dates=${debounceValue.date}`;
+  }, [debounceValue.date]);
 
   const {fetchData} = useFetch<TimeTableProp>(url, 'GET', 'TimeTable', null);
 

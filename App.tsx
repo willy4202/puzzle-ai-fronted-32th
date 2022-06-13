@@ -111,7 +111,15 @@ function App() {
                       <>
                         <Stack.Screen name="Entry" component={Entry} />
                         <Stack.Screen name="Login" component={Login} />
-                        <Stack.Screen name="Signup" component={Signup} />
+                        <Stack.Screen
+                          name="Signup"
+                          component={Signup}
+                          options={{
+                            title: '회원가입',
+                            headerStyle: {shadowColor: 'white'},
+                            headerTitleAlign: 'center',
+                          }}
+                        />
                       </>
                     )}
                   </Stack.Navigator>

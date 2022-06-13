@@ -48,7 +48,7 @@ function REZList({navigation}: REZListNavigationProps) {
           <CalendarIcon source={CalendarImage} resizeMode="contain" />
           <DateText>2020-07-24(금) 오후 3:00</DateText>
         </DateWrapper>
-        <Status status={'진료대기'}>진료대기</Status>
+        <Status>진료대기</Status>
       </ListHeader>
       <DoctorCard docData={item}></DoctorCard>
     </ListButton>

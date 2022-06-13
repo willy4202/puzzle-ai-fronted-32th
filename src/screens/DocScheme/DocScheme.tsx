@@ -13,9 +13,9 @@ import DoctorCard from '@components/DoctorCard';
 import Calendar from '@components/Calendar';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {config} from '~/src/config';
 import {SelectContext, DocInfoContext} from '../../ReservationContext';
+import {getToken} from '~/src/AuthContext';
 
 interface TimeTableProp {
   expired_times: string[];
@@ -50,11 +50,6 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       headerTitleAlign: 'center',
     });
   }, [navigation]);
-
-  const getToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    return String(token);
-  };
 
   useEffect(() => {
     const nowCalDate: NewDate = getNewDate(new Date(date.year, date.month - 1));

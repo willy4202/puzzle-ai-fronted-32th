@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components/native';
 import {Alert, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {config} from '~/src/config';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getToken} from '~/src/AuthContext';
 import {
   MainNavigationProps,
   MainDataProp,
@@ -23,11 +23,6 @@ function Main({navigation}: MainNavigationProps) {
   });
 
   useEffect(() => {
-    const getToken = async () => {
-      const token = await AsyncStorage.getItem('token');
-      return String(token);
-    };
-
     const fetchData = async () => {
       const response = await fetch(`${config.mains}`, {
         headers: {

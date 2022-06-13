@@ -16,6 +16,8 @@ function SymptomView() {
           onChangeText={text => setSymptomText(text)}
           autoCapitalize="none"
           textAlignVertical="top"
+          autoCorrect={false}
+          returnKeyType="done"
         />
       </View>
     </ViewContainer>

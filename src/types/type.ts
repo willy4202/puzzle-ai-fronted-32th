@@ -93,6 +93,11 @@ export type DocSchemeNavigationProps = StackScreenProps<
   'DocScheme'
 >;
 
+export interface TimeTableProp {
+  expired_times: string[];
+  working_times: string[];
+}
+
 export interface NewDate {
   year: number;
   month: number;

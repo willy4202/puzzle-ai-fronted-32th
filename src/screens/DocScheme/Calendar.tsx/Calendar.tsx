@@ -1,8 +1,8 @@
 import React, {useCallback, useContext} from 'react';
 import styled from 'styled-components/native';
-import CalendarButton from '@components/CalendarButton';
+import CalendarButton from '~/src/screens/DocScheme/CalendarButton.tsx/CalendarButton';
 import {NewDate, CalendarProps} from '~/src/types/type';
-import {SelectContext} from '../ReservationContext';
+import {SelectContext} from '../../../ReservationContext';
 
 function Calendar({calendarDate, weeklength, dayoff, today}: CalendarProps) {
   const {selectDate} = useContext(SelectContext);

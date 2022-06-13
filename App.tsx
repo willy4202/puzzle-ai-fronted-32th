@@ -72,7 +72,15 @@ function App() {
                           options={{headerShown: false}}
                         />
                         <Stack.Screen name="DocList" component={DocList} />
-                        <Stack.Screen name="DocScheme" component={DocScheme} />
+                        <Stack.Screen
+                          name="DocScheme"
+                          component={DocScheme}
+                          options={{
+                            title: docInfo.name,
+                            headerStyle: {shadowColor: 'white'},
+                            headerTitleAlign: 'center',
+                          }}
+                        />
                         <Stack.Screen
                           name="MakeREZ"
                           component={MakeREZ}

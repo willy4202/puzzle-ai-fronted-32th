@@ -1,26 +1,16 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useMemo,
-  useCallback,
-} from 'react';
-import {Alert, FlatList} from 'react-native';
+import React, {useState, useEffect, useContext, useMemo} from 'react';
 import styled, {css} from 'styled-components/native';
 import {NewDate} from '~/src/types/type';
 import {DocSchemeNavigationProps, SelectDateProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
-import Calendar from '@components/Calendar';
+import Calendar from '~/src/screens/DocScheme/Calendar.tsx/Calendar';
+import TimeTable from './TimeTable/TimeTable';
 import Next from '@assets/images/NextIcon.png';
 import Prev from '@assets/images/PrevIcon.png';
 import {config} from '~/src/config';
 import {SelectContext, DocInfoContext} from '../../ReservationContext';
-import {getToken} from '~/src/AuthContext';
+import useFetch from '@components/useFetch';
 
-interface TimeTableProp {
-  expired_times: string[];
-  working_times: string[];
-}
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
 
@@ -34,70 +24,27 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     date: TODAY.getDate(),
     day: TODAY.getDay(),
   });
-  const [workingWeeks, setWorkingWeeks] = useState<number[]>([]);
-  const [timeTable, setTimeTable] = useState<TimeTableProp>({
-    expired_times: [],
-    working_times: [],
-  });
 
   const {selectDate, setSelectDate} = useContext(SelectContext);
   const {docInfo} = useContext(DocInfoContext);
 
-  useEffect(() => {
-    navigation.setOptions({
-      title: '홍정의선생님',
-      headerStyle: {shadowColor: 'white'},
-      headerTitleAlign: 'center',
-    });
-  }, [navigation]);
+  const calendarUrl = useMemo(() => {
+    const nowCalDate: Date = new Date(date.year, date.month);
+    return `${
+      config.docScheme
+    }/1?year=${nowCalDate.getFullYear()}&month=${nowCalDate.getMonth()}`;
+  }, [date.month]);
+
+  const {fetchData: workingDayData} = useFetch<{result: number[]}>(
+    calendarUrl,
+    'GET',
+    'DocScheme',
+    null,
+  );
 
   useEffect(() => {
-    const nowCalDate: NewDate = getNewDate(new Date(date.year, date.month - 1));
-
-    const fetchData = async () => {
-      const response = await fetch(
-        `${config.docScheme}/1?year=${nowCalDate.year}&month=${nowCalDate.month}`,
-        {headers: {Authorization: await getToken()}},
-      );
-      if (response.status === 200) {
-        const fetchResult = await response.json();
-        return setWorkingWeeks(
-          fetchResult.result.map((el: number) => CHANGEWEEKS[el]),
-        );
-      } else {
-        Alert.alert('로그인을 다시 시도해주세요');
-      }
-    };
-
-    fetchData();
     getAlldate();
   }, [date]);
-
-  useEffect(() => {
-    if (selectDate.date !== 0) {
-      let timer: NodeJS.Timeout;
-      timer = setTimeout(() => {
-        const fetchData = async () => {
-          const response = await fetch(
-            `${config.docScheme}/1?year=${selectDate.year}&month=${selectDate.month}&dates=${selectDate.date}`,
-            {headers: {Authorization: await getToken()}},
-          );
-          if (response.status === 200) {
-            const fetchResult = await response.json();
-            return setTimeTable(fetchResult);
-          } else {
-            Alert.alert('로그인을 다시 시도해주세요');
-          }
-        };
-
-        fetchData();
-      }, 600);
-
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [selectDate]);
 
   const getNewDate = (newDate: Date): NewDate => {
     const year = newDate.getFullYear();
@@ -186,55 +133,6 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
     await navigation.navigate('MakeREZ');
   };
 
-  const isTimePass = useCallback(
-    (time: string) => {
-      const limitHours: number = TODAY.getHours() + 1;
-      const limitMinutes: number = TODAY.getMinutes();
-      const timetableHours: number = Number(time.split(':')[0]);
-      const timetableMinutes: number = Number(time.split(':')[1]);
-      return (
-        selectDate.year === today.year &&
-        selectDate.month === today.month &&
-        selectDate.date === today.date &&
-        new Date(
-          today.year,
-          today.month,
-          today.date,
-          timetableHours,
-          timetableMinutes,
-        ) <=
-          new Date(
-            today.year,
-            today.month,
-            today.date,
-            limitHours,
-            limitMinutes,
-          )
-      );
-    },
-    [date.month, date.year],
-  );
-
-  const isTimeExpired = useCallback(
-    (time: string) =>
-      timeTable.expired_times.length !== 0 &&
-      timeTable.expired_times.includes(time),
-    [timeTable],
-  );
-
-  const renderItem = ({item}: {item: string}) =>
-    item ? (
-      <TimeButton
-        disabled={isTimePass(item) || isTimeExpired(item)}
-        onPress={() => goMakeREZ(item)}>
-        <ButtonText disabled={isTimePass(item) || isTimeExpired(item)}>
-          {item}
-        </ButtonText>
-      </TimeButton>
-    ) : (
-      <HiddenButton disabled></HiddenButton>
-    );
-
   return (
     <Scheme>
       <SchemeWrapper>
@@ -263,31 +161,24 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
         <WeekInfo>
           {DAYS.map((day: string, idx: number) => (
             <WeekButton key={idx}>
-              <WeekText invalid={workingWeeks.includes(idx)}>{day}</WeekText>
+              {workingDayData.result && (
+                <WeekText isvalid={workingDayData.result.includes(idx)}>
+                  {day}
+                </WeekText>
+              )}
             </WeekButton>
           ))}
         </WeekInfo>
-        <Calendar
-          dayoff={workingWeeks}
-          weeklength={calendarDate.length}
-          calendarDate={calendarDate}
-          today={today}
-        />
+        {workingDayData.result && (
+          <Calendar
+            dayoff={workingDayData.result}
+            weeklength={calendarDate.length}
+            calendarDate={calendarDate}
+            today={today}
+          />
+        )}
       </SchemeWrapper>
-      <TimeTable isShow={selectDate.date !== 0}>
-        <TimeButtonWrapper
-          renderItem={renderItem}
-          data={
-            timeTable.working_times.length % 3 === 2
-              ? timeTable.working_times.concat('')
-              : timeTable.working_times
-          }
-          numColumns={3}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
-          keyExtractor={(item: string, index: number) => index.toString()}
-        />
-        <TimeTableFooter>해당 시간은 현지시간 기준입니다</TimeTableFooter>
-      </TimeTable>
+      {selectDate.date !== 0 && <TimeTable goMakeREZ={goMakeREZ} date={date} />}
     </Scheme>
   );
 }
@@ -359,57 +250,8 @@ const WeekButton = styled.View`
   height: 35px;
 `;
 
-const WeekText = styled.Text<{invalid: boolean}>`
+const WeekText = styled.Text<{isvalid: boolean}>`
   font-size: ${({theme}) => theme.fontRegular};
-  color: ${({invalid}) =>
-    invalid ? ({theme}) => theme.DOCSchemeCaloff : ({theme}) => theme.primary};
-`;
-
-const TimeTable = styled.View<{isShow: boolean}>`
-  display: ${({isShow}) => (isShow ? 'flex' : 'none')};
-  flex: 1;
-  height: 360px;
-  padding: 16px 19px 54px;
-  background-color: ${({theme}) => theme.DOCSchemeTimeback};
-`;
-
-const TimeButtonWrapper = styled.FlatList`
-  width: 100%;
-  flex: 1;
-  overflow: hidden; ;
-` as unknown as typeof FlatList;
-
-const TimeButton = styled.Pressable<{disabled: boolean}>`
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 31px;
-  margin-top: 9px;
-  background-color: ${({disabled}) =>
-    disabled ? ({theme}) => theme.DOCSchemeTimeChkback : 'white'};
-  border: 1px solid
-    ${({disabled}) =>
-      disabled
-        ? ({theme}) => theme.DOCSchemeTimeChkBorder
-        : ({theme}) => theme.DOCSchemeTimeBorder};
-  border-radius: 4px;
-`;
-
-const ButtonText = styled.Text<{disabled: boolean}>`
-  color: ${({disabled}) =>
-    disabled
-      ? ({theme}) => theme.DOCSchemeTimeChkFont
-      : ({theme}) => theme.DOCSchemeTimeFont};
-`;
-
-const TimeTableFooter = styled.Text`
-  margin-top: 10.5px;
-  margin-left: 6px;
-  color: ${({theme}) => theme.DOCSchemeFooter};
-  font-size: 11px;
-  line-height: 16.28px;
-`;
-
-const HiddenButton = styled(TimeButton)`
-  opacity: 0;
+  color: ${({isvalid}) =>
+    isvalid ? ({theme}) => theme.primary : ({theme}) => theme.DOCSchemeCaloff};
 `;

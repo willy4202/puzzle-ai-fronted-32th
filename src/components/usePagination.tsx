@@ -2,10 +2,10 @@ import {useState, useRef} from 'react';
 
 function usePagination<T>(
   renderItemNum: number,
-  renderItemInfo: T[],
-): {renderItemInfo: T[]; addList: () => void} {
+  paginationItem: T[],
+): {paginationItem: T[]; addList: () => void} {
   const [renderItem, setRenderItem] = useState(
-    renderItemInfo.slice(0, renderItemNum),
+    paginationItem.slice(0, renderItemNum),
   );
 
   const pageNum = useRef(0);
@@ -17,11 +17,11 @@ function usePagination<T>(
       pageNum.current === 1
         ? renderItemNum
         : renderItemNum + (pageNum.current - 1) * limit;
-    const additionalDocData = renderItemInfo.slice(offset, offset + limit);
+    const additionalDocData = paginationItem.slice(offset, offset + limit);
     setRenderItem(renderItem.concat(additionalDocData));
   };
   return {
-    renderItemInfo,
+    paginationItem,
     addList,
   };
 }

@@ -27,7 +27,7 @@ const renderItemNum: number = Math.floor(deviceHeight / 125);
 function REZList({navigation}: REZListNavigationProps) {
   const {setDocInfo} = useContext(DocInfoContext);
 
-  const {renderItemInfo, addList} = usePagination<DocDataProp>(
+  const {paginationItem, addList} = usePagination<DocDataProp>(
     renderItemNum,
     DATA,
   );
@@ -56,7 +56,7 @@ function REZList({navigation}: REZListNavigationProps) {
 
   return (
     <REZListWrapper
-      data={renderItemInfo}
+      data={paginationItem}
       renderItem={renderItem}
       onEndReached={addList}
       onEndReachedThreshold={0}

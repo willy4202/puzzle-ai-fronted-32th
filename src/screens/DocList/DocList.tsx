@@ -32,7 +32,7 @@ function DocList({navigation, route}: DocListNavigationProps) {
 
   const {setDocInfo} = useContext(DocInfoContext);
 
-  const {renderItemInfo, addList} = usePagination<DocDataProp>(
+  const {paginationItem, addList} = usePagination<DocDataProp>(
     renderItemNum,
     DATA,
   );
@@ -52,7 +52,7 @@ function DocList({navigation, route}: DocListNavigationProps) {
 
   return (
     <DocListWrapper
-      data={renderItemInfo}
+      data={paginationItem}
       renderItem={renderItem}
       onEndReached={addList}
       onEndReachedThreshold={0}

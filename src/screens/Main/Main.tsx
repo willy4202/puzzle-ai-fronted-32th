@@ -8,41 +8,12 @@ import {
   MainDataProp,
   CategoryProp,
 } from '~/src/types/type';
-import useFetch from '~/src/components/useFetch';
+import useFetch from '@components/useFetch';
 
 function Main({navigation}: MainNavigationProps) {
-  // const [initialData, setInitialData] = useState<MainDataProp>({
-  //   result: [],
-  //   name: '',
-  // });
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  });
-
   const url = useMemo(() => config.mains, []);
 
   const {fetchData} = useFetch<MainDataProp>(url, 'GET', 'Main', null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetch(`${config.mains}`, {
-  //       headers: {
-  //         Authorization: await getToken(),
-  //       },
-  //     });
-  //     if (response.status === 200) {
-  //       const fetchResult = await response.json();
-  //       return setInitialData(fetchResult);
-  //     } else {
-  //       Alert.alert('로그인을 다시 시도해주세요');
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const goDocList = (category: CategoryProp) => {
     navigation.navigate('DocList', category);

@@ -14,8 +14,6 @@ import useFetch from '@components/useFetch';
 const DAYS: string[] = ['일', '월', '화', '수', '목', '금', '토'];
 const TODAY = new Date();
 
-const CHANGEWEEKS = [1, 2, 3, 4, 5, 6, 0];
-
 function DocScheme({navigation}: DocSchemeNavigationProps) {
   const [calendarDate, setCalendarDate] = useState<NewDate[]>([]);
   const [date, setDate] = useState({

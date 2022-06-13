@@ -25,6 +25,7 @@ function Mains() {
         options={{
           tabBarIcon: ({focused}) =>
             focused ? <Icon source={homeActive} /> : <Icon source={homeIcon} />,
+          headerShown: false,
         }}
       />
       <Tab.Screen

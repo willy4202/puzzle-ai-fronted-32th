@@ -17,8 +17,9 @@ function useFetch<T = unknown>(
   useEffect(() => {
     const startFetch = async (url: string, method: string) => {
       const response = await fetch(url, {
-        method: method,
+        method: method === 'POST' ? 'POST' : 'GET',
         headers: {Authorization: await getToken()},
+        body: postData ? JSON.stringify(postData) : undefined,
       });
       if (response.status === 200) {
         const result = await response.json();
@@ -36,7 +37,7 @@ function useFetch<T = unknown>(
       }
     };
     startFetch(url, method);
-  }, [url]);
+  }, [url, postData]);
 
   return {fetchData};
 }

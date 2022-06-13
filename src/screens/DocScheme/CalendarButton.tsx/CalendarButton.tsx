@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import styled, {css} from 'styled-components/native';
-import {SelectContext} from '../ReservationContext';
+import {SelectContext} from '../../../ReservationContext';
 import {NewDate, SelectDateProp, CalBtnProps} from '~/src/types/type';
 
 function CalendarButton({

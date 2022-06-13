@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import styled, {css} from 'styled-components/native';
 import {FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {config} from '~/src/config';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   MainNavigationProps,
   MainDataProp,
   CategoryProp,
 } from '~/src/types/type';
+import useFetch from '~/src/components/useFetch';
 
 function Main({navigation}: MainNavigationProps) {
-  const [initialData, setInitialData] = useState<MainDataProp>({
-    result: [],
-    name: '',
-  });
+  // const [initialData, setInitialData] = useState<MainDataProp>({
+  //   result: [],
+  //   name: '',
+  // });
 
   useEffect(() => {
     navigation.setOptions({
@@ -22,24 +22,27 @@ function Main({navigation}: MainNavigationProps) {
     });
   });
 
-  useEffect(() => {
-    const getToken = async () => {
-      const Token = await AsyncStorage.getItem('token');
-      return String(Token);
-    };
+  const url = useMemo(() => config.mains, []);
 
-    const fetchData = async () => {
-      fetch(`${config.mains}`, {
-        headers: {
-          Authorization: await getToken(),
-        },
-      })
-        .then(res => res.json())
-        .then(res => setInitialData(res));
-    };
+  const {fetchData} = useFetch<MainDataProp>(url, 'GET', 'Main', null);
 
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch(`${config.mains}`, {
+  //       headers: {
+  //         Authorization: await getToken(),
+  //       },
+  //     });
+  //     if (response.status === 200) {
+  //       const fetchResult = await response.json();
+  //       return setInitialData(fetchResult);
+  //     } else {
+  //       Alert.alert('로그인을 다시 시도해주세요');
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const goDocList = (category: CategoryProp) => {
     navigation.navigate('DocList', category);
@@ -51,7 +54,7 @@ function Main({navigation}: MainNavigationProps) {
       <MainWrapper>
         <MainHeader>
           <UserWrapper>
-            <UserName>{initialData.name}</UserName>
+            <UserName>{fetchData.name}</UserName>
             <HelloMent>님 반갑습니다.</HelloMent>
           </UserWrapper>
           <Comment>
@@ -60,7 +63,7 @@ function Main({navigation}: MainNavigationProps) {
           </Comment>
         </MainHeader>
         <MainContents
-          data={initialData.result}
+          data={fetchData.result}
           renderItem={({item}) => (
             <CategoryButton onPress={() => goDocList(item)}>
               <Category

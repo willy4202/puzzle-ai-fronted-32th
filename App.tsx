@@ -24,13 +24,13 @@ import {
 
 import {ThemeProvider} from 'styled-components';
 import theme from './src/styles/theme';
-import {HomeStackParamList, InitialDocListProp} from '~/src/types/type';
+import {HomeStackParamList, DocDataProp} from '~/src/types/type';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
   const {userState, loadData} = useContext(AuthContext);
-  const [docInfo, setDocInfo] = useState<InitialDocListProp>({
+  const [docInfo, setDocInfo] = useState<DocDataProp>({
     id: 0,
     name: '',
     subject: '',
@@ -72,7 +72,15 @@ function App() {
                           options={{headerShown: false}}
                         />
                         <Stack.Screen name="DocList" component={DocList} />
-                        <Stack.Screen name="DocScheme" component={DocScheme} />
+                        <Stack.Screen
+                          name="DocScheme"
+                          component={DocScheme}
+                          options={{
+                            title: docInfo.name,
+                            headerStyle: {shadowColor: 'white'},
+                            headerTitleAlign: 'center',
+                          }}
+                        />
                         <Stack.Screen
                           name="MakeREZ"
                           component={MakeREZ}

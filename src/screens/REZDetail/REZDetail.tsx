@@ -7,12 +7,19 @@ import ImageView from './ImageView';
 import Button from './Button';
 import Status from '~/src/components/Status';
 import {REZDetailNavigationProps} from '~/src/types/type';
-import {DocInfoContext} from '~/src/ReservationContext';
+import {
+  DocInfoContext,
+  SelectImageContext,
+  SelectSymptomContext,
+} from '~/src/ReservationContext';
 import {getToken} from '~/src/AuthContext';
 import {config} from '~/src/config';
 
 function REZDetail({navigation}: REZDetailNavigationProps) {
   const {docInfo} = useContext(DocInfoContext);
+  const {setSymptomText} = useContext(SelectSymptomContext);
+  const {setSelectImage} = useContext(SelectImageContext);
+
   const [detailData, setDetailData] = useState({
     status: '진료대기',
     reservation: '',
@@ -21,12 +28,15 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
     doctorOpinion: '',
   });
 
-  const goBackCalender = () => {
-    navigation.navigate('DocScheme');
+  const goBackCalender = async () => {
+    setSymptomText(detailData.symptom);
+    setSelectImage(detailData.image);
+    await navigation.navigate('DocScheme');
   };
 
   useEffect(() => {
     const fetchData = async () => {
+      //TODO : detail/예약id로 변경하기 ?res_id=19. query string 사용
       fetch(`${config.detail}/${docInfo.id}`, {
         headers: {
           Authorization: await getToken(),
@@ -36,6 +46,8 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
         .then(data => setDetailData(data.result));
     };
     fetchData();
+    setSymptomText('');
+    setSelectImage([]);
   }, []);
 
   return (
@@ -56,6 +68,7 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
         <DoctorOpinion docOpinion={detailData.doctorOpinion} />
       </Section>
       <Button
+        navigation={navigation}
         goBackCalender={goBackCalender}
         status={detailData.status}
         setDetailData={setDetailData}

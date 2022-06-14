@@ -10,11 +10,12 @@ import {REZSubmitNavigationProps} from '~/src/types/type';
 import {SelectContext} from '~/src/ReservationContext';
 import {DocInfoContext} from '~/src/ReservationContext';
 import {getToken} from '~/src/AuthContext';
+import {config} from '~/src/config';
 
 function REZSubmit({navigation}: REZSubmitNavigationProps) {
-  const {symptomText} = useContext(SelectSymptomContext);
-  const {selectImage} = useContext(SelectImageContext);
-  const [formImg, setFormImg] = useState();
+  const {symptomText, setSymptomText} = useContext(SelectSymptomContext);
+  const {selectImage, setSelectImage} = useContext(SelectImageContext);
+
   const {selectDate} = useContext(SelectContext);
   const {docInfo} = useContext(DocInfoContext);
 
@@ -37,8 +38,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
     selectDate.date,
   ).padStart(2, '0')}(${selectDate.day})`;
 
-  const userSelectTime = `${selectDate.time}`;
-
   const currentDate = useMemo(() => {
     const today = new Date();
     const weekArray = ['일', '월', '화', '수', '목', '금', '토'];
@@ -54,38 +53,36 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
     return stringDate;
   }, []);
 
-  useEffect(() => {
+  const postReservationData = async () => {
     const formData = new FormData();
     selectImage.map(picture => {
       const photo = {
         uri: picture.uri,
         type: 'multipart/form-data',
-        name: picture.fileName,
+        name: `${picture.fileName}.jpg`,
       };
-      formData.append('select Image', photo);
-      setFormImg(formData);
+      formData.append('img', photo);
     });
-  }, [selectImage]);
+    formData.append('doctor_id', docInfo.id);
+    formData.append('symptom', symptomText);
+    formData.append('year', `${selectDate.year}`);
+    formData.append('month', `${selectDate.month}`);
+    formData.append('date', `${selectDate.date}`);
+    formData.append('time', `${selectDate.time}`);
 
-  const postReservationData = async () => {
-    const response = await fetch('server', {
+    const response = await fetch(`${config.detail}`, {
       method: 'POST',
       headers: {
         Authorization: await getToken(),
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'multipart/form-data',
       },
-      body: JSON.stringify({
-        img: formImg,
-        doctor: docInfo.id,
-        symptom: symptomText,
-        reservationDate: userSelectedDate,
-        reservationTime: userSelectTime,
-      }),
+      body: formData,
     });
-    const data = await response.json();
-    if (data.status === 200) {
+    if (response.status === 201) {
       Alert.alert('예약이 완료됐습니다.');
-      await navigation.navigate('Mains');
+      navigation.navigate('Mains');
+      setSymptomText('');
+      setSelectImage([]);
     } else {
       Alert.alert('예약에 실패했습니다. 잠시후 다시 시도해주세요.');
     }

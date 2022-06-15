@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useMemo, useRef} from 'react';
+import React, {useState, useEffect, useContext, useMemo} from 'react';
 import styled, {css} from 'styled-components/native';
 import {DocSchemeNavigationProps} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
@@ -51,8 +51,6 @@ function DocScheme({navigation}: DocSchemeNavigationProps) {
       currentFirstDate.getMonth(),
       0,
     );
-
-    console.log(prevLastDate);
 
     let emptyDate =
       prevLastDate.getDay() === 6

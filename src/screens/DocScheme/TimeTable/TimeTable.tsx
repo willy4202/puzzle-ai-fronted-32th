@@ -18,14 +18,14 @@ function TimeTable({goMakeREZ}: {goMakeREZ: (item: string) => void}) {
   const debounceValue = useDebounce<Date | null>(selectDate, 1000);
 
   const url = useMemo(() => {
-    if (selectDate) {
-      return `${config.docScheme}/1?year=${selectDate.getFullYear()}&month=${
-        selectDate.getMonth() + 1
-      }&dates=${selectDate.getDate()}`;
+    if (debounceValue) {
+      return `${config.docScheme}/1?year=${debounceValue.getFullYear()}&month=${
+        debounceValue.getMonth() + 1
+      }&dates=${debounceValue.getDate()}`;
     } else {
       return '';
     }
-  }, [selectDate]);
+  }, [debounceValue]);
 
   const {fetchData} = useFetch<TimeTableProp>(url, 'GET', 'TimeTable', null);
 

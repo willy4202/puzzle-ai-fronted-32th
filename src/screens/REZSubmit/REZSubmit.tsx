@@ -19,24 +19,23 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
   const {selectDate} = useContext(SelectContext);
   const {docInfo} = useContext(DocInfoContext);
 
-  const getTime: Date = useMemo(
-    () =>
-      new Date(
-        selectDate.year,
-        selectDate.month,
-        selectDate.date,
-        Number(selectDate.time.split(':')[0]),
-        Number(selectDate.time.split(':')[1]),
-      ),
-    [],
-  );
-
-  const userSelectedDate = `${String(selectDate.year).padStart(
-    2,
-    '0',
-  )}-${String(selectDate.month).padStart(2, '0')}-${String(
-    selectDate.date,
-  ).padStart(2, '0')}(${selectDate.day})`;
+  const userSelectedDate: string = useMemo(() => {
+    if (selectDate) {
+      const dateArray: string[] = selectDate
+        .toLocaleString([], {
+          year: 'numeric',
+          month: '2-digit',
+          day: 'numeric',
+          weekday: 'short',
+        })
+        .split('. ');
+      return `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}${
+        dateArray[3]
+      } ${selectDate?.toLocaleTimeString([], {timeStyle: 'short'})}`;
+    } else {
+      return '';
+    }
+  }, [selectDate]);
 
   const currentDate = useMemo(() => {
     const today = new Date();
@@ -55,21 +54,29 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
 
   const postReservationData = async () => {
     const formData = new FormData();
-    selectImage.map(picture => {
-      const photo = {
-        uri: picture.uri,
-        type: 'multipart/form-data',
-        name: `${picture.fileName}.jpg`,
-      };
-      formData.append('img', photo);
-    });
-    formData.append('doctor_id', docInfo.id);
-    formData.append('symptom', symptomText);
-    formData.append('year', `${selectDate.year}`);
-    formData.append('month', `${selectDate.month}`);
-    formData.append('date', `${selectDate.date}`);
-    formData.append('time', `${selectDate.time}`);
-
+    if (selectDate) {
+      selectImage.map(picture => {
+        const photo = {
+          uri: picture.uri,
+          type: 'multipart/form-data',
+          name: `${picture.fileName}.jpg`,
+        };
+        formData.append('img', photo);
+      });
+      formData.append('doctor_id', docInfo.id);
+      formData.append('symptom', symptomText);
+      formData.append('year', `${selectDate.getFullYear()}`);
+      formData.append('month', `${selectDate.getMonth()}`);
+      formData.append('date', `${selectDate.getDate()}`);
+      formData.append(
+        'time',
+        `${selectDate.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        })}`,
+      );
+    }
     const response = await fetch(`${config.detail}`, {
       method: 'POST',
       headers: {
@@ -115,10 +122,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약일시</InfoTitle>
-          <REZInfo>
-            {userSelectedDate +
-              getTime.toLocaleTimeString([], {timeStyle: 'short'})}
-          </REZInfo>
+          <REZInfo>{userSelectedDate}</REZInfo>
         </InfoContainer>
         <InfoContainer>
           <InfoTitle>예약내용</InfoTitle>

@@ -98,14 +98,6 @@ export interface TimeTableProp {
   working_times: string[];
 }
 
-export interface NewDate {
-  year: number;
-  month: number;
-  date: number;
-  day: number;
-  time: string;
-}
-
 export interface CalendarProps {
   calendarDate: Date[];
   workingDay: number[];

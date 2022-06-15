@@ -4,9 +4,9 @@ import {SelectContext} from '~/src/ReservationContext';
 
 function TimeView() {
   const {selectDate} = useContext(SelectContext);
-  const TimeString = useMemo(() => {
+  const TimeString: string = useMemo(() => {
     if (selectDate) {
-      const dateArray = selectDate
+      const dateArray: string[] = selectDate
         .toLocaleString([], {
           year: 'numeric',
           month: '2-digit',
@@ -17,6 +17,8 @@ function TimeView() {
       return `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}${
         dateArray[3]
       } ${selectDate?.toLocaleTimeString([], {timeStyle: 'short'})}`;
+    } else {
+      return '';
     }
   }, [selectDate]);
 

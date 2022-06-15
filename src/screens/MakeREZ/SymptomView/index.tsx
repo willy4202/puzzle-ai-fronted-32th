@@ -4,7 +4,7 @@ import React, {useContext} from 'react';
 import styled from 'styled-components/native';
 
 function SymptomView() {
-  const {setSymptomText} = useContext(SelectSymptomContext);
+  const {symptomText, setSymptomText} = useContext(SelectSymptomContext);
 
   return (
     <ViewContainer>
@@ -12,10 +12,13 @@ function SymptomView() {
       <View>
         <SymptomInput
           multiline
+          value={symptomText}
           placeholder="증상을 입력해주세요"
           onChangeText={text => setSymptomText(text)}
           autoCapitalize="none"
           textAlignVertical="top"
+          autoCorrect={false}
+          returnKeyType="done"
         />
       </View>
     </ViewContainer>

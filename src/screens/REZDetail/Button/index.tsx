@@ -1,7 +1,9 @@
 import {View} from 'react-native';
 import styled from 'styled-components/native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {getToken} from '~/src/AuthContext';
+import {config} from '~/src/config';
+import {DocInfoContext} from '~/src/ReservationContext';
 
 interface ButtonProps {
   status: string;
@@ -10,14 +12,17 @@ interface ButtonProps {
 }
 
 const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
+  const {docInfo} = useContext(DocInfoContext);
+
   const cancelReservation = async () => {
-    fetch('server', {
-      method: 'POST',
+    //TOdO: 취소 체크완료, 예약 ID params로 받아서 처리하기
+    await fetch(`${config.detail}/${docInfo.id}&work=cancel`, {
+      method: 'PATCH',
       headers: {
         Authorization: await getToken(),
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(docInfo.id),
     })
       .then(response => response.json())
       .then(data => {
@@ -27,8 +32,6 @@ const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
         console.error('실패:', error);
       });
     console.log('예약 취소');
-
-    // TODO : 진료 취소하고 서버에는 해당 예약을 삭제해달라는 요청 보내기
     setDetailData(prev => ({...prev, status: '진료취소'}));
   };
 

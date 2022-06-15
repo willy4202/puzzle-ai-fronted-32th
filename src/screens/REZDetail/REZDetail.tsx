@@ -15,7 +15,7 @@ import {
 import {getToken} from '~/src/AuthContext';
 import {config} from '~/src/config';
 
-function REZDetail({navigation}: REZDetailNavigationProps) {
+function REZDetail({navigation}: REZDetailNavigationProps, {route}) {
   const {docInfo} = useContext(DocInfoContext);
   const {setSymptomText} = useContext(SelectSymptomContext);
   const {setSelectImage} = useContext(SelectImageContext);
@@ -36,8 +36,7 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      //TODO : detail/예약id로 변경하기 ?res_id=19. query string 사용
-      fetch(`${config.detail}/${docInfo.id}`, {
+      fetch(`${config.detail}?rse_id=${route.params.id}`, {
         headers: {
           Authorization: await getToken(),
         },

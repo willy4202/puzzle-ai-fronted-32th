@@ -1,27 +1,20 @@
 import React, {useContext} from 'react';
 import styled, {css} from 'styled-components/native';
 import {SelectContext} from '../../../ReservationContext';
-import {NewDate, SelectDateProp, CalBtnProps} from '~/src/types/type';
+import {CalBtnProps} from '~/src/types/type';
 
 function CalendarButton({
-  children,
   isDayOff,
   isChecked,
-  dateInfo = {year: 0, month: 0, date: 0, day: 0, time: ''},
+  children,
+  dateInfo,
 }: CalBtnProps) {
   const {selectDate, setSelectDate} = useContext(SelectContext);
 
-  const pressHandler = (dateInfo: NewDate) => {
+  const pressHandler = (dateInfo: Date | null) => {
     const dayArray = ['일', '월', '화', '수', '목', '금', '토'];
-    if (dateInfo.date !== 0) {
-      const selectDateInfo: SelectDateProp = {
-        year: dateInfo.year,
-        month: dateInfo.month,
-        date: dateInfo.date,
-        day: dayArray[dateInfo.day],
-        time: '',
-      };
-      setSelectDate(selectDateInfo);
+    if (dateInfo) {
+      setSelectDate(dateInfo);
     }
   };
 
@@ -44,6 +37,7 @@ const CalendarBtn = styled.Pressable<{isChecked: boolean}>`
   justify-content: center;
   width: 35px;
   height: 35px;
+  margin-top: 10px;
   ${({isChecked}) => {
     if (isChecked) {
       return css`

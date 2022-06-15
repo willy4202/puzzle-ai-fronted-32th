@@ -39,13 +39,7 @@ function App() {
   });
   const [symptomText, setSymptomText] = useState('');
   const [selectImage, setSelectImage] = useState<Asset[]>([]);
-  const [selectDate, setSelectDate] = useState({
-    year: 0,
-    month: 0,
-    date: 0,
-    day: '',
-    time: '',
-  });
+  const [selectDate, setSelectDate] = useState<Date | null>(null);
 
   useEffect(() => {
     loadData();

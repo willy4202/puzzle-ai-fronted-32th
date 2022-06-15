@@ -1,6 +1,6 @@
 import React, {createContext, Dispatch, SetStateAction} from 'react';
 import {Asset} from 'react-native-image-picker';
-import {SelectDateProp, DocDataProp} from '~/src/types/type';
+import {DocDataProp} from '~/src/types/type';
 
 interface DocInfoProps {
   docInfo: DocDataProp;
@@ -19,18 +19,12 @@ export const DocInfoContext = createContext<DocInfoProps>({
 });
 
 interface SelectProps {
-  selectDate: SelectDateProp;
-  setSelectDate: React.Dispatch<React.SetStateAction<SelectDateProp>>;
+  selectDate: Date | null;
+  setSelectDate: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
 export const SelectContext = createContext<SelectProps>({
-  selectDate: {
-    year: 0,
-    month: 0,
-    date: 0,
-    day: '',
-    time: '',
-  },
+  selectDate: null,
   setSelectDate: () => {},
 });
 

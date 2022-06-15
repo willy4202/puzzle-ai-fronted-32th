@@ -1,56 +1,47 @@
-import React, {useCallback, useContext, useMemo} from 'react';
+import React, {useCallback, useContext, useState, useMemo} from 'react';
 import styled from 'styled-components/native';
 import {ActivityIndicator, FlatList} from 'react-native';
-import {TimeTableProp, SelectDateProp} from '~/src/types/type';
+import {TimeTableProp} from '~/src/types/type';
 import {SelectContext} from '~/src/ReservationContext';
 import useFetch from '~/src/components/useFetch';
 import useDebounce from '~/src/components/useDebounce';
 import {config} from '~/src/config';
 
-function TimeTable({
-  goMakeREZ,
-  date,
-}: {
-  goMakeREZ: (item: string) => void;
-  date: {year: number; month: number; date: number; day: number};
-}) {
+function TimeTable({goMakeREZ}: {goMakeREZ: (item: string) => void}) {
+  const [timeTable, setTimeTable] = useState<TimeTableProp>({
+    expired_times: [],
+    working_times: [],
+  });
+
   const {selectDate} = useContext(SelectContext);
 
-  const debounceValue = useDebounce<SelectDateProp>(selectDate, 1000);
+  const debounceValue = useDebounce<Date | null>(selectDate, 1000);
 
   const url = useMemo(() => {
-    return `${config.docScheme}/1?year=${debounceValue.year}&month=${debounceValue.month}&dates=${debounceValue.date}`;
-  }, [debounceValue.date]);
+    if (selectDate) {
+      return `${config.docScheme}/1?year=${selectDate.getFullYear()}&month=${
+        selectDate.getMonth() + 1
+      }&dates=${selectDate.getDate()}`;
+    } else {
+      return '';
+    }
+  }, [selectDate]);
 
   const {fetchData} = useFetch<TimeTableProp>(url, 'GET', 'TimeTable', null);
 
   const isTimePass = useCallback(
     (time: string) => {
-      const limitHours: number = new Date().getHours() + 1;
-      const limitMinutes: number = new Date().getMinutes();
       const timetableHours: number = Number(time.split(':')[0]);
       const timetableMinutes: number = Number(time.split(':')[1]);
-      return (
-        selectDate.year === new Date().getFullYear() &&
-        selectDate.month === new Date().getMonth() &&
-        selectDate.date === new Date().getDate() &&
-        new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          new Date().getDate(),
-          timetableHours,
-          timetableMinutes,
-        ) <=
-          new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            new Date().getDate(),
-            limitHours,
-            limitMinutes,
-          )
-      );
+      if (selectDate) {
+        return (
+          selectDate.getTime() === new Date().setHours(0, 0, 0, 0) &&
+          new Date().setHours(timetableHours, timetableMinutes, 0, 0) <=
+            Date.now() + 60 * 60 * 1000
+        );
+      }
     },
-    [date.month, date.year],
+    [selectDate],
   );
 
   const isTimeExpired = useCallback(

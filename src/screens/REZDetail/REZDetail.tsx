@@ -23,7 +23,7 @@ function REZDetail({navigation}: REZDetailNavigationProps, {route}) {
   const [detailData, setDetailData] = useState({
     status: '진료대기',
     reservation: '',
-    image: [{id: '', uri: ''}],
+    image: [{id: '', fileName: '', uri: ''}],
     symptom: '',
     doctorOpinion: '',
   });
@@ -36,6 +36,7 @@ function REZDetail({navigation}: REZDetailNavigationProps, {route}) {
 
   useEffect(() => {
     const fetchData = async () => {
+      //TODO: 체크하기
       fetch(`${config.detail}?rse_id=${route.params.id}`, {
         headers: {
           Authorization: await getToken(),

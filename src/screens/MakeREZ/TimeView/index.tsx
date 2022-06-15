@@ -4,29 +4,29 @@ import {SelectContext} from '~/src/ReservationContext';
 
 function TimeView() {
   const {selectDate} = useContext(SelectContext);
-
-  const getTime: Date = useMemo(
-    () =>
-      new Date(
-        selectDate.year,
-        selectDate.month,
-        selectDate.date,
-        Number(selectDate.time.split(':')[0]),
-        Number(selectDate.time.split(':')[1]),
-      ),
-    [],
-  );
+  const TimeString: string = useMemo(() => {
+    if (selectDate) {
+      const dateArray: string[] = selectDate
+        .toLocaleString([], {
+          year: 'numeric',
+          month: '2-digit',
+          day: 'numeric',
+          weekday: 'short',
+        })
+        .split('. ');
+      return `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}${
+        dateArray[3]
+      } ${selectDate?.toLocaleTimeString([], {timeStyle: 'short'})}`;
+    } else {
+      return '';
+    }
+  }, [selectDate]);
 
   return (
     <ViewContainer>
       <ViewTitle>예약시간</ViewTitle>
       <SelectTimeWrapper>
-        <SelectTimeText>
-          {String(selectDate.year).padStart(2, '0')}-
-          {String(selectDate.month).padStart(2, '0')}-
-          {String(selectDate.date).padStart(2, '0')}({selectDate.day})
-          {getTime.toLocaleTimeString([], {timeStyle: 'short'})}
-        </SelectTimeText>
+        <SelectTimeText>{TimeString}</SelectTimeText>
       </SelectTimeWrapper>
     </ViewContainer>
   );

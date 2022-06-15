@@ -80,12 +80,23 @@ export type DocListNavigationProps = StackScreenProps<
   'DocList'
 >;
 
-export interface DocDataProp {
+export interface DocListProp {
   id: number;
-  name: string;
-  subject: string;
-  hospital: string;
-  profile_image: string;
+  doctor_name: string;
+  subject_name: string;
+  hospital_name: string;
+  doctor_image: string;
+}
+
+export interface REZListProp {
+  doctor_image: string;
+  doctor_name: string;
+  hospital_name: string;
+  date: string;
+  reservation_id: number;
+  status_name: string;
+  subject_name: string;
+  time: string;
 }
 
 export type DocSchemeNavigationProps = StackScreenProps<
@@ -98,33 +109,16 @@ export interface TimeTableProp {
   working_times: string[];
 }
 
-export interface NewDate {
-  year: number;
-  month: number;
-  date: number;
-  day: number;
-  time: string;
-}
-
-export interface SelectDateProp {
-  year: number;
-  month: number;
-  date: number;
-  day: string;
-  time: string;
-}
-
 export interface CalendarProps {
-  calendarDate: NewDate[];
-  weeklength: number;
-  dayoff: number[];
-  today: NewDate;
+  calendarDate: Date[];
+  workingDay: number[];
+  today: Date;
 }
 
 export interface CalBtnProps {
-  children: number;
+  children: number | string;
   isChecked: boolean;
-  dateInfo: NewDate;
+  dateInfo: Date | null;
   isDayOff: boolean;
 }
 

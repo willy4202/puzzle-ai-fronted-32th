@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {DocDataProp} from '~/src/types/type';
+import {DocListProp, REZListProp} from '~/src/types/type';
 
-function DoctorCard({docData}: {docData: DocDataProp}) {
+function DoctorCard({docData}: {docData: DocListProp | REZListProp}) {
   return (
     <Card>
-      <DoctorImg source={{uri: docData.profile_image}}></DoctorImg>
+      <DoctorImg source={{uri: docData.doctor_image}}></DoctorImg>
       <DoctorInfoWrapper>
-        <DoctorName>{docData.name} 선생님</DoctorName>
+        <DoctorName>{docData.doctor_name} 선생님</DoctorName>
         <CategoryInfo>
-          <Category>{docData.subject} 전문의</Category>
-          <Hospital>{docData.hospital}</Hospital>
+          <Category>{docData.subject_name} 전문의</Category>
+          <Hospital>{docData.hospital_name}</Hospital>
         </CategoryInfo>
       </DoctorInfoWrapper>
     </Card>

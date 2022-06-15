@@ -15,6 +15,9 @@ function useFetch<T = unknown>(
   const [fetchData, setFetchData] = useState<T>({} as T);
 
   useEffect(() => {
+    if (!url) {
+      return;
+    }
     const startFetch = async (url: string, method: string) => {
       const response = await fetch(url, {
         method: method === 'POST' ? 'POST' : 'GET',

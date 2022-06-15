@@ -24,28 +24,22 @@ import {
 
 import {ThemeProvider} from 'styled-components';
 import theme from './src/styles/theme';
-import {HomeStackParamList, DocDataProp} from '~/src/types/type';
+import {HomeStackParamList, DocListProp, REZListProp} from '~/src/types/type';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
 function App() {
   const {userState, loadData} = useContext(AuthContext);
-  const [docInfo, setDocInfo] = useState<DocDataProp>({
+  const [docInfo, setDocInfo] = useState<DocListProp | REZListProp>({
     id: 0,
-    name: '',
-    subject: '',
-    hospital: '',
-    profile_image: '',
+    doctor_name: '',
+    subject_name: '',
+    hospital_name: '',
+    doctor_image: '',
   });
   const [symptomText, setSymptomText] = useState('');
   const [selectImage, setSelectImage] = useState<Asset[]>([]);
-  const [selectDate, setSelectDate] = useState({
-    year: 0,
-    month: 0,
-    date: 0,
-    day: '',
-    time: '',
-  });
+  const [selectDate, setSelectDate] = useState<Date | null>(null);
 
   useEffect(() => {
     loadData();
@@ -76,7 +70,7 @@ function App() {
                           name="DocScheme"
                           component={DocScheme}
                           options={{
-                            title: docInfo.name,
+                            title: docInfo.doctor_name,
                             headerStyle: {shadowColor: 'white'},
                             headerTitleAlign: 'center',
                           }}
@@ -109,7 +103,11 @@ function App() {
                       </>
                     ) : (
                       <>
-                        <Stack.Screen name="Entry" component={Entry} />
+                        <Stack.Screen
+                          name="Entry"
+                          component={Entry}
+                          options={{headerShown: false}}
+                        />
                         <Stack.Screen name="Login" component={Login} />
                         <Stack.Screen
                           name="Signup"

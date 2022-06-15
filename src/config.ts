@@ -8,4 +8,5 @@ export const config = {
   mains: `${BASE_URL}/reservations/subject`,
   docScheme: `${BASE_URL}/reservations/time`,
   detail: `${BASE_URL}/reservations`,
+  docList: `${BASE_URL}/reservations`,
 };

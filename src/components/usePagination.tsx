@@ -17,7 +17,6 @@ function usePagination(renderItemNum: number) {
       );
       if (response.status === 200) {
         const result = await response.json();
-        console.log(result);
         setPaginationItem(paginationItem.concat(result.result));
       }
     };
@@ -26,22 +25,18 @@ function usePagination(renderItemNum: number) {
   }, []);
 
   const addList = async () => {
-    console.log('hi');
     pageNum.current++;
 
-    console.log(pageNum.current);
     const response = await fetch(
       `${config.docList}/list?page=${pageNum.current}&limit=${renderItemNum}`,
       {
         headers: {Authorization: await getToken()},
       },
     );
-    console.log(response);
     if (response.status === 200) {
       const result = await response.json();
       setPaginationItem(paginationItem.concat(result.result));
     }
-    console.log(paginationItem);
   };
   return {
     paginationItem,

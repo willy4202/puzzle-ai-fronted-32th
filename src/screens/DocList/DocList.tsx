@@ -35,8 +35,6 @@ function DocList({navigation, route}: DocListNavigationProps) {
     );
   }
 
-  console.log(paginationItem);
-
   return (
     <DocListWrapper
       data={paginationItem}

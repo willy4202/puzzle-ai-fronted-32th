@@ -1,24 +1,42 @@
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
+import {config} from '../config';
+import {getToken} from '../AuthContext';
 
-function usePagination<T>(
-  renderItemNum: number,
-  paginationItem: T[],
-): {paginationItem: T[]; addList: () => void} {
-  const [renderItem, setRenderItem] = useState(
-    paginationItem.slice(0, renderItemNum),
-  );
+function usePagination(renderItemNum: number) {
+  const [paginationItem, setPaginationItem] = useState([]);
 
-  const pageNum = useRef(0);
+  const pageNum = useRef(1);
 
-  const addList = () => {
-    const limit = 5;
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `${config.docList}/list?page=1&limit=${renderItemNum}`,
+        {
+          headers: {Authorization: await getToken()},
+        },
+      );
+      if (response.status === 200) {
+        const result = await response.json();
+        setPaginationItem(paginationItem.concat(result.result));
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const addList = async () => {
     pageNum.current++;
-    let offset =
-      pageNum.current === 1
-        ? renderItemNum
-        : renderItemNum + (pageNum.current - 1) * limit;
-    const additionalDocData = paginationItem.slice(offset, offset + limit);
-    setRenderItem(renderItem.concat(additionalDocData));
+
+    const response = await fetch(
+      `${config.docList}/list?page=${pageNum.current}&limit=${renderItemNum}`,
+      {
+        headers: {Authorization: await getToken()},
+      },
+    );
+    if (response.status === 200) {
+      const result = await response.json();
+      setPaginationItem(paginationItem.concat(result.result));
+    }
   };
   return {
     paginationItem,

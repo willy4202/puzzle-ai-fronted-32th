@@ -80,12 +80,23 @@ export type DocListNavigationProps = StackScreenProps<
   'DocList'
 >;
 
-export interface DocDataProp {
+export interface DocListProp {
   id: number;
-  name: string;
-  subject: string;
-  hospital: string;
-  profile_image: string;
+  doctor_name: string;
+  subject_name: string;
+  hospital_name: string;
+  doctor_image: string;
+}
+
+export interface REZListProp {
+  doctor_image: string;
+  doctor_name: string;
+  hospital_name: string;
+  date: string;
+  reservation_id: number;
+  status_name: string;
+  subject_name: string;
+  time: string;
 }
 
 export type DocSchemeNavigationProps = StackScreenProps<

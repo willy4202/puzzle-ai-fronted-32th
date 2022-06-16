@@ -1,19 +1,19 @@
 import React, {createContext, Dispatch, SetStateAction} from 'react';
 import {Asset} from 'react-native-image-picker';
-import {DocDataProp} from '~/src/types/type';
+import {DocListProp, REZListProp} from '~/src/types/type';
 
 interface DocInfoProps {
-  docInfo: DocDataProp;
-  setDocInfo: React.Dispatch<React.SetStateAction<DocDataProp>>;
+  docInfo: DocListProp | REZListProp;
+  setDocInfo: React.Dispatch<React.SetStateAction<DocListProp | REZListProp>>;
 }
 
 export const DocInfoContext = createContext<DocInfoProps>({
   docInfo: {
     id: 0,
-    name: '',
-    subject: '',
-    hospital: '',
-    profile_image: '',
+    doctor_name: '',
+    subject_name: '',
+    hospital_name: '',
+    doctor_image: '',
   },
   setDocInfo: () => {},
 });

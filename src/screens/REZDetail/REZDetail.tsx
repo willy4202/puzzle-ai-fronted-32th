@@ -15,7 +15,7 @@ import {
 import {getToken} from '~/src/AuthContext';
 import {config} from '~/src/config';
 
-function REZDetail({navigation}: REZDetailNavigationProps, {route}) {
+function REZDetail({navigation}: REZDetailNavigationProps) {
   const {docInfo} = useContext(DocInfoContext);
   const {setSymptomText} = useContext(SelectSymptomContext);
   const {setSelectImage} = useContext(SelectImageContext);
@@ -36,7 +36,7 @@ function REZDetail({navigation}: REZDetailNavigationProps, {route}) {
 
   useEffect(() => {
     const fetchData = async () => {
-      fetch(`${config.detail}?res_id=${route.params.id}`, {
+      fetch(`${config.detail}?res_id=${docInfo.reservation_id}`, {
         headers: {
           Authorization: await getToken(),
         },

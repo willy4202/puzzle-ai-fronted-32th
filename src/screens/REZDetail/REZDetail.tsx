@@ -60,7 +60,7 @@ function REZDetail({navigation}: REZDetailNavigationProps) {
       <Section>
         <DateView>
           <Title>예약 날짜 및 시간</Title>
-          <Date>2020-07-24(금) 오후 3:00</Date>
+          <Date>{detailData.reservationDate}</Date>
         </DateView>
         <ImageView image={detailData.image} />
         <Symptom symptomText={detailData.symptom} />

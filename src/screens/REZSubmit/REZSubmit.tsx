@@ -59,14 +59,14 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         const photo = {
           uri: picture.uri,
           type: 'multipart/form-data',
-          name: `${picture.fileName}.jpg`,
+          name: `${picture.fileName}`,
         };
         formData.append('img', photo);
       });
       formData.append('doctor_id', docInfo.id);
       formData.append('symptom', symptomText);
       formData.append('year', `${selectDate.getFullYear()}`);
-      formData.append('month', `${selectDate.getMonth()}`);
+      formData.append('month', `${selectDate.getMonth() + 1}`);
       formData.append('date', `${selectDate.getDate()}`);
       formData.append(
         'time',
@@ -85,7 +85,9 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       },
       body: formData,
     });
-
+    const data = response.json();
+    console.log(response);
+    console.log(data);
     if (response.status === 201) {
       Alert.alert('예약이 완료됐습니다.');
       navigation.navigate('Mains');

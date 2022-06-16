@@ -1,5 +1,4 @@
 import {useState, useRef, useEffect} from 'react';
-import {config} from '../config';
 import {getToken} from '../AuthContext';
 
 function usePagination(renderItemNum: number, url: string) {
@@ -15,6 +14,7 @@ function usePagination(renderItemNum: number, url: string) {
       if (response.status === 200) {
         const result = await response.json();
         setPaginationItem(paginationItem.concat(result.result));
+        pageNum.current++;
       }
     };
 
@@ -22,8 +22,6 @@ function usePagination(renderItemNum: number, url: string) {
   }, []);
 
   const addList = async () => {
-    pageNum.current++;
-
     const response = await fetch(
       `${url}?page=${pageNum.current}&limit=${renderItemNum}`,
       {
@@ -33,6 +31,7 @@ function usePagination(renderItemNum: number, url: string) {
     if (response.status === 200) {
       const result = await response.json();
       setPaginationItem(paginationItem.concat(result.result));
+      pageNum.current++;
     }
   };
   return {

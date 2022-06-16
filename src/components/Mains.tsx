@@ -34,6 +34,7 @@ function Mains() {
         options={{
           tabBarIcon: ({focused}) =>
             focused ? <Icon source={ListActive} /> : <Icon source={ListIcon} />,
+          unmountOnBlur: true,
         }}
       />
     </Tab.Navigator>

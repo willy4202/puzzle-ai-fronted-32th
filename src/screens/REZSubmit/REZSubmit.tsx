@@ -59,7 +59,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         const photo = {
           uri: picture.uri,
           type: 'multipart/form-data',
-          name: `${picture.fileName}.jpg`,
+          name: `${picture.fileName}`,
         };
         formData.append('img', photo);
       });

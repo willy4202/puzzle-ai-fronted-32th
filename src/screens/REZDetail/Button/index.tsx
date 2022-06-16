@@ -21,7 +21,7 @@ const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
         Authorization: await getToken(),
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(docInfo.id),
+      body: JSON.stringify(docInfo.reservation_id),
     })
       .then(response => response.json())
       .then(data => {
@@ -30,8 +30,6 @@ const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
       .catch(error => {
         console.error('실패:', error);
       });
-    console.log('예약 취소');
-    console.log(docInfo.reservation_id);
     setDetailData(prev => ({...prev, status: '진료취소'}));
   };
 

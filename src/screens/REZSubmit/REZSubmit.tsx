@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext, useMemo} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {Alert, Image, View} from 'react-native';
 import styled from 'styled-components/native';
 import {
@@ -59,7 +59,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
         const photo = {
           uri: picture.uri,
           type: 'multipart/form-data',
-          name: `${picture.fileName}`,
+          name: `${picture.fileName}.jpg`,
         };
         formData.append('img', photo);
       });
@@ -112,8 +112,8 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
           <InfoTitle>담당의사</InfoTitle>
           {docInfo && (
             <REZInfo>
-              {docInfo.name} ({docInfo.hospital} / &nbsp;
-              {docInfo.subject})
+              {docInfo.doctor_name} ({docInfo.hospital_name} / &nbsp;
+              {docInfo.subject_name})
             </REZInfo>
           )}
         </InfoContainer>

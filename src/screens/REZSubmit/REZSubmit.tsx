@@ -79,21 +79,6 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       body: formData,
     });
 
-    //TODO : 비동기 로직 테스트 중 try,catch
-    // const data = await response.json();
-    // console.log(response);
-    // console.log(data);
-    // try {
-    //   if (response.status === 201) {
-    //     Alert.alert('예약이 완료됐습니다.');
-    //     navigation.navigate('Mains');
-    //     setSymptomText('');
-    //     setSelectImage([]);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
     if (response.status === 201) {
       Alert.alert('예약이 완료됐습니다.');
       navigation.navigate('Mains');

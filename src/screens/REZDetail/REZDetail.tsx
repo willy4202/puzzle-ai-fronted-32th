@@ -36,7 +36,6 @@ function REZDetail({navigation}: REZDetailNavigationProps, {route}) {
 
   useEffect(() => {
     const fetchData = async () => {
-      //TODO: 체크하기
       fetch(`${config.detail}?res_id=${route.params.id}`, {
         headers: {
           Authorization: await getToken(),

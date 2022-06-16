@@ -15,14 +15,13 @@ const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
   const {docInfo} = useContext(DocInfoContext);
 
   const cancelReservation = async () => {
-    //TOdO: 취소 체크완료, 예약 ID params로 받아서 처리하기
-    await fetch(`${config.detail}/${docInfo.id}&work=cancel`, {
+    fetch(`${config.detail}?res_id=${docInfo.reservation_id}&work=cancel`, {
       method: 'PATCH',
       headers: {
         Authorization: await getToken(),
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(docInfo.id),
+      body: JSON.stringify(docInfo.reservation_id),
     })
       .then(response => response.json())
       .then(data => {
@@ -31,7 +30,7 @@ const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
       .catch(error => {
         console.error('실패:', error);
       });
-    console.log('예약 취소');
+    console.log('진료취소');
     setDetailData(prev => ({...prev, status: '진료취소'}));
   };
 

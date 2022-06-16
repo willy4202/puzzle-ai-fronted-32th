@@ -98,33 +98,16 @@ export interface TimeTableProp {
   working_times: string[];
 }
 
-export interface NewDate {
-  year: number;
-  month: number;
-  date: number;
-  day: number;
-  time: string;
-}
-
-export interface SelectDateProp {
-  year: number;
-  month: number;
-  date: number;
-  day: string;
-  time: string;
-}
-
 export interface CalendarProps {
-  calendarDate: NewDate[];
-  weeklength: number;
-  dayoff: number[];
-  today: NewDate;
+  calendarDate: Date[];
+  workingDay: number[];
+  today: Date;
 }
 
 export interface CalBtnProps {
-  children: number;
+  children: number | string;
   isChecked: boolean;
-  dateInfo: NewDate;
+  dateInfo: Date | null;
   isDayOff: boolean;
 }
 

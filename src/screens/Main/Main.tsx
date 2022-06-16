@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import styled, {css} from 'styled-components/native';
 import {FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';

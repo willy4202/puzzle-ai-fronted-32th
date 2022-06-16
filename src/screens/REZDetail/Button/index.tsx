@@ -30,6 +30,7 @@ const Button = ({status, setDetailData, goBackCalender}: ButtonProps) => {
       .catch(error => {
         console.error('실패:', error);
       });
+    console.log('진료취소');
     setDetailData(prev => ({...prev, status: '진료취소'}));
   };
 

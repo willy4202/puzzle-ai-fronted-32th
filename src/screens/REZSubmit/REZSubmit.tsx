@@ -78,6 +78,7 @@ function REZSubmit({navigation}: REZSubmitNavigationProps) {
       },
       body: formData,
     });
+
     if (response.status === 201) {
       Alert.alert('예약이 완료됐습니다.');
       navigation.navigate('Mains');

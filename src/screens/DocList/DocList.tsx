@@ -5,6 +5,7 @@ import {DocListNavigationProps, DocListProp} from '~/src/types/type';
 import DoctorCard from '@components/DoctorCard';
 import {DocInfoContext} from '~/src/ReservationContext';
 import usePagination from '@components/usePagination';
+import {config} from '~/src/config';
 
 const deviceHeight: number = Dimensions.get('window').height;
 
@@ -20,7 +21,10 @@ function DocList({navigation, route}: DocListNavigationProps) {
 
   const {setDocInfo} = useContext(DocInfoContext);
 
-  const {paginationItem, addList} = usePagination(renderItemNum);
+  const {paginationItem, addList} = usePagination(
+    renderItemNum,
+    `${config.docList}/${route.params.id}`,
+  );
 
   const goDocScheme = (docInfo: DocListProp) => {
     setDocInfo(docInfo);

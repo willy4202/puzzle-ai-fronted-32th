@@ -6,6 +6,7 @@ import DoctorCard from '@components/DoctorCard';
 import CalendarImage from '@assets/images/calendar_icon.png';
 import {DocInfoContext} from '~/src/ReservationContext';
 import Status from '~/src/components/Status';
+import {config} from '~/src/config';
 import usePagination from '~/src/components/usePagination';
 
 const deviceHeight: number = Dimensions.get('window').height;
@@ -15,7 +16,10 @@ const renderItemNum: number = Math.floor(deviceHeight / 150);
 function REZList({navigation}: REZListNavigationProps) {
   const {setDocInfo} = useContext(DocInfoContext);
 
-  const {paginationItem, addList} = usePagination(renderItemNum);
+  const {paginationItem, addList} = usePagination(
+    renderItemNum,
+    config.rezList,
+  );
 
   useEffect(() => {
     navigation.setOptions({title: '예약 목록', headerShadowVisible: false});
